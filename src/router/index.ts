@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'survey',
-      component: () => import('../views/SurveyView.vue'),
+      component: () => import('../App.vue'),
     },
   ],
 })
