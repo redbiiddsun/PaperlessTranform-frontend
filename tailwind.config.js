@@ -17,6 +17,12 @@ module.exports = {
         warning: '#FFC107',
         error: '#DC3545',
       },
+      fontSize: {
+        '36': '36px',
+        '24': '24px',
+        '16': '16px',
+        '12': '12px',
+      },
     },
   },
   plugins: [],
