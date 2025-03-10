@@ -65,16 +65,16 @@
       <!-- Already Have Account -->
       <div class="flex flex-row px-0 py-3 w-80 md:w-full justify-end">
         <p class="font-Poppins font-light text-xs md:text-base text-subtext">Already have an account</p>
-        <a class="font-Poppins font-light text-xs md:text-base text-subtext w-fit text-nowrap cursor-pointer underline hover:underline hover:text-hightlight ml-1 ">Login</a>
+        <a href="/login" class="font-Poppins font-light text-xs md:text-base text-subtext w-fit text-nowrap cursor-pointer underline hover:underline hover:text-hightlight ml-1 ">Login</a>
       </div>
 
     </div>
 
     <!-- Submit Button -->
     <div class="flex flex-row md:w-full gap-4 items-center">
-      <div class="flex flex-col gap-0 py-2 px-12 w-80 md:w-full bg-gradient-to-tr from-primary to-hightlight rounded-2xl">
+      <a href="/login" class="flex flex-col gap-0 py-2 px-12 w-80 md:w-full bg-gradient-to-tr from-primary to-hightlight rounded-2xl cursor-pointer">
         <p class="font-Poppins font-bold text-2xl text-text text-center tracking-[0.1em]">Sign Up</p>
-      </div>
+      </a>
     </div>
   </div>
 </template>
