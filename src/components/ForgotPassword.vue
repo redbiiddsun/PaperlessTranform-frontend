@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="flex flex-col justify-center items-center w-full h-screen md:h-fit xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none">
+  <div class="flex flex-col justify-center items-center w-full h-screen md:h-fit xl:h-fit gap-1 md:gap-2 xl:gap-2 p-8 md:px-28 md:py-16 xl:py-16 xl:px-28 md:rounded-2xl xl:rounded-2xl md:bg-text xl:bg-text md:border-4 xl:border-4 md:border-hightlight xl:border-hightlight">
     <!-- Logo -->
     <div alt="" class="w-[200px] h-[200px] bg-[#EAEAEA] rounded-lg"></div>
 

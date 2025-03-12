@@ -15,8 +15,7 @@ import ForgotPassword from '@/components/ForgotPassword.vue'
     <ForgotPassword />
   </div>
 
-  <div class="hidden xl:flex h-screen w-screen">
-    <div class="flex flex-center w-full h-full bg-gradient-to-tr from-primary to-hightlight via-75%"></div>
+  <div class="hidden justify-center items-center bg-gradient-to-tr from-primary to-hightlight via-75% xl:flex h-screen w-screen">
     <ForgotPassword class="max-w-[50%]"/>
   </div>
 </template>
