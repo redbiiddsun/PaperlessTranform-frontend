@@ -5,7 +5,7 @@
 <template>
   <div class="flex flex-col justify-center items-center w-full h-screen md:h-fit xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none">
     <!-- Logo -->
-    <div alt="" class="w-[200px] h-[200px] bg-[#EAEAEA] rounded-lg"></div> 
+    <div alt="" class="w-[200px] h-[200px] bg-[#EAEAEA] rounded-lg"></div>
 
     <!-- Main Message -->
     <div class="flex flex-col p-4 w-auto h-fit items-center gap-1 whitespace-nowrap">
@@ -19,7 +19,7 @@
         <p class="font-Poppins font-bold text-24 text-text_b">Name</p>
         <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary items-center">
           <input
-            type="name"
+            type="text"
             class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
             placeholder="Nattawut Pianok"
           />
@@ -43,7 +43,7 @@
         <p class="font-Poppins font-bold text-2xl text-text_b">Password</p>
         <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full  border-b-4 border-secondary items-center">
           <input
-            type="email"
+            type="password"
             class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
             placeholder="***********"
           />
@@ -55,7 +55,7 @@
         <p class="font-Poppins font-bold text-2xl text-text_b">Confirm Password</p>
         <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full  border-b-4 border-secondary items-center">
           <input
-            type="email"
+            type="password"
             class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
             placeholder="***********"
           />

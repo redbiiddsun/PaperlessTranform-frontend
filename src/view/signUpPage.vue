@@ -10,7 +10,7 @@ import SignupComp from '@/components/SignUpForm.vue'
 
   <!-- Tablet -->
   <div
-    class="hidden md:flex xl:hidden flex-row px-8 justify-center items-center bg-gradient-to-tr from-primary to-hightlight via-75% w-full h-screen"
+    class="hidden md:flex xl:hidden flex-row px-16 justify-center items-center bg-gradient-to-tr from-primary to-hightlight via-75% w-full h-screen"
   >
     <SignupComp />
   </div>
