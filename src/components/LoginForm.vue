@@ -76,7 +76,7 @@ const login = () => {
       <button
         @click="login"
         :disabled="!user.email || !user.password"
-        class="flex flex-col gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed "
+        class="flex flex-col gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed"
       >
         <p class="font-Poppins text-2xl tracking-[0.1em]">
           Login
