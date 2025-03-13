@@ -16,7 +16,7 @@ import SignupComp from '@/components/SignUpForm.vue'
   </div>
 
   <div class="hidden xl:flex h-screen w-screen">
+    <SignupComp class="max-w-[45%]"/>
     <div class="flex flex-col w-full h-full bg-gradient-to-tr from-primary to-hightlight via-75%"></div>
-    <SignupComp class="max-w-[50%]"/>
   </div>
 </template>
