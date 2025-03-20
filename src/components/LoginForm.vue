@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import AuthError from '@/components/AuthError.vue'
 
 const user = ref({
   email: '',
   password: '',
 })
+
+const err = ref('Incorrect username or password')
+const showError = ref(true) 
 
 const login = () => {
   console.log('User:', user.value)
@@ -22,9 +26,8 @@ const login = () => {
     <!-- Main Message -->
     <div class="flex flex-col p-4 w-fit h-fit items-center gap-1">
       <p class="font-Poppins font-bold text-4xl md:text-5xl text-text_b">Login</p>
-      <p class="font-Poppins font-normal text-[12px] md:text-base text-center text-subtext">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sapien placerat, ultrices
-        velit nec, auctor libero. Phasellus sagittis mattis malesuada.
+      <p class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext">
+        Log in to easily manage your forms and boost productivity with digital transformation.
       </p>
     </div>
 
@@ -38,7 +41,7 @@ const login = () => {
             v-model="user.email"
             type="email"
             class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
-            placeholder="example@mail.com"
+            placeholder="example@email.com"
           />
         </div>
       </div>
@@ -50,7 +53,7 @@ const login = () => {
             v-model="user.password"
             type="password"
             class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
-            placeholder="***********"
+            placeholder="••••••••••"
           />
         </div>
       </div>
@@ -71,16 +74,16 @@ const login = () => {
       </div>
     </div>
 
+    <AuthError v-if="showError" :msgErr="err" @close="showError = false" />
+
     <!-- Submit Button -->
-    <div class="flex flex-row w-full gap-4 px-0 py-4 justify-end items-center">
+    <div class="flex flex-row w-full gap-4 px-0 py-4 justify-center items-center">
       <button
         @click="login"
         :disabled="!user.email || !user.password"
-        class="flex flex-col gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed"
+        class="flex flex-col justifyitems-center items-center gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed w-full lg:w-3/4"
       >
-        <p class="font-Poppins text-2xl tracking-[0.1em]">
-          Login
-        </p>
+        <p class="font-Poppins text-2xl tracking-[0.1em]">Login</p>
       </button>
     </div>
   </div>
