@@ -9,7 +9,7 @@ const user = ref({
 })
 
 const err = ref('Incorrect username or password')
-const showError = ref(true) 
+const showError = ref(true) //init as false
 
 const login = () => {
   console.log('User:', user.value)
