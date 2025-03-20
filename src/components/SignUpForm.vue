@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import AuthError from '@/components/AuthError.vue'
 
 const user = ref({
   name: '',
@@ -14,14 +15,15 @@ const signup = () => {
   console.log('User:', user.value)
 }
 
-const error = ref('')
+const err = ref('')
+const showError = ref(false) 
 
 const validatePasswords = () => {
   if (user.value.password !== user.value.confirmPassword) {
-    error.value = 'Password and Confirm Password do not match'
-    alert(error.value)
+    err.value = 'Password and Confirm Password do not match'
+    showError.value = true
   } else {
-    error.value = ''
+    err.value = ''
   }
 }
 
@@ -83,7 +85,7 @@ const validatePasswords = () => {
             v-model="user.password"
             type="password"
             class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
-            placeholder="***********"
+            placeholder="••••••••••"
           />
         </div>
       </div>
@@ -98,7 +100,7 @@ const validatePasswords = () => {
             v-model="user.confirmPassword"
             type="password"
             class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
-            placeholder="***********"
+            placeholder="••••••••••"
           />
         </div>
 
@@ -115,13 +117,14 @@ const validatePasswords = () => {
         </div>
       </div>
     </div>
+    <AuthError v-if="showError" :msgErr="err" @close="showError = false" />
 
     <!-- Submit Button -->
-    <div class="flex flex-row md:w-full gap-4 items-center">
+    <div class="flex flex-row md:w-full gap-4 justify-center items-center">
       <button
         @click="signup"
         :disabled="!user.name || !user.email || !user.password || !user.confirmPassword"
-        class="flex flex-col gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed"
+        class="flex flex-col justifyitems-center items-center gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed w-full lg:w-3/4"
       >
         <p class="font-Poppins text-2xl tracking-[0.1em]">Sign Up</p>
       </button>
