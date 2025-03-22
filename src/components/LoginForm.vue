@@ -18,7 +18,7 @@ const login = () => {
 
 <template>
   <div
-    class="flex flex-col justify-center items-center w-full h-screen md:h-fit xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:p-28"
+    class="flex flex-col justify-center items-center w-screen h-fit min-h-screen md:min-h-0 xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:p-28"
   >
     <!-- Logo -->
     <div alt="" class="w-52 h-52 bg-[#EAEAEA] rounded-lg"></div>
@@ -60,12 +60,12 @@ const login = () => {
 
       <!-- Forgot and Sign Up -->
       <div class="flex flex-row w-full h-fit">
-        <RouterLink
-          to="/signup"
+        <router-link
+          to="signup"
           class="font-Poppins font-light text-xs md:text-base text-subtext w-full cursor-pointer hover:underline hover:text-hightlight"
         >
           Create New Account
-        </RouterLink>
+        </router-link>
         <p
           class="font-Poppins font-light text-xs md:text-base text-subtext w-fit text-nowrap cursor-pointer hover:underline hover:text-hightlight"
         >
