@@ -12,6 +12,7 @@ const user = ref({
 })
 
 const signup = () => {
+  validateEmail()
   validatePasswords()
   console.log('User:', user.value)
 }
@@ -20,11 +21,27 @@ const err = ref('')
 const showError = ref(false)
 
 const validatePasswords = () => {
+  const passwordLengthRegex = /^.{8,}$/ // Check for at least 8 characters
+  const passwordFormatRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/ // Check for uppercase, lowercase, and number
+
   if (user.value.password !== user.value.confirmPassword) {
-    err.value = 'Password and Confirm Password do not match'
+    err.value = 'Passwords do not match'
     showError.value = true
-  } else {
-    err.value = ''
+  } else if (!passwordLengthRegex.test(user.value.password)) {
+    err.value = 'Password must be at least 8 characters'
+    showError.value = true
+  } else if (!passwordFormatRegex.test(user.value.password)) {
+    err.value = 'Password must include uppercase, lowercase, and numbers'
+    showError.value = true
+  }
+}
+
+const validateEmail = () => {
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+  // example@email.com
+  if (!regex.test(user.value.email)) {
+    err.value = 'Please enter a valid email address.'
+    showError.value = true
   }
 }
 </script>
@@ -40,9 +57,9 @@ const validatePasswords = () => {
     <div class="flex flex-col p-4 w-fit h-fit items-center gap-1">
       <p class="font-Poppins font-bold text-3xl md:text-4xl text-text_b text-nowrap">Sign Up</p>
       <p
-        class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext"
+        class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext mt-2"
       >
-        Log in to easily manage your forms and boost productivity with digital transformation.
+        Sign up to create and manage your forms easily, making work faster and hassle-free!
       </p>
     </div>
 
@@ -52,7 +69,7 @@ const validatePasswords = () => {
       <!-- Name Input -->
       <div class="flex flex-col md:flex-row md:gap-4">
         <div class="flex flex-col gap-1 w-full">
-          <p class="font-Poppins font-bold text-24 text-text_b">First Name</p>
+          <p class="font-Poppins font-bold text-xl text-text_b">First Name</p>
           <div
             class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary items-center"
           >
@@ -65,7 +82,7 @@ const validatePasswords = () => {
           </div>
         </div>
         <div class="flex flex-col gap-1 w-full">
-          <p class="font-Poppins font-bold text-24 text-text_b">Last Name</p>
+          <p class="font-Poppins font-bold text-xl text-text_b">Last Name</p>
           <div
             class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary items-center"
           >
@@ -81,7 +98,7 @@ const validatePasswords = () => {
 
       <!-- Email Input -->
       <div class="flex flex-col gap-1">
-        <p class="font-Poppins font-bold text-2xl text-text_b">Email Address</p>
+        <p class="font-Poppins font-bold text-xl text-text_b">Email Address</p>
         <div
           class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary items-center"
         >
@@ -97,7 +114,7 @@ const validatePasswords = () => {
       <!-- Password Input -->
       <div class="flex flex-col md:flex-row md:gap-4">
         <div class="flex flex-col w-full gap-1">
-          <p class="font-Poppins font-bold text-2xl text-text_b">Password</p>
+          <p class="font-Poppins font-bold text-xl text-text_b">Password</p>
           <div
             class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary items-center"
           >
@@ -112,7 +129,7 @@ const validatePasswords = () => {
 
         <!-- Confirm Password Input -->
         <div class="flex flex-col w-full gap-1">
-          <p class="font-Poppins font-bold text-2xl text-text_b text-nowrap">Confirm Password</p>
+          <p class="font-Poppins font-bold text-xl text-text_b text-nowrap">Confirm Password</p>
           <div
             class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary items-center"
           >
@@ -124,7 +141,7 @@ const validatePasswords = () => {
             />
           </div>
         </div>
-      </div>  
+      </div>
 
       <!-- Already Have Account -->
       <div class="flex flex-row w-full h-fit justify-end">

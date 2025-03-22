@@ -25,9 +25,9 @@ const login = () => {
 
     <!-- Main Message -->
     <div class="flex flex-col p-4 w-fit h-fit items-center gap-1">
-      <p class="font-Poppins font-bold text-4xl md:text-5xl text-text_b">Login</p>
+      <p class="font-Poppins font-bold text-4xl md:text-4xl text-text_b">Login</p>
       <p
-        class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext"
+        class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext mt-4"
       >
         Log in to easily manage your forms and boost productivity with digital transformation.
       </p>
@@ -37,7 +37,7 @@ const login = () => {
     <div class="flex flex-col gap-6 px-2 py-4 md:py-2 w-full h-fit">
       <!-- Email Input -->
       <div class="flex flex-col gap-2">
-        <p class="font-Poppins font-bold text-2xl text-text_b">Email Address</p>
+        <p class="font-Poppins font-bold text-xl text-text_b">Email Address</p>
         <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
           <input
             v-model="user.email"
@@ -49,7 +49,7 @@ const login = () => {
       </div>
       <!-- Password Input -->
       <div class="flex flex-col gap-2">
-        <p class="font-Poppins font-bold text-2xl text-text_b">Password</p>
+        <p class="font-Poppins font-bold text-xl text-text_b">Password</p>
         <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
           <input
             v-model="user.password"
