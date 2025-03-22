@@ -11,3 +11,4 @@ const emit = defineEmits(['close'])
     <button   @click="emit('close')" class="font-Poppins text-error hover:text-white">X</button> <!-- Icon X  -->
   </div>
 </template>
+
