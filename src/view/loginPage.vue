@@ -17,6 +17,6 @@ import LoginComp from '@/components/LoginForm.vue'
 
   <div class="hidden xl:flex h-screen w-screen">
     <div class="flex flex-col w-full h-full bg-gradient-to-tr from-primary to-hightlight via-75%"></div>
-    <LoginComp class="max-w-[50%]"/>
+    <LoginComp class="max-w-[45%]"/>
   </div>
 </template>
