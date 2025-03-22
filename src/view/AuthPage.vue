@@ -26,7 +26,7 @@ watch(route, (newRoute) => {
 
   <!-- Tablet -->
   <div
-    class="hidden md:flex xl:hidden flex-row p-8 justify-center items-center bg-gradient-to-tr from-primary to-hightlight via-75% w-full h- "
+    class="hidden md:flex xl:hidden flex-row p-8 justify-center items-center bg-gradient-to-tr from-primary to-hightlight via-75% w-full h-screen"
   >
     <router-view v-slot="{ Component }">
       <transition :name="slideDirection" mode="out-in">
@@ -36,9 +36,13 @@ watch(route, (newRoute) => {
   </div>
 
   <!-- Desktop -->
-  <div class="hidden xl:flex h-screen w-screen">
+  <div class="relative hidden xl:flex h-screen w-screen">
     <div
-      class="flex flex-col w-full h-full bg-gradient-to-tr from-primary to-hightlight via-75%"
+      class="absolute flex flex-col w-[55%] h-full bg-gradient-to-tr from-primary to-hightlight via-75% transition-transform duration-500"
+      :class="{
+        'translate-x-0': slideDirection === 'slideRight',
+        'translate-x-[85%]': slideDirection === 'slideLeft',
+      }"
     ></div>
     <router-view v-slot="{ Component }">
       <transition :name="slideDirection" mode="out-in">
@@ -50,22 +54,22 @@ watch(route, (newRoute) => {
 
 <style>
 .slideRight-enter-from {
-  opacity: 0;
+  opacity: 1;
   transform: translateX(100%);
 }
 
 .slideRight-leave-to {
-  opacity: 0;
+  opacity: 1;
   transform: translateX(-100%);
 }
 
 .slideLeft-enter-from {
-  opacity: 0;
+  opacity: 1;
   transform: translateX(-100%);
 }
 
 .slideLeft-leave-to {
-  opacity: 0;
+  opacity: 1;
   transform: translateX(100%);
 }
 

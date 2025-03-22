@@ -31,7 +31,7 @@ const validatePasswords = () => {
 
 <template>
   <div
-    class="flex flex-col justify-center items-center w-screen h-fit min-h-screen md:min-h-0 xl:h-screen gap-1 md:gap-2 p-8 md:px-24 md:py-16 xl:py-8 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none"
+    class="flex flex-col justify-center items-center w-screen h-fit min-h-screen md:min-h-0 xl:h-screen gap-1 md:gap-2 p-8 md:px-24 md:py-16 xl:py-8 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:absolute xl:right-0 xl:w-[45%]"
   >
     <!-- Logo -->
     <div alt="" class="w-52 h-52 bg-[#EAEAEA] rounded-lg"></div>
@@ -112,7 +112,7 @@ const validatePasswords = () => {
 
         <!-- Confirm Password Input -->
         <div class="flex flex-col w-full gap-1">
-          <p class="font-Poppins font-bold text-2xl text-text_b">Confirm Password</p>
+          <p class="font-Poppins font-bold text-2xl text-text_b text-nowrap">Confirm Password</p>
           <div
             class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary items-center"
           >

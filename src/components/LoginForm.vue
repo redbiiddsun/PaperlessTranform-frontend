@@ -18,7 +18,7 @@ const login = () => {
 
 <template>
   <div
-    class="flex flex-col justify-center items-center w-screen h-fit min-h-screen md:min-h-0 xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:p-28"
+    class="flex flex-col justify-center items-center w-screen h-fit min-h-screen md:min-h-0 xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:p-28 xl:absolute xl:left-0 xl:w-[45%]"
   >
     <!-- Logo -->
     <div alt="" class="w-52 h-52 bg-[#EAEAEA] rounded-lg"></div>
@@ -26,7 +26,9 @@ const login = () => {
     <!-- Main Message -->
     <div class="flex flex-col p-4 w-fit h-fit items-center gap-1">
       <p class="font-Poppins font-bold text-4xl md:text-5xl text-text_b">Login</p>
-      <p class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext">
+      <p
+        class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext"
+      >
         Log in to easily manage your forms and boost productivity with digital transformation.
       </p>
     </div>
