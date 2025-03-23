@@ -36,7 +36,7 @@ watch(route, (newRoute) => {
   </div>
 
   <!-- Desktop -->
-  <div class="relative hidden xl:flex h-screen w-screen">
+  <div class="relative hidden xl:flex h-screen w-screen overflow-hidden">
     <div
       class="absolute flex flex-col w-[55%] h-full bg-gradient-to-tr from-primary to-hightlight via-75% transition-transform duration-500"
       :class="{
