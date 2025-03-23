@@ -4,13 +4,21 @@ import { useRoute } from 'vue-router'
 
 const slideDirection = ref('slideLeft')
 const route = useRoute()
+const previousRoute = ref(route.name)
+
+const order = ['ForgotPassword', 'Login', 'Signup']
 
 watch(route, (newRoute) => {
-  if (newRoute.name === 'Login') {
-    slideDirection.value = 'slideLeft'
-  } else if (newRoute.name === 'Signup') {
+  const newIndex = order.indexOf(newRoute.name as string)
+  const oldIndex = order.indexOf(previousRoute.value as string)
+
+  if (newIndex > oldIndex) {
     slideDirection.value = 'slideRight'
+  } else {
+    slideDirection.value = 'slideLeft'
   }
+
+  previousRoute.value = newRoute.name
 })
 </script>
 

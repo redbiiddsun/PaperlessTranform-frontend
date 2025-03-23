@@ -63,16 +63,18 @@ const login = () => {
       <!-- Forgot and Sign Up -->
       <div class="flex flex-row w-full h-fit">
         <router-link
+          to="recovery"
+          class="font-Poppins font-light text-xs md:text-base text-subtext w-full text-nowrap cursor-pointer hover:underline hover:text-hightlight"
+        >
+          Forgot Password
+        </router-link>
+
+        <router-link
           to="signup"
-          class="font-Poppins font-light text-xs md:text-base text-subtext w-full cursor-pointer hover:underline hover:text-hightlight"
+          class="font-Poppins font-light text-xs md:text-base text-subtext w-fit text-nowrap cursor-pointer hover:underline hover:text-hightlight"
         >
           Create New Account
         </router-link>
-        <p
-          class="font-Poppins font-light text-xs md:text-base text-subtext w-fit text-nowrap cursor-pointer hover:underline hover:text-hightlight"
-        >
-          Forgot Password
-        </p>
       </div>
     </div>
 
