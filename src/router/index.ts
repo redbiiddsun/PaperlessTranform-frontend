@@ -19,29 +19,29 @@ const router = createRouter({
           name: 'Signup',
           component: () => import('@/components/SignUpForm.vue'),
         },
+      ],
+    },
+    {
+      path: '/recovery',
+      name: 'ForgotPassword',
+      component: () => import('@/view/ForgotPassPage.vue'),
+      redirect: '/auth/recovery/email',
+      children: [
         {
-          path: 'recovery',
-          name: 'ForgotPassword',
-          component: () => import('@/components/ForgotPassword/ForgotPasswordForm.vue'),
-          redirect: '/auth/recovery/email',
-          children: [
-            {
-              path: 'email',
-              name: 'EmailSubmit',
-              component: () => import('@/components/ForgotPassword/EmailSubmitForm.vue')
-            },
-            {
-              path: 'otp',
-              name: 'OTPVerification',
-              component: () => import('@/components/ForgotPassword/OTPVerifyForm.vue')
-            },
-            {
-              path: 'reset',
-              name: 'ResetPassword',
-              component: () => import('@/components/ForgotPassword/ResetPasswordForm.vue')
-            }
-          ],
+          path: 'email',
+          name: 'EmailSubmit',
+          component: () => import('@/components/ForgotPassword/EmailSubmitForm.vue')
         },
+        {
+          path: 'otp',
+          name: 'OTPVerification',
+          component: () => import('@/components/ForgotPassword/OTPVerifyForm.vue')
+        },
+        {
+          path: 'reset',
+          name: 'ResetPassword',
+          component: () => import('@/components/ForgotPassword/ResetPasswordForm.vue')
+        }
       ],
     },
   ],

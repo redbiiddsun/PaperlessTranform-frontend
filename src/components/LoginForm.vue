@@ -63,7 +63,7 @@ const login = () => {
       <!-- Forgot and Sign Up -->
       <div class="flex flex-row w-full h-fit">
         <router-link
-          to="recovery"
+          to="/recovery/email"
           class="font-Poppins font-light text-xs md:text-base text-subtext w-full text-nowrap cursor-pointer hover:underline hover:text-hightlight"
         >
           Forgot Password

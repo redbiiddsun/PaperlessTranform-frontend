@@ -6,7 +6,7 @@ const email = ref('')
 const router = useRouter()
 
 const submitEmail = () => {
-  router.push('/auth/recovery/otp')
+  router.push('/recovery/otp')
 }
 </script>
 <template>

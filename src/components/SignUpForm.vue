@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import AuthError from '@/components/AuthError.vue'
+import { validatePasswords, validateEmail } from '@/utils/validation.js'
 
 const user = ref({
   fname: '',
@@ -11,38 +12,27 @@ const user = ref({
   confirmPassword: '',
 })
 
-const signup = () => {
-  validateEmail()
-  validatePasswords()
-  console.log('User:', user.value)
-}
-
 const err = ref('')
 const showError = ref(false)
 
-const validatePasswords = () => {
-  const passwordLengthRegex = /^.{8,}$/ // Check for at least 8 characters
-  const passwordFormatRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/ // Check for uppercase, lowercase, and number
+const signup = () => {
+  err.value = ''
+  showError.value = false
 
-  if (user.value.password !== user.value.confirmPassword) {
-    err.value = 'Passwords do not match'
+  const emailError = validateEmail(user.value)
+  if (emailError) {
+    err.value = emailError
     showError.value = true
-  } else if (!passwordLengthRegex.test(user.value.password)) {
-    err.value = 'Password must be at least 8 characters'
-    showError.value = true
-  } else if (!passwordFormatRegex.test(user.value.password)) {
-    err.value = 'Password must include uppercase, lowercase, and numbers'
-    showError.value = true
+    return
   }
-}
 
-const validateEmail = () => {
-  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
-  // example@email.com
-  if (!regex.test(user.value.email)) {
-    err.value = 'Please enter a valid email address.'
+  const passwordError = validatePasswords(user.value)
+  if (passwordError) {
+    err.value = passwordError
     showError.value = true
+    return
   }
+  console.log('User:', user.value)
 }
 </script>
 

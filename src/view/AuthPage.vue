@@ -6,12 +6,12 @@ const slideDirection = ref('slideLeft')
 const route = useRoute()
 const previousRoute = ref(route.name)
 
-const order = ['ForgotPassword', 'Login', 'Signup']
+const order = ['Login', 'Signup']
 
 watch(route, (newRoute) => {
   const newIndex = order.indexOf(newRoute.name as string)
   const oldIndex = order.indexOf(previousRoute.value as string)
-
+  console.log(newRoute.name)
   if (newIndex > oldIndex) {
     slideDirection.value = 'slideRight'
   } else {

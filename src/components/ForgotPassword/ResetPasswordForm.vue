@@ -7,7 +7,7 @@ const confirmPass = ref('')
 const router = useRouter()
 
 const submitNewPassword = () => {
-  router.push('/auth/recovery/email')
+  router.push('/recovery/email')
 }
 </script>
 
