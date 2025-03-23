@@ -9,19 +9,44 @@ const router = createRouter({
     //   component: () => import('../App.vue'),
     // },
     {
-      path: '/login',
-      name: 'Login',
-      component: () => import('@/view/loginPage.vue'),
+      path: '/auth',
+      name: 'auth',
+      component: () => import('@/view/AuthPage.vue'),
+      redirect: '/auth/login',
+      children: [
+        {
+          path: 'login',
+          name: 'Login',
+          component: () => import('@/components/LoginForm.vue'),
+        },
+        {
+          path: 'signup',
+          name: 'Signup',
+          component: () => import('@/components/SignUpForm.vue'),
+        },
+      ],
     },
     {
-      path: '/signup',
-      name: 'Signup',
-      component: () => import('@/view/signUpPage.vue'),
-    },
-    {
-      path: '/forgot-password',
-      name: 'ForgotPassword',
-      component: () => import('@/view/ForgotPassword.vue'),
+      path: '/recovery',
+      name: 'Forgot-Email',
+      component: () => import('@/view/ForgotPasswordPage.vue'),
+      children: [
+        {
+          path: '/recovery/verify',
+          name: 'Forgot-OTP',
+          component: () => import('@/view/ForgotPasswordPage.vue'),
+        },
+        {
+          path: '/recovery/reset',
+          name: 'Forgot-Reset',
+          component: () => import('@/view/ForgotPasswordPage.vue'),
+        },
+        {
+          path: '/recovery/done',
+          name: 'Forgot-Done',
+          component: () => import('@/view/ForgotPasswordPage.vue'),
+        },
+      ],
     },
   ],
 })

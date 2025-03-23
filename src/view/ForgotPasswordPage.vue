@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import LoginComp from '@/components/LoginForm.vue'
+import ForgotPassword from '@/components/ForgotPassword/ForgotForm.vue'
 </script>
 
 <template>
   <!-- Mobile View -->
    <div class="md:hidden">
-    <LoginComp />
+    <ForgotPassword />
    </div>
 
   <!-- Tablet -->
   <div
     class="hidden md:flex xl:hidden flex-row px-8 justify-center items-center bg-gradient-to-tr from-primary to-hightlight via-75% w-full h-screen"
   >
-    <LoginComp />
+    <ForgotPassword />
   </div>
 
-  <div class="hidden xl:flex h-screen w-screen">
-    <div class="flex flex-col w-full h-full bg-gradient-to-tr from-primary to-hightlight via-75%"></div>
-    <LoginComp class="max-w-[50%]"/>
+  <div class="hidden justify-center items-center bg-gradient-to-tr from-primary to-hightlight via-75% xl:flex h-screen w-screen">
+    <ForgotPassword class="max-w-[50%]"/>
   </div>
 </template>
