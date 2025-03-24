@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ForgotPassword from '@/components/ForgotPassword/ForgotPasswordForm.vue'
+import ForgotPassword from '@/components/pages/ForgotPassword/ForgotPasswordForm.vue'
 </script>
 
 <template>

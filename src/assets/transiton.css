@@ -1,0 +1,26 @@
+.slideRight-enter-from {
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+.slideRight-leave-to {
+  opacity: 1;
+  transform: translateX(-100%);
+}
+
+.slideLeft-enter-from {
+  opacity: 1;
+  transform: translateX(-100%);
+}
+
+.slideLeft-leave-to {
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+.slideRight-enter-active,
+.slideRight-leave-active,
+.slideLeft-enter-active,
+.slideLeft-leave-active {
+  transition: 0.3s ease-out;
+}

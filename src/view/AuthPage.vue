@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-
+import '@/assets/transiton.css';
 const slideDirection = ref('slideLeft')
 const route = useRoute()
 const previousRoute = ref(route.name)
@@ -60,31 +60,3 @@ watch(route, (newRoute) => {
   </div>
 </template>
 
-<style>
-.slideRight-enter-from {
-  opacity: 1;
-  transform: translateX(100%);
-}
-
-.slideRight-leave-to {
-  opacity: 1;
-  transform: translateX(-100%);
-}
-
-.slideLeft-enter-from {
-  opacity: 1;
-  transform: translateX(-100%);
-}
-
-.slideLeft-leave-to {
-  opacity: 1;
-  transform: translateX(100%);
-}
-
-.slideRight-enter-active,
-.slideRight-leave-active,
-.slideLeft-enter-active,
-.slideLeft-leave-active {
-  transition: 0.3s ease-out;
-}
-</style>

@@ -12,12 +12,12 @@ const router = createRouter({
         {
           path: 'login',
           name: 'Login',
-          component: () => import('@/components/LoginForm.vue'),
+          component: () => import('@/components/pages/LoginForm.vue'),
         },
         {
           path: 'signup',
           name: 'Signup',
-          component: () => import('@/components/SignUpForm.vue'),
+          component: () => import('@/components/pages/SignUpForm.vue'),
         },
       ],
     },
@@ -30,18 +30,31 @@ const router = createRouter({
         {
           path: 'email',
           name: 'EmailSubmit',
-          component: () => import('@/components/ForgotPassword/EmailSubmitForm.vue')
+          component: () => import('@/components/pages/ForgotPassword/EmailSubmitForm.vue'),
         },
         {
           path: 'otp',
           name: 'OTPVerification',
-          component: () => import('@/components/ForgotPassword/OTPVerifyForm.vue')
+          component: () => import('@/components/pages/ForgotPassword/OTPVerifyForm.vue'),
         },
         {
           path: 'reset',
           name: 'ResetPassword',
-          component: () => import('@/components/ForgotPassword/ResetPasswordForm.vue')
-        }
+          component: () => import('@/components/pages/ForgotPassword/ResetPasswordForm.vue'),
+        },
+      ],
+    },
+    {
+      path: '/',
+      name: 'Body',
+      component: () => import('@/view/DashboardPage.vue'),
+      redirect: '/form',  
+      children: [
+        {
+          path: 'form',
+          name: 'Dashboard',
+          component: () => import('@/components/pages/FormDashboard.vue'),
+        },
       ],
     },
   ],
