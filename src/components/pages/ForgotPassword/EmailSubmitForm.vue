@@ -21,7 +21,7 @@ const submitEmail = () => {
           <input
             v-model="email"
             type="email"
-            class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+            class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
             placeholder="example@mail.com"
           />
         </div>
@@ -41,7 +41,7 @@ const submitEmail = () => {
 
     <RouterLink
       to="/auth/login"
-      class="font-Poppins font-bold text-16 text-secondary tracking-[0.1em]"
+      class="font-Poppins font-bold text-base text-secondary tracking-[0.1em]"
       >Back to login</RouterLink
     >
   </div>

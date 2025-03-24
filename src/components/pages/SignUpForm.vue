@@ -66,7 +66,7 @@ const signup = () => {
             <input
               v-model="user.fname"
               type="text"
-              class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+              class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
               placeholder="FirstName"
             />
           </div>
@@ -79,7 +79,7 @@ const signup = () => {
             <input
               v-model="user.lname"
               type="text"
-              class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+              class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
               placeholder="LastName"
             />
           </div>
@@ -95,7 +95,7 @@ const signup = () => {
           <input
             v-model="user.email"
             type="email"
-            class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+            class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
             placeholder="example@mail.com"
           />
         </div>
@@ -111,7 +111,7 @@ const signup = () => {
             <input
               v-model="user.password"
               type="password"
-              class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+              class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
               placeholder="••••••••••"
             />
           </div>
@@ -126,7 +126,7 @@ const signup = () => {
             <input
               v-model="user.confirmPassword"
               type="password"
-              class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+              class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
               placeholder="••••••••••"
             />
           </div>

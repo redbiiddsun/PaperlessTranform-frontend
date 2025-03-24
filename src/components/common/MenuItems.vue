@@ -8,7 +8,7 @@ const props = defineProps({
 <template>
   <div>
     <RouterLink :to="props.link"  class="w-full h-fit flex flex-col justify-center items-start p-2 hover:bg-[#EBEBEB]">
-      <p class="font-Poppins font-medium text-sm text-text_b">{{ props.name }}</p>
+      <p class="font-Poppins font-medium text-sm text-text_b  xl:text-base">{{ props.name }}</p>
     </RouterLink>
   </div>
 </template>

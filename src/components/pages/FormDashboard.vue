@@ -30,7 +30,7 @@ const forms = ref([
         <div class="flex flex-row w-fit h-fit py-1 items-center gap-2">
           <input
             type="text"
-            class="w-52 h-9 px-4 border rounded-[32px] border-black text-xs font-normal placeholder:text-subtext placeholder:font-Poppins placeholder:text-xs placeholder:font-normal text-start md:w-72 md:text-base md:placeholder:text-base"
+            class="font-Poppins w-52 h-9 px-4 border rounded-[32px] border-black text-xs font-normal placeholder:text-subtext placeholder:font-Poppins placeholder:text-xs placeholder:font-normal text-start md:w-72 md:text-base md:placeholder:text-base xl:w-96"
             placeholder="Search by Name"
           />
           <!-- Icon Search -->

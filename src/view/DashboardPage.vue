@@ -51,15 +51,15 @@ const user = ref({
       class="w-fit h-fit flex flex-col px-2 bg-white border border-hightlight rounded-b-lg fixed top-[72px] right-3"
     >
       <div class="w-full h-fit flex flex-col justify-center items-start gap-1 p-1">
-        <p class="font-Poppins text-xs text-text_b">Account</p>
-        <div class="flex flex-row gap-[2px] p-1 border-b border-hightlight">
+        <p class="font-Poppins text-xs text-text_b xl:text-sm">Account</p>
+        <div class="flex flex-row items-center gap-[2px] p-1 border-b border-hightlight">
           <!-- Profile Image -->
           <img src="#" alt="" class="bg-black rounded-full w-12 h-12" />
-          <div class="w-44 h-fit flex flex-col justify-center items-start gap-1 p-1">
-            <p class="font-Poppins font-semibold text-sm text-text_b overflow-hidden text-ellipsis">
+          <div class="w-44 h-fit flex flex-col justify-center items-start gap-1 p-1 xl:w-56">
+            <p class="font-Poppins font-semibold text-sm text-text_b overflow-hidden text-ellipsis xl:text-base">
               {{ user.fname }} {{ user.lname }}
             </p>
-            <p class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis">
+            <p class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis xl:text-base">
               {{ user.email }}
             </p>
           </div>

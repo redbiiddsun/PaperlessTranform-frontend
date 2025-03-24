@@ -23,7 +23,7 @@ const submitNewPassword = () => {
           <input
             v-model="password"
             type="password"
-            class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+            class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
             placeholder="••••••••••"
           />
         </div>
@@ -38,7 +38,7 @@ const submitNewPassword = () => {
         <input
           v-model="confirmPass"
           type="password"
-          class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+          class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
           placeholder="••••••••••"
         />
       </div>
