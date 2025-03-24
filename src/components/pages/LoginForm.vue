@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import AuthError from '@/components/pages/AuthError.vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
 const user = ref({
   email: '',
   password: '',
@@ -13,6 +15,7 @@ const showError = ref(true) //init as false
 
 const login = () => {
   console.log('User:', user.value)
+  router.push('/')
 }
 </script>
 
