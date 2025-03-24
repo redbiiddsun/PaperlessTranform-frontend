@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import '@/assets/transiton.css'
 import { ref } from 'vue'
+import MenuItems from '@/components/common/MenuItems.vue'
+
+import '@/assets/transiton.css'
+import 'primeicons/primeicons.css'
 
 const IsMenuShow = ref(false)
 const user = ref({
-  fname: 'FirstName',
-  lname: 'LastName'
+  fname: 'FirstName'.toLocaleUpperCase(),
+  lname: 'LastName'.toLocaleUpperCase(),
+  email: 'mail@email.com'
 })
 </script>
 
@@ -13,14 +17,16 @@ const user = ref({
   <div class="flex flex-col">
     <!-- NavBar -->
     <div class="flex flex-row gap-2 py-2 px-0 justify-center w-full h-[72px] bg-primary">
-      <div class="flex flex-row gap-3 px-4 py-1 w-full h-fit">
+      <div class="flex flex-row gap-3 px-4 py-1 w-full h-fit items-center">
         <!-- logo -->
         <img src="#" alt="" class="w-12 h-12 rounded-lg bg-white" />
         <p class="font-Poppins font-bold text-2xl hidden md:block text-text">Paperless Transform</p>
       </div>
-      <div class="w-fit h-fit flex flex-row gap-4 px-2 py-0 items-center justify-center">
+      <div class="w-fit h-fit flex flex-row gap-4 px-2 py-0 items-center justify-center md:r-2" >
         <!-- Icon Setting-->
-        <div class="w-8 h-8 bg-white"></div>
+        <!-- <div class="w-fit h-fit pt-2">
+          <span class="text-2xl pi pi-cog text-text"></span>
+        </div> -->
         <div class="w-fit h-fit">
           <div
             class="w-fill h-fit flex flex-row gap-3 px-2 py-1 rounded-lg items-center justify-center"
@@ -32,7 +38,9 @@ const user = ref({
               <p class="font-Poppins font-medium text-sm text-text">{{ user.lname }}</p>
             </div>
             <!-- Icon Dropdown -->
-            <button class="w-6 h-6 bg-white" @click="IsMenuShow = !IsMenuShow"></button>
+            <button class="w-fit h-fit px-1 pt-2 hover:bg-[#EBEBEB] hover:bg-opacity-15 rounded-full" @click="IsMenuShow = !IsMenuShow">
+                <span class="text-lg pi pi-angle-down text-text"></span>
+            </button>
           </div>
         </div>
       </div>
@@ -49,26 +57,19 @@ const user = ref({
           <img src="#" alt="" class="bg-black rounded-full w-12 h-12" />
           <div class="w-44 h-fit flex flex-col justify-center items-start gap-1 p-1">
             <p class="font-Poppins font-semibold text-sm text-text_b overflow-hidden text-ellipsis">
-              {{ user.fname }}
+              {{ user.fname }} {{ user.lname }}
             </p>
             <p class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis">
-              {{ user.lname }}
+              {{ user.email }}
             </p>
           </div>
         </div>
       </div>
-      <div class="w-full h-fit flex flex-col justify-center items-start p-2">
-        <p class="font-Poppins font-medium text-sm text-text_b">Profile</p>
-      </div>
-      <div class="w-full h-fit flex flex-col justify-center items-start p-2">
-        <p class="font-Poppins font-medium text-sm text-text_b">About Us</p>
-      </div>
-      <div class="w-full h-fit flex flex-col justify-center items-start p-2">
-        <p class="font-Poppins font-medium text-sm text-text_b">Give Feedback</p>
-      </div>
-      <div class="w-full h-fit flex flex-col justify-center items-start p-2">
-        <p class="font-Poppins font-medium text-sm text-text_b">Sign Out</p>
-      </div>
+      <MenuItems name="Profile" link="profile"/>
+      <MenuItems name="About Us" link="aboutus"/>
+      <MenuItems name="Give Feedback" link="feedback"/>
+      <MenuItems name="Setting" link="setting"/>
+      <MenuItems name="Sign Out" link="signout"/>
     </div>
     <!-- Body -->
     <router-view v-slot="{ Component }">

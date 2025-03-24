@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import ListForm from '@/components/common/FormCard.vue'
 import { ref } from 'vue'
+import ListForm from '@/components/common/FormCard.vue'
+
+import 'primeicons/primeicons.css'
 
 // Mock Data
 const forms = ref([
@@ -22,25 +24,27 @@ const forms = ref([
 
     <div class="w-full h-fit flex flex-col justify-center items-center gap-2">
       <div class="flex flex-row items-center gap-2 w-full">
-        <p class="font-Poppings font-semibold text-base text-text_b w-full text-start text-nowrap">
+        <p class="font-Poppings font-semibold text-base md:text-2xl text-text_b w-full text-start text-nowrap">
           Recent Forms
         </p>
-        <div class="flex flex-row w-fit h-fit py-1">
+        <div class="flex flex-row w-fit h-fit py-1 items-center gap-2">
           <input
             type="text"
-            class="w-52 h-9 px-4 border rounded-[32px] border-black text-xs font-normal placeholder:text-subtext placeholder:font-Poppins placeholder:text-xs placeholder:font-normal text-start"
+            class="w-52 h-9 px-4 border rounded-[32px] border-black text-xs font-normal placeholder:text-subtext placeholder:font-Poppins placeholder:text-xs placeholder:font-normal text-start md:w-72 md:text-base md:placeholder:text-base"
             placeholder="Search by Name"
           />
           <!-- Icon Search -->
-          <div class="w-8 h-8 bg-white hidden md:block"></div>
+          <div class="w-fit h-fit hidden md:block">
+            <span class=" text-2xl pi pi-search"></span>
+          </div>
         </div>
       </div>
       <!-- Wrap -->
-      <div class="flex flex-wrap w-full h-fit gap-1 md:gap-4">
+      <div class="flex flex-wrap w-full h-fit gap-1 md:gap-2 xl:gap-6">
         <ListForm 
           v-for="(form, index) in forms" 
           :key="index" 
-          class="w-44 h-52 overflow-hidden"
+          class="w-44 h-52 overflow-hidden md:w-60 md:h-[272px] xl: xl:"
           :name="form.name"
           :date="form.date"
         />
