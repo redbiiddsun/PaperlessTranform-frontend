@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import MenuItems from '@/components/common/MenuItems.vue'
+import { useSlideDirection } from '@/utils/transition'
 
 import '@/assets/transiton.css'
 import 'primeicons/primeicons.css'
+
+const order = ['EditForm','Dashboard', 'AddForm']
+const slideDirection = useSlideDirection(order, 'slideRight', 'slideLeft')
 
 const IsMenuShow = ref(false)
 const user = ref({
@@ -73,7 +77,7 @@ const user = ref({
     </div>
     <!-- Body -->
     <router-view v-slot="{ Component }">
-      <transition name="slideRight" mode="out-in">
+      <transition :name=slideDirection mode="out-in">
         <component :is="Component" v-if="Component" />
       </transition>
     </router-view>

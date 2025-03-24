@@ -16,11 +16,11 @@ const forms = ref([
 
 <template>
   <div class="w-full h-fit flex flex-col gap-4 p-4">
-    <button
+    <RouterLink to="add"
       class="flex flex-col justify-center items-center bg-gradient-to-tr from-hightlight to-primary via-75% w-full h-fit py-20 rounded-2xl"
     >
       <p class="font-Poppins font-medium text-[32px] text-text">Add New Form</p>
-    </button>
+    </RouterLink>
 
     <div class="w-full h-fit flex flex-col justify-center items-center gap-2">
       <div class="flex flex-row items-center gap-2 w-full">

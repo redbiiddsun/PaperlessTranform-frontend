@@ -1,25 +1,9 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import '@/assets/transiton.css';
-const slideDirection = ref('slideLeft')
-const route = useRoute()
-const previousRoute = ref(route.name)
+import { useSlideDirection } from '@/utils/transition'
+import '@/assets/transiton.css'
 
 const order = ['Login', 'Signup']
-
-watch(route, (newRoute) => {
-  const newIndex = order.indexOf(newRoute.name as string)
-  const oldIndex = order.indexOf(previousRoute.value as string)
-  console.log(newRoute.name)
-  if (newIndex > oldIndex) {
-    slideDirection.value = 'slideRight'
-  } else {
-    slideDirection.value = 'slideLeft'
-  }
-
-  previousRoute.value = newRoute.name
-})
+const slideDirection = useSlideDirection(order, 'slideRight', 'slideLeft')
 </script>
 
 <template>
@@ -59,4 +43,3 @@ watch(route, (newRoute) => {
     </router-view>
   </div>
 </template>
-
