@@ -52,7 +52,7 @@ const user = ref({
     <!-- Navbar Menu -->
     <div
       v-if="IsMenuShow"
-      class="w-fit h-fit flex flex-col px-2 bg-white border border-hightlight rounded-b-lg fixed top-[72px] right-3"
+      class="w-fit h-fit flex flex-col px-2 bg-white border border-hightlight rounded-b-lg fixed top-[72px] right-3 z-50"
     >
       <div class="w-full h-fit flex flex-col justify-center items-start gap-1 p-1">
         <p class="font-Poppins text-xs text-text_b xl:text-sm">Account</p>

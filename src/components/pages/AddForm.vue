@@ -1,7 +1,8 @@
 <template>
-    <div>
-        Add-Form
-        <RouterLink to="form">DashBoard</RouterLink>
-        <RouterLink to="edit">Edit Form</RouterLink>
-    </div>
+  <div>
+    <h1>Add-Form</h1>
+    <br />
+    <RouterLink to="form">DashBoard</RouterLink> <br />
+    <RouterLink to="edit">Edit Form</RouterLink> <br />
+  </div>
 </template>
