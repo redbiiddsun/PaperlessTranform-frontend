@@ -2,9 +2,32 @@
 import { ref } from 'vue'
 import ListForm from '@/components/common/FormCard.vue'
 import InputFile from '../common/InputFile.vue'
+import StatusUpload from '../common/StatusUpload.vue'
+import ConfirmButton from '../common/ConfirmButton.vue'
 
 import 'primeicons/primeicons.css'
-import StatusUpload from '../common/StatusUpload.vue'
+
+const selectedFiles = ref<File[]>([])
+
+const handleFiles = (files: File[]) => {
+  const newFiles = files.filter(
+    (newFile) => !selectedFiles.value.some((existFile) => existFile.name === newFile.name),
+  )
+
+  selectedFiles.value = [...selectedFiles.value, ...newFiles]
+  console.log(
+    'New files added:',
+    selectedFiles.value.map((file) => file.name),
+  )
+}
+
+const updateFileList = (updatedFiles: File[]) => {
+  selectedFiles.value = updatedFiles
+  console.log(
+    'Updated files:',
+    selectedFiles.value.map((file) => file.name),
+  )
+}
 
 // Mock Data
 const forms = ref([
@@ -17,12 +40,23 @@ const forms = ref([
 </script>
 
 <template>
-  <div class="w-full h-fit flex flex-col gap-4 p-4 md:flex-row">
-    <div class="flex flex-col items-start justify-center w-full h-fit gap-4 py-1 md:w-fit">
-      <p class="font-Poppins font-semibold text-base md:text-2xl text-text_b w-full text-start text-nowrap px-4">Add New Form</p>
-      <div class="flex flex-row items-center justify-center w-full h-fit px-4 gap-4 md:flex-col md:justify-start">
-        <InputFile />
-        <StatusUpload class="hidden md:block"/>
+  <div class="w-full h-fit flex flex-col gap-4 p-4 xl:flex-row">
+    <div class="flex flex-col items-start justify-center w-full h-fit gap-4 py-1 xl:w-fit">
+      <div class="flex flex-row w-full">
+        <p
+          class="font-Poppins font-semibold text-base md:text-2xl text-text_b w-full text-start text-nowrap px-4"
+        >
+          Add New Form
+        </p>
+        <ConfirmButton :disableMode="true" class="md:hidden" />
+      </div>
+      <div class="flex flex-row items-center justify-center w-full h-fit px-4 gap-4 xl:flex-col">
+        <InputFile @fileSelected="handleFiles" />
+        <StatusUpload
+          :fileUpload="selectedFiles"
+          @updateFiles="updateFileList"
+          class="hidden md:block"
+        />
       </div>
     </div>
 
