@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import AuthError from '@/components/pages/AuthError.vue'
-import { validatePasswords, validateEmail } from '@/utils/validation.js'
+import { validatePasswords, validateEmail } from '@/utils/validation'
 
 const user = ref({
   fname: '',

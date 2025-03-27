@@ -4,10 +4,13 @@ import ListForm from '@/components/common/FormCard.vue'
 import InputFile from '../common/InputFile.vue'
 import StatusUpload from '../common/StatusUpload.vue'
 import ConfirmButton from '../common/ConfirmButton.vue'
+import { useRouter } from 'vue-router'
 
 import 'primeicons/primeicons.css'
+import { forms } from '@/data/form' // Mock Data
 
 const selectedFiles = ref<File[]>([])
+const router = useRouter();
 
 const handleFiles = (files: File[]) => {
   const newFiles = files.filter(
@@ -29,14 +32,9 @@ const updateFileList = (updatedFiles: File[]) => {
   )
 }
 
-// Mock Data
-const forms = ref([
-  { name: 'Registration Form', date: new Date() }, // Just now
-  { name: 'Survey Form', date: new Date(Date.now() - 5 * 60 * 1000) }, // 5 minutes ago
-  { name: 'Feedback Form', date: new Date(Date.now() - 2 * 60 * 60 * 1000) }, // 2 hours ago
-  { name: 'Job Application', date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) }, // 1 day ago
-  { name: 'Contact Form', date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000) }, // 3 days ago
-])
+const createForm = () => {
+  router.push('/add')
+}
 </script>
 
 <template>
@@ -48,7 +46,7 @@ const forms = ref([
         >
           Add New Form
         </p>
-        <ConfirmButton :disableMode="true" class="md:hidden" />
+        <ConfirmButton   @click="createForm" :disableMode="selectedFiles.length === 0"  class="md:hidden" />
       </div>
       <div class="flex flex-row items-center justify-center w-full h-fit px-4 gap-4 xl:flex-col">
         <InputFile @fileSelected="handleFiles" />
