@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import FileStatus from '@/components/common/FileStatus.vue'
 import ConfirmButton from './ConfirmButton.vue'
+import { useRouter } from 'vue-router';
 
 import '@/assets/transiton.css'
 
 const props = defineProps<{ fileUpload: File[] }>()
 const emit = defineEmits(['updateFiles'])
+const router = useRouter();
 
 console.log('File Value:', props.fileUpload)
 
@@ -13,6 +15,11 @@ const removeFile = (fileName: string) => {
   const updatedFiles = props.fileUpload.filter((file) => file.name !== fileName)
   emit('updateFiles', updatedFiles)
 }
+
+const createForm = () => {
+  router.push('/add')
+}
+
 </script>
 
 <template>
@@ -21,7 +28,7 @@ const removeFile = (fileName: string) => {
   >
     <div class="w-full h-[50px] flex items-center justify-between xl:mb-4">
       <p class="font-Poppins font-semibold text-text_b text-xl">Status Uploaded</p>
-      <ConfirmButton :disableMode="props.fileUpload.length === 0" />
+      <ConfirmButton  @click="createForm" :disableMode="props.fileUpload.length === 0"/>
     </div>
 
     <div
