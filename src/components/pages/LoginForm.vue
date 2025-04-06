@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import AuthError from '@/components/AuthError.vue'
+import AuthError from '@/components/pages/AuthError.vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
 const user = ref({
   email: '',
   password: '',
@@ -13,20 +15,23 @@ const showError = ref(true) //init as false
 
 const login = () => {
   console.log('User:', user.value)
+  router.push('/')
 }
 </script>
 
 <template>
   <div
-    class="flex flex-col justify-center items-center w-full h-screen md:h-fit xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:p-28"
+    class="flex flex-col justify-center items-center w-screen h-fit min-h-screen md:min-h-0 xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:p-28 xl:absolute xl:left-0 xl:w-[45%]"
   >
     <!-- Logo -->
     <div alt="" class="w-52 h-52 bg-[#EAEAEA] rounded-lg"></div>
 
     <!-- Main Message -->
     <div class="flex flex-col p-4 w-fit h-fit items-center gap-1">
-      <p class="font-Poppins font-bold text-4xl md:text-5xl text-text_b">Login</p>
-      <p class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext">
+      <p class="font-Poppins font-bold text-4xl md:text-4xl text-text_b">Login</p>
+      <p
+        class="hidden sm:block font-Poppins font-normal text-[12px] md:text-base text-center text-subtext mt-4"
+      >
         Log in to easily manage your forms and boost productivity with digital transformation.
       </p>
     </div>
@@ -35,24 +40,24 @@ const login = () => {
     <div class="flex flex-col gap-6 px-2 py-4 md:py-2 w-full h-fit">
       <!-- Email Input -->
       <div class="flex flex-col gap-2">
-        <p class="font-Poppins font-bold text-2xl text-text_b">Email Address</p>
+        <p class="font-Poppins font-bold text-xl text-text_b">Email Address</p>
         <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
           <input
             v-model="user.email"
             type="email"
-            class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+            class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
             placeholder="example@email.com"
           />
         </div>
       </div>
       <!-- Password Input -->
       <div class="flex flex-col gap-2">
-        <p class="font-Poppins font-bold text-2xl text-text_b">Password</p>
+        <p class="font-Poppins font-bold text-xl text-text_b">Password</p>
         <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
           <input
             v-model="user.password"
             type="password"
-            class="font-Poppins font-normal text-16 placeholder-subtext bg-transparent outline-none w-full"
+            class="font-Poppins font-normal text-base placeholder-subtext bg-transparent outline-none w-full"
             placeholder="••••••••••"
           />
         </div>
@@ -60,17 +65,19 @@ const login = () => {
 
       <!-- Forgot and Sign Up -->
       <div class="flex flex-row w-full h-fit">
-        <RouterLink
-          to="/signup"
-          class="font-Poppins font-light text-xs md:text-base text-subtext w-full cursor-pointer hover:underline hover:text-hightlight"
-        >
-          Create New Account
-        </RouterLink>
-        <p
-          class="font-Poppins font-light text-xs md:text-base text-subtext w-fit text-nowrap cursor-pointer hover:underline hover:text-hightlight"
+        <router-link
+          to="/recovery/email"
+          class="font-Poppins font-light text-xs md:text-base text-subtext w-full text-nowrap cursor-pointer hover:underline hover:text-hightlight"
         >
           Forgot Password
-        </p>
+        </router-link>
+
+        <router-link
+          to="signup"
+          class="font-Poppins font-light text-xs md:text-base text-subtext w-fit text-nowrap cursor-pointer hover:underline hover:text-hightlight"
+        >
+          Create New Account
+        </router-link>
       </div>
     </div>
 

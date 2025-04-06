@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         Poppins: ['Poppins', 'sans-serif'],
+        Inter: ['Inter', 'sans-serif']
       },
       colors: {
         primary: '#1A74E2',
@@ -12,16 +13,10 @@ module.exports = {
         hightlight: '#6BD0FF',
         text: '#FFFFFF',
         subtext: '#434649',
-        text_b: '#light:text',
-        success: '#28A745',
+        text_b: '#222222',
+        success: '#34C724',
         warning: '#FFC107',
         error: '#DC3545',
-      },
-      fontSize: {
-        '36': '36px',
-        '24': '24px',
-        '16': '16px',
-        '12': '12px',
       },
     },
   },
