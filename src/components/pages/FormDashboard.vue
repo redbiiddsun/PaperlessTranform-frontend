@@ -1,16 +1,33 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import ListForm from '@/components/common/FormCard.vue'
 import InputFile from '../common/InputFile.vue'
 import StatusUpload from '../common/StatusUpload.vue'
-import ConfirmButton from '../common/ConfirmButton.vue'
-import { useRouter } from 'vue-router'
 
+import '@/assets/transiton.css'
 import 'primeicons/primeicons.css'
+
 import { forms } from '@/data/form' // Mock Data
 
 const selectedFiles = ref<File[]>([])
-const router = useRouter();
+
+const screenWidth = ref(window.innerWidth)
+
+const updateScreenWidth = () => {
+  screenWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateScreenWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateScreenWidth)
+})
+
+const transitionName = computed(() => {
+  return screenWidth.value >= 768 && screenWidth.value <= 1024 ? 'slideRight' : 'slideDown'
+})
 
 const handleFiles = (files: File[]) => {
   const newFiles = files.filter(
@@ -32,9 +49,15 @@ const updateFileList = (updatedFiles: File[]) => {
   )
 }
 
-const createForm = () => {
-  router.push('/add')
-}
+
+const searchKeyword = ref('')
+
+const filteredForms = computed(() => {
+  return forms.filter((form) =>
+    form.name.toLowerCase().includes(searchKeyword.value.toLowerCase())
+  )
+})
+
 </script>
 
 <template>
@@ -46,15 +69,16 @@ const createForm = () => {
         >
           Add New Form
         </p>
-        <ConfirmButton   @click="createForm" :disableMode="selectedFiles.length === 0"  class="md:hidden" />
       </div>
-      <div class="flex flex-row items-center justify-center w-full h-fit px-4 gap-4 xl:flex-col">
-        <InputFile @fileSelected="handleFiles" />
-        <StatusUpload
-          :fileUpload="selectedFiles"
-          @updateFiles="updateFileList"
-          class="hidden md:block"
-        />
+      <div class="flex flex-col items-center justify-center w-full h-fit px-4 gap-4 md:flex-row xl:flex-col">
+        <InputFile @fileSelected="handleFiles" class="z-40"/>
+        <transition :name="transitionName">
+          <StatusUpload
+            v-show="selectedFiles.length > 0"
+            :fileUpload="selectedFiles"
+            @updateFiles="updateFileList"
+          />
+        </transition>
       </div>
     </div>
 
@@ -67,6 +91,7 @@ const createForm = () => {
         </p>
         <div class="flex flex-row w-fit h-fit py-1 items-center gap-2">
           <input
+            v-model="searchKeyword  "
             type="text"
             class="font-Poppins w-52 h-9 px-4 border rounded-[32px] border-black text-xs font-normal placeholder:text-subtext placeholder:font-Poppins placeholder:text-xs placeholder:font-normal text-start md:w-72 md:h-10 md:text-base md:placeholder:text-base xl:w-96 xl:h-10"
             placeholder="Search by Name"
@@ -80,7 +105,7 @@ const createForm = () => {
       <!-- Wrap -->
       <div class="flex flex-wrap w-full h-fit gap-1 md:gap-2 xl:gap-6">
         <ListForm
-          v-for="(form, index) in forms"
+          v-for="(form, index) in filteredForms"
           :key="index"
           class="w-44 h-52 overflow-hidden md:w-60 md:h-[272px] xl: xl:"
           :name="form.name"

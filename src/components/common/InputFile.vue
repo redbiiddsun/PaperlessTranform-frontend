@@ -51,8 +51,8 @@ const handleDrop = (event: DragEvent) => {
   <div
     class="flex flex-row justify-center items-center gap-4 p-4 rounded-2xl bg-gradient-to-tr from-primary to-hightlight via-75% transition-all duration-300 ease-in-out"
     :class="{
-      'w-80 h-80 md:w-[360px] md:h-[360px] xl:w-[520px] xl:h-[520px]': !isDragging,
-      'w-72 h-72 md:w-[400px] md:h-[400px] xl:w-[488px] xl:h-[488px]': isDragging,
+      'w-[360px] h-[360px] xl:w-[520px] xl:h-[520px]': !isDragging,
+      'w-[400px] h-[400px] xl:w-[488px] xl:h-[488px]': isDragging,
     }"
   >
     <input ref="fileInput" type="file" multiple class="hidden" @change="handleFileChange" />

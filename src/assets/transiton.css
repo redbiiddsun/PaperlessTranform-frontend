@@ -24,3 +24,31 @@
 .slideLeft-leave-active {
   transition: 0.5s ease-out;
 }
+
+.slideUp-enter-from {
+  opacity: 1;
+  transform: translateY(100%);
+}
+
+.slideUp-leave-to {
+  opacity: 1;
+  transform: translateY(100%);
+}
+
+.slideDown-enter-from {
+  opacity: 1;
+  transform: translateY(-105%);
+}
+
+.slideDown-leave-to {
+  opacity: 1;
+  transform: translateY(-105%);
+}
+
+.slideUp-enter-active,
+.slideUp-leave-active,
+.slideDown-enter-active,
+.slideDown-leave-active {
+  transition: 0.5s ease-out;
+  transition-delay: 0.5s ;
+}

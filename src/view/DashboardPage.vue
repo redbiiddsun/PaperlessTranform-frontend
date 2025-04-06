@@ -6,15 +6,12 @@ import { useSlideDirection } from '@/utils/transition'
 import '@/assets/transiton.css'
 import 'primeicons/primeicons.css'
 
-const order = ['EditForm','Dashboard', 'AddForm']
+import { user } from '@/data/user'
+
+const order = ['EditForm', 'Dashboard', 'AddForm']
 const slideDirection = useSlideDirection(order, 'slideRight', 'slideLeft')
 
 const IsMenuShow = ref(false)
-const user = ref({
-  fname: 'FirstName'.toLocaleUpperCase(),
-  lname: 'LastName'.toLocaleUpperCase(),
-  email: 'mail@email.com'
-})
 </script>
 
 <template>
@@ -26,7 +23,7 @@ const user = ref({
         <img src="#" alt="" class="w-12 h-12 rounded-lg bg-white" />
         <p class="font-Poppins font-bold text-2xl hidden md:block text-text">Paperless Transform</p>
       </div>
-      <div class="w-fit h-fit flex flex-row gap-4 px-2 py-0 items-center justify-center md:r-2" >
+      <div class="w-fit h-fit flex flex-row gap-4 px-2 py-0 items-center justify-center md:r-2">
         <!-- Icon Setting-->
         <!-- <div class="w-fit h-fit pt-2">
           <span class="text-2xl pi pi-cog text-text"></span>
@@ -38,12 +35,15 @@ const user = ref({
             <!-- Profile Image -->
             <img src="#" alt="" class="bg-white rounded-full w-12 h-12" />
             <div class="w-fit h-fit flex flex-col gap-[2px]">
-              <p class="font-Poppins font-medium text-sm text-text">{{ user.fname }}</p>
-              <p class="font-Poppins font-medium text-sm text-text">{{ user.lname }}</p>
+              <p class="font-Poppins font-medium text-sm text-text">{{ user.fname.toLocaleUpperCase() }}</p>
+              <p class="font-Poppins font-medium text-sm text-text">{{ user.lname.toLocaleUpperCase() }}</p>
             </div>
             <!-- Icon Dropdown -->
-            <button class="w-fit h-fit px-1 pt-2 hover:bg-[#EBEBEB] hover:bg-opacity-15 rounded-full" @click="IsMenuShow = !IsMenuShow">
-                <span class="text-lg pi pi-angle-down text-text"></span>
+            <button
+              class="w-fit h-fit px-1 pt-2 hover:bg-[#EBEBEB] hover:bg-opacity-15 rounded-full"
+              @click="IsMenuShow = !IsMenuShow"
+            >
+              <span class="text-lg pi pi-angle-down text-text"></span>
             </button>
           </div>
         </div>
@@ -60,24 +60,28 @@ const user = ref({
           <!-- Profile Image -->
           <img src="#" alt="" class="bg-black rounded-full w-12 h-12" />
           <div class="w-44 h-fit flex flex-col justify-center items-start gap-1 p-1 xl:w-56">
-            <p class="font-Poppins font-semibold text-sm text-text_b overflow-hidden text-ellipsis xl:text-base">
+            <p
+              class="font-Poppins font-semibold text-sm text-text_b overflow-hidden text-ellipsis xl:text-base"
+            >
               {{ user.fname }} {{ user.lname }}
             </p>
-            <p class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis xl:text-base">
+            <p
+              class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis xl:text-base"
+            >
               {{ user.email }}
             </p>
           </div>
         </div>
       </div>
-      <MenuItems name="Profile" link="profile"/>
-      <MenuItems name="About Us" link="aboutus"/>
-      <MenuItems name="Give Feedback" link="feedback"/>
-      <MenuItems name="Setting" link="setting"/>
-      <MenuItems name="Sign Out" link="signout"/>
+      <MenuItems name="Profile" link="profile" />
+      <MenuItems name="About Us" link="aboutus" />
+      <MenuItems name="Give Feedback" link="feedback" />
+      <MenuItems name="Setting" link="setting" />
+      <MenuItems name="Sign Out" link="signout" />
     </div>
     <!-- Body -->
     <router-view v-slot="{ Component }">
-      <transition :name=slideDirection mode="out-in">
+      <transition :name="slideDirection" mode="out-in">
         <component :is="Component" v-if="Component" />
       </transition>
     </router-view>
