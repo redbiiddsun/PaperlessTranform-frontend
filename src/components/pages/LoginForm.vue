@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import AuthError from '@/components/pages/AuthError.vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/store/authentication'
 
 const router = useRouter();
 const user = ref({
@@ -10,13 +11,24 @@ const user = ref({
   password: '',
 })
 
-const err = ref('Incorrect username or password')
-const showError = ref(true) //init as false
+const authStore = useAuthStore();
+const err = ref('')
+const showError = ref(false)
 
-const login = () => {
-  console.log('User:', user.value)
-  router.push('/')
+const login = async () => {
+  const { success } = await authStore.LoginUser({
+    email: user.value.email,
+    password: user.value.password
+  });
+
+  if (success) {
+    router.push('/');
+  } else {
+    err.value = 'Invalid username or password. Please try again.'
+    showError.value = true
+  }
 }
+
 </script>
 
 <template>

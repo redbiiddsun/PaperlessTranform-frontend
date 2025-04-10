@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "ace-builds": "^1.39.1",
-    "pinia": "^3.0.1",
+    "axios": "^1.8.4",
+    "pinia": "^3.0.2",
     "postcss-cli": "^11.0.0",
     "primeicons": "^7.0.0",
     "survey-core": "^2.0.2",
