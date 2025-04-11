@@ -7,17 +7,11 @@ import { API } from '../../services'
 import { AxiosError } from 'axios'
 
 export const useAuthStore = defineStore('authStore', () => {
-  const user = ref<Users | null>(null)
-
-  function initSchools(data: Users) {
-    user.value = data
-  }
-
   async function LoginUser(input: InputSignIn): Promise<APIResponse<null>> {
     try {
       const { status, data } = await API.auth.SignIn(input)
       if (status === 200) {
-        initSchools(data.content)
+        localStorage.setItem('user', JSON.stringify(data.content)) 
         return {
           success: true,
           content: null,
@@ -25,6 +19,7 @@ export const useAuthStore = defineStore('authStore', () => {
       }
     } catch (error) {
       const _error = error as AxiosError<string>
+      console.log(_error.response?.data)
       return {
         success: false,
         status: _error.response?.status,
@@ -63,7 +58,6 @@ export const useAuthStore = defineStore('authStore', () => {
   }
 
   return {
-    user,
     LoginUser,
     SignUpUser
   }

@@ -8,6 +8,7 @@ const router = createRouter({
       name: 'auth',
       component: () => import('@/view/AuthPage.vue'),
       redirect: '/auth/login',
+      meta: { guestOnly: true },
       children: [
         {
           path: 'login',
@@ -25,7 +26,8 @@ const router = createRouter({
       path: '/recovery',
       name: 'ForgotPassword',
       component: () => import('@/view/ForgotPassPage.vue'),
-      redirect: '/auth/recovery/email',
+      redirect: '/recovery/email',
+      meta: { guestOnly: true },
       children: [
         {
           path: 'email',
@@ -48,7 +50,10 @@ const router = createRouter({
       path: '/',
       name: 'Body',
       component: () => import('@/view/DashboardPage.vue'),
-      redirect: '/form',  
+      redirect: '/form',
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         {
           path: 'form',
@@ -67,7 +72,20 @@ const router = createRouter({
         },
       ],
     },
-  ],
+  ]
 })
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = !!localStorage.getItem('user')
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    next('/auth/login')
+  } else if (to.matched.some(record => record.meta.guestOnly) && loggedIn) {
+    next('/')
+  } else {
+    next()
+  }
+})
+
 
 export default router

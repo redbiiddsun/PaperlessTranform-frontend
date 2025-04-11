@@ -10,6 +10,8 @@ import { surveyCreatorPlugin } from "survey-creator-vue";
 import { surveyPlugin } from 'survey-vue3-ui';
 // Pinia
 import { createPinia } from "pinia";
+// Cookie 
+
 
 const app = createApp(App)
 const pinia = createPinia();

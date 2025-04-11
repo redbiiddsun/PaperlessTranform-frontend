@@ -16,7 +16,7 @@ const err = ref('')
 const showError = ref(false)
 
 const login = async () => {
-  const { success } = await authStore.LoginUser({
+  const { success, status } = await authStore.LoginUser({
     email: user.value.email,
     password: user.value.password
   });
@@ -24,7 +24,13 @@ const login = async () => {
   if (success) {
     router.push('/');
   } else {
-    err.value = 'Invalid username or password. Please try again.'
+    if (status == 422){
+      err.value = 'Invalid email format';
+    } else if (status == 409){
+      err.value = 'Invalid email or password';
+    } else {
+      err.value = 'An unknown error occurred';
+    }
     showError.value = true
   }
 }

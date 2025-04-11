@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import MenuItems from '@/components/common/MenuItems.vue'
 import { useSlideDirection } from '@/utils/transition'
 
@@ -8,10 +9,17 @@ import 'primeicons/primeicons.css'
 
 import { user } from '@/data/user'
 
+const router = useRouter();
 const order = ['EditForm', 'Dashboard', 'AddForm']
 const slideDirection = useSlideDirection(order, 'slideRight', 'slideLeft')
 
 const IsMenuShow = ref(false)
+
+const handleSignOut = () => {
+  document.cookie = 'auth=; Max-Age=0; path=/;' // example: clear "auth" cookie
+  localStorage.removeItem('user')
+  router.push('/auth/login')
+}
 </script>
 
 <template>
@@ -77,7 +85,7 @@ const IsMenuShow = ref(false)
       <MenuItems name="About Us" link="aboutus" />
       <MenuItems name="Give Feedback" link="feedback" />
       <MenuItems name="Setting" link="setting" />
-      <MenuItems name="Sign Out" link="signout" />
+      <MenuItems name="Sign Out" link="" @click="handleSignOut"/>
     </div>
     <!-- Body -->
     <router-view v-slot="{ Component }">

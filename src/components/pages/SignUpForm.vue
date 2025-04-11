@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import AuthError from '@/components/pages/AuthError.vue'
 import { validatePasswords, validateEmail } from '@/utils/validation'
+import { useAuthStore } from '@/store/authentication'
 
 const user = ref({
   fname: '',
@@ -12,10 +13,12 @@ const user = ref({
   confirmPassword: '',
 })
 
+const router = useRouter()
+const authStore = useAuthStore()
 const err = ref('')
 const showError = ref(false)
 
-const signup = () => {
+const signup = async () => {
   err.value = ''
   showError.value = false
 
@@ -32,7 +35,20 @@ const signup = () => {
     showError.value = true
     return
   }
-  console.log('User:', user.value)
+
+  const { success } = await authStore.SignUpUser({
+    firstname: user.value.fname,
+    lastname: user.value.lname,
+    email: user.value.email,
+    password: user.value.password,
+  })
+
+  if (success) {
+    router.push('/auth/login')
+  } else {
+    err.value = 'An unknown error occurred'
+    showError.value = true
+  }
 }
 </script>
 
