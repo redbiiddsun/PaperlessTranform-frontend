@@ -4,37 +4,29 @@ import { RouterLink } from 'vue-router'
 import AuthError from '@/components/pages/AuthError.vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/authentication'
-
-const router = useRouter();
+import { getAuthErrorMessage } from '@/utils/ErrorMessage'
+const router = useRouter()
 const user = ref({
   email: '',
   password: '',
 })
 
-const authStore = useAuthStore();
+const authStore = useAuthStore()
 const err = ref('')
 const showError = ref(false)
 
 const login = async () => {
   const { success, status } = await authStore.LoginUser({
     email: user.value.email,
-    password: user.value.password
-  });
-
+    password: user.value.password,
+  })
   if (success) {
-    router.push('/');
+    router.push('/form')
   } else {
-    if (status == 422){
-      err.value = 'Invalid email format';
-    } else if (status == 409){
-      err.value = 'Invalid email or password';
-    } else {
-      err.value = 'An unknown error occurred';
-    }
-    showError.value = true
+    err.value = getAuthErrorMessage(status);
+    showError.value = true;
   }
 }
-
 </script>
 
 <template>
@@ -104,7 +96,7 @@ const login = async () => {
     <!-- Submit Button -->
     <div class="flex flex-row w-full gap-4 px-0 py-4 justify-center items-center">
       <button
-        @click="login"
+        @click="login()"
         :disabled="!user.email || !user.password"
         class="flex flex-col justifyitems-center items-center gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed w-full lg:w-3/4"
       >

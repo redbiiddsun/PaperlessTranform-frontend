@@ -11,7 +11,6 @@ export const useAuthStore = defineStore('authStore', () => {
     try {
       const { status, data } = await API.auth.SignIn(input)
       if (status === 200) {
-        localStorage.setItem('user', JSON.stringify(data.content)) 
         return {
           success: true,
           content: null,

@@ -9,7 +9,7 @@ import 'primeicons/primeicons.css'
 
 import { user } from '@/data/user'
 
-const router = useRouter();
+const router = useRouter()
 const order = ['EditForm', 'Dashboard', 'AddForm']
 const slideDirection = useSlideDirection(order, 'slideRight', 'slideLeft')
 
@@ -43,8 +43,12 @@ const handleSignOut = () => {
             <!-- Profile Image -->
             <img src="#" alt="" class="bg-white rounded-full w-12 h-12" />
             <div class="w-fit h-fit flex flex-col gap-[2px]">
-              <p class="font-Poppins font-medium text-sm text-text">{{ user.fname.toLocaleUpperCase() }}</p>
-              <p class="font-Poppins font-medium text-sm text-text">{{ user.lname.toLocaleUpperCase() }}</p>
+              <p class="font-Poppins font-medium text-sm text-text">
+                {{ user.fname.toLocaleUpperCase() }}
+              </p>
+              <p class="font-Poppins font-medium text-sm text-text">
+                {{ user.lname.toLocaleUpperCase() }}
+              </p>
             </div>
             <!-- Icon Dropdown -->
             <button
@@ -85,13 +89,15 @@ const handleSignOut = () => {
       <MenuItems name="About Us" link="aboutus" />
       <MenuItems name="Give Feedback" link="feedback" />
       <MenuItems name="Setting" link="setting" />
-      <MenuItems name="Sign Out" link="" @click="handleSignOut"/>
+      <MenuItems name="Sign Out" link="" @click="handleSignOut" />
     </div>
     <!-- Body -->
-    <router-view v-slot="{ Component }">
-      <transition :name="slideDirection" mode="out-in">
-        <component :is="Component" v-if="Component" />
-      </transition>
-    </router-view>
+    <div class="flex justify-center items-center">
+      <router-view v-slot="{ Component }">
+        <transition :name="slideDirection" mode="out-in">
+          <component :is="Component" v-if="Component" />
+        </transition>
+      </router-view>
+    </div>
   </div>
 </template>
