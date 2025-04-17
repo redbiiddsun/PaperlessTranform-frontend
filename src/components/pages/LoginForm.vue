@@ -23,7 +23,7 @@ const login = async () => {
   if (success) {
     router.push('/form')
   } else {
-    err.value = getAuthErrorMessage(status);
+    err.value = getAuthErrorMessage(status as number);
     showError.value = true;
   }
 }
@@ -51,7 +51,7 @@ const login = async () => {
       <!-- Email Input -->
       <div class="flex flex-col gap-2">
         <p class="font-Poppins font-bold text-xl text-text_b">Email Address</p>
-        <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
+        <div class="flex flex-col gap-0 px-2 py-3 border-b-4 border-secondary w-full">
           <input
             v-model="user.email"
             type="email"
@@ -63,7 +63,7 @@ const login = async () => {
       <!-- Password Input -->
       <div class="flex flex-col gap-2">
         <p class="font-Poppins font-bold text-xl text-text_b">Password</p>
-        <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
+        <div class="flex flex-col gap-0 px-2 py-3 w-full border-b-4 border-secondary">
           <input
             v-model="user.password"
             type="password"
