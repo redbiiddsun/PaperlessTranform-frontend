@@ -16,8 +16,8 @@ const toggleAdd = ref(false)
     <div class="w-1/4 flex flex-col gap-8 justify-center items-start py-2 px-4">
       <p class="text-b_text font-bold text-base md:text-xl">Edit Your Form</p>
       <div class="flex flex-col gap-2 w-full">
-        <div class="flex space-x-2 gap-2 w-full" v-for="(item, index) in schema" :key="index">
-          <input type="text" :name="item.name" v-model="schema[index].label" class="p-2 w-3/5" />
+        <div class="flex justify-center items-center *:space-x-2 gap-2 w-full" v-for="(item, index) in schema" :key="index">
+          <input type="text" :name="item.name" v-model="schema[index].label" class="p-2 w-2/5" />
           <select v-model="schema[index].$formkit" class="w-2/5">
             <option
               v-for="(option, index) in FormType"
@@ -28,6 +28,7 @@ const toggleAdd = ref(false)
               {{ option }}
             </option>
           </select>
+          <div class="flex w-1/5 h-full justify-center items-center border border-border">X</div>
         </div>
         <div class="flex flex-col gap-4">
           <button
