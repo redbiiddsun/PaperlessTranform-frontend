@@ -1,6 +1,6 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}',"./formkit.theme.ts" ],
-  darkMode: 'media',
+  darkMode: 'class  ',
   theme: {
     extend: {
       fontFamily: {
@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         primary: '#1A74E2',
         secondary: '#3FA0EF',
+        presurface: '#e7e7e7',
         hightlight: '#6BD0FF',
         text: '#FFFFFF',
         subtext: '#434649',
