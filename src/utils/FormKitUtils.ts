@@ -18,19 +18,25 @@ export const jsonToSchema = (json: jsonForm[]) => {
   }))
 }
 
-export const FormType = [
-  'color',
-  'date',
-  'datetime-local',
-  'email',
-//   'file',
-//   'form',
-  'number',
-//   'radio',
-  'range',
-//   'select',
-  'tel',
-  'text',
-  'textarea',
-  'time',
-]
+export const FormType = {
+  text: [
+    'color',
+    'date',
+    'datetime-local',
+    'email',
+    'number',
+    'search',
+    'tel',
+    'text',
+    'textarea',
+    'time',
+  ],
+  other: [
+    'checkbox',
+    'file',
+    'form',
+    'radio',
+    'range',
+    'select',
+  ],
+}
