@@ -16,7 +16,7 @@ const allFormTypes = [...FormType.text, ...FormType.other]
 const selectedItem = ref<Record<string, unknown> | null>(null)
 const builderRef = ref<HTMLElement | null>(null)
 const sliderRef = ref<HTMLElement | null>(null)
-
+const widthForm = ref('560px')
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
 })
@@ -93,7 +93,8 @@ function cloneItem(index: number) {
     <!-- Middle -->
     <div class="flex w-4/6 py-4 max-h-full overflow-y-scroll justify-center">
       <div
-        class="flex flex-col w-3/4 h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-70 shadow-lg"
+        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-70 shadow-lg"
+        :style="{ width: widthForm }"
       >
         <!-- <FormKit type="form" v-model="data">
           <div class="flex flex-col gap-6">
@@ -148,7 +149,7 @@ function cloneItem(index: number) {
                 </div>
 
                 <!-- Actual FormKit schema -->
-                <FormKitSchema :schema="element" readonly/>
+                <FormKitSchema :schema="element" readonly />
               </div>
             </template>
           </draggable>
