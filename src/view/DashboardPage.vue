@@ -23,7 +23,7 @@ const handleSignOut = () => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-screen">
     <!-- NavBar -->
     <div class="flex flex-row gap-2 py-2 px-0 justify-center w-full h-[72px] bg-primary">
       <div class="flex flex-row gap-3 px-4 py-1 w-full h-fit items-center">
@@ -92,7 +92,7 @@ const handleSignOut = () => {
       <MenuItems name="Sign Out" link="" @click="handleSignOut" />
     </div>
     <!-- Body -->
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-start h-full">
       <router-view v-slot="{ Component }">
         <transition :name="slideDirection" mode="out-in">
           <component :is="Component" v-if="Component" />
