@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import draggable from 'vuedraggable'
-import FormBuilderComponent from '../common/FormBuilderComponent.vue'
+import FormBuilderComponent from '../../common/FormBuilderComponent.vue'
 import { FormType } from '@/utils/FormKitUtils'
 
 defineProps<{
@@ -11,7 +11,6 @@ const allFormTypes = [...FormType.text, ...FormType.other]
 </script>
 
 <template>
-  <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
     <draggable
       :list="allFormTypes"
       :clone="AddFormItem"
@@ -30,5 +29,4 @@ const allFormTypes = [...FormType.text, ...FormType.other]
         />
       </template>
     </draggable>
-  </div>
 </template>

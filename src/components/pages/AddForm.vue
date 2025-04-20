@@ -7,7 +7,8 @@ import draggable from 'vuedraggable'
 import { json } from '@/data/json'
 import { jsonToSchema } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
-import ElementBuilder from '../common/ElementBuilder.vue'
+import ElementBuilder from '../common/menuFormBuilder/ElementBuilder.vue'
+import PreviewBuilder from '../common/menuFormBuilder/PreviewBuilder.vue'
 
 const schema = ref(jsonToSchema(json))
 const data = ref({})
@@ -17,6 +18,7 @@ const builderRef = ref<HTMLElement | null>(null)
 const sliderRef = ref<HTMLElement | null>(null)
 const widthForm = ref('560px')
 const currentMenu = ref('element')
+const currentView = ref('setting')
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -56,7 +58,9 @@ function cloneItem(index: number) {
     style="height: calc(100vh - 72px)"
   >
     <!-- left -->
-    <div class="w-1/6 max-h-full flex flex-col justify-center items-start overflow-hidden bg-white">
+    <div
+      class="w-1/6 max-h-full h-full flex flex-col justify-start items-start overflow-hidden bg-white"
+    >
       <div class="flex w-full">
         <button
           class="w-1/2 text-center text-text text-base px-4 py-2"
@@ -73,7 +77,9 @@ function cloneItem(index: number) {
           Components
         </button>
       </div>
-      <ElementBuilder :AddFormItem="AddFormItem" />
+      <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
+        <ElementBuilder v-if="currentMenu === 'element'" :AddFormItem="AddFormItem" />
+      </div>
     </div>
 
     <!-- Middle -->
@@ -93,81 +99,90 @@ function cloneItem(index: number) {
             </div>
           </div>
         </FormKit> -->
-        <div ref="builderRef">
-          <draggable
-            v-model="schema"
-            item-key="name"
-            class="flex flex-col gap-6"
-            ghost-class="bg-blue-100"
-            handle=".drag-handle"
-            group="form"
-          >
-            <template #item="{ element, index }">
-              <div
-                class="relative hover:border border-primary p-2 flex items-center gap-2 drag-handle cursor-pointer group"
-                :class="{ border: selectedItem?.name === element.name }"
-                @click="selectItem(element)"
-              >
+        <FormKit type="form" v-model="data" :actions="false">
+          <div ref="builderRef">
+            <draggable
+              v-model="schema"
+              item-key="name"
+              class="flex flex-col gap-6"
+              ghost-class="bg-blue-100"
+              handle=".drag-handle"
+              group="form"
+            >
+              <template #item="{ element, index }">
                 <div
-                  class="absolute -top-6 left-0 pt-1 w-full justify-end gap-1"
-                  :class="{
-                    flex: selectedItem?.name === element.name,
-                    'hidden group-hover:flex': selectedItem?.name !== element.name,
-                  }"
+                  class="relative hover:border border-primary p-2 flex items-center gap-2 drag-handle cursor-pointer group"
+                  :class="{ border: selectedItem?.name === element.name }"
+                  @click="selectItem(element)"
                 >
-                  <div class="w-full">
-                    <p class="font-Noto text-sm text-text bg-primary px-1 w-fit">
-                      {{ element.name }}
-                    </p>
+                  <div
+                    class="absolute -top-6 left-0 pt-1 w-full justify-end gap-1"
+                    :class="{
+                      flex: selectedItem?.name === element.name,
+                      'hidden group-hover:flex': selectedItem?.name !== element.name,
+                    }"
+                  >
+                    <div class="w-full">
+                      <p class="font-Noto text-sm text-text bg-primary px-1 w-fit">
+                        {{ element.name }}
+                      </p>
+                    </div>
+                    <Icon
+                      icon="material-symbols-light:content-copy-outline"
+                      class="bg-primary text-text shadow cursor-pointer"
+                      width="18"
+                      @click="cloneItem(index)"
+                    />
+                    <Icon
+                      icon="material-symbols-light:delete-outline"
+                      class="bg-primary text-text shadow cursor-pointer"
+                      width="18 "
+                      @click="deleteItem(index)"
+                    />
                   </div>
-                  <Icon
-                    icon="material-symbols-light:content-copy-outline"
-                    class="bg-primary text-text shadow cursor-pointer"
-                    width="18"
-                    @click="cloneItem(index)"
-                  />
-                  <Icon
-                    icon="material-symbols-light:delete-outline"
-                    class="bg-primary text-text shadow cursor-pointer"
-                    width="18 "
-                    @click="deleteItem(index)"
-                  />
+
+                  <!-- Actual FormKit schema -->
+                  <FormKitSchema :schema="element" />
                 </div>
-
-                <!-- Actual FormKit schema -->
-                <FormKitSchema :schema="element" />
-              </div>
-            </template>
-          </draggable>
-        </div>
-
-        <!-- Show formData at the bottom -->
-        <div class="w-full p-4 bg-gray-100 border-t border-gray-300 mt-4">
-          <h2 class="font-bold mb-2">Current Form Data:</h2>
-          <pre class="bg-white p-2 rounded border overflow-x-auto text-sm">{{ schema }}</pre>
-          <h2 class="font-bold mb-2">Data Value:</h2>
-          <pre class="bg-white p-2 rounded border overflow-x-auto text-sm">{{ data }}</pre>
-        </div>
+              </template>
+            </draggable>
+          </div>
+        </FormKit>
       </div>
     </div>
 
     <!-- Right -->
-    <div class="w-1/6 max-h-full flex flex-col justify-center items-start overflow-hidden bg-white">
+    <div
+      class="w-1/6 max-h-full h-full flex flex-col justify-start items-start overflow-hidden bg-white"
+    >
       <div class="flex w-full">
-        <button class="w-1/2 text-center text-text text-base px-4 py-2 bg-primary/70">
+        <button
+          class="w-1/2 text-center text-text text-base px-4 py-2"
+          :class="currentView === 'setting' ? 'bg-primary/70' : 'bg-primary'"
+          @click="currentView = 'setting'"
+        >
           Setting
         </button>
-        <button class="w-1/2 text-center text-text bg-primary text-base px-4 py-2">Preview</button>
+        <button
+          class="w-1/2 text-center text-text text-base px-4 py-2"
+          :class="currentView === 'preview' ? 'bg-primary/70' : 'bg-primary'"
+          @click="currentView = 'preview'"
+        >
+          Preview
+        </button>
       </div>
+      <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
+        
+        <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
 
-      <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll"></div>
+      </div>
     </div>
 
     <!-- Slider -->
     <div
       ref="sliderRef"
       class="absolute w-1/6 h-full flex flex-col justify-start items-start overflow-hidden bg-white transition-all duration-300"
-      :class="selectedItem ? 'right-0' : '-right-96'"
+      :class="selectedItem && currentView != 'preview' ? 'right-0' : '-right-96'"
     >
       <div class="flex justify-center px-2 py-4 gap-1 items-center w-full bg-primary/10">
         <Icon
