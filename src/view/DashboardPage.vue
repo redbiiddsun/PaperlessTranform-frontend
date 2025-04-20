@@ -10,7 +10,7 @@ import 'primeicons/primeicons.css'
 import { user } from '@/data/user'
 
 const router = useRouter()
-const order = ['EditForm', 'Dashboard', 'AddForm']
+const order = ['FormView', 'Dashboard', 'AddForm']
 const slideDirection = useSlideDirection(order, 'slideRight', 'slideLeft')
 
 const IsMenuShow = ref(false)

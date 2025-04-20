@@ -5,18 +5,19 @@ import { Icon } from '@iconify/vue'
 import draggable from 'vuedraggable'
 
 import { json } from '@/data/json'
-import { jsonToSchema, FormType } from '@/utils/FormKitUtils'
-import FormBuilderComponent from '../common/FormBuilderComponent.vue'
+import { jsonToSchema } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
+import ElementBuilder from '../common/ElementBuilder.vue'
 
 const schema = ref(jsonToSchema(json))
 const data = ref({})
 
-const allFormTypes = [...FormType.text, ...FormType.other]
 const selectedItem = ref<Record<string, unknown> | null>(null)
 const builderRef = ref<HTMLElement | null>(null)
 const sliderRef = ref<HTMLElement | null>(null)
 const widthForm = ref('560px')
+const currentMenu = ref('element')
+
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
 })
@@ -51,49 +52,34 @@ function cloneItem(index: number) {
 
 <template>
   <div
-    class="relative font-Noto gap-2 w-full flex justify-between items-start bg-primary/10 overflow-x-hidden"
+    class="relative font-Noto w-full flex justify-between items-start bg-primary/10 overflow-x-hidden"
     style="height: calc(100vh - 72px)"
   >
     <!-- left -->
     <div class="w-1/6 max-h-full flex flex-col justify-center items-start overflow-hidden bg-white">
       <div class="flex w-full">
-        <button class="w-1/2 text-center text-text text-base px-4 py-2 bg-primary">Element</button>
-        <button class="w-1/2 text-center text-text_b bg-primary/10 text-base px-4 py-2">
-          Tree
+        <button
+          class="w-1/2 text-center text-text text-base px-4 py-2"
+          :class="currentMenu === 'element' ? 'bg-primary/70' : 'bg-primary'"
+          @click="currentMenu = 'element'"
+        >
+          Element
+        </button>
+        <button
+          class="w-1/2 text-center text-text = text-base px-4 py-2"
+          :class="currentMenu === 'component' ? 'bg-primary/70' : 'bg-primary'"
+          @click="currentMenu = 'component'"
+        >
+          Components
         </button>
       </div>
-      <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
-        <!-- <FormBuilderComponent
-          v-for="(field, index) in allFormTypes"
-          :key="index"
-          :name="field.type"
-          :icon="`${field.icon}`"
-        /> -->
-        <draggable
-          :list="allFormTypes"
-          :clone="AddFormItem"
-          item-key="type"
-          class="flex flex-col gap-2"
-          ghost-class="bg-blue-100"
-          handle=".drag-handle"
-          :group="{ name: 'form', pull: 'clone', put: false }"
-        >
-          <template #item="{ element }">
-            <FormBuilderComponent
-              :name="element.type"
-              :icon="`${element.icon}`"
-              :description="element.description"
-              class="drag-handle cursor-move"
-            />
-          </template>
-        </draggable>
-      </div>
+      <ElementBuilder :AddFormItem="AddFormItem" />
     </div>
 
     <!-- Middle -->
     <div class="flex w-4/6 py-4 max-h-full overflow-y-scroll justify-center">
       <div
-        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-70 shadow-lg"
+        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-8k0 shadow-lg"
         :style="{ width: widthForm }"
       >
         <!-- <FormKit type="form" v-model="data">
@@ -149,7 +135,7 @@ function cloneItem(index: number) {
                 </div>
 
                 <!-- Actual FormKit schema -->
-                <FormKitSchema :schema="element" readonly />
+                <FormKitSchema :schema="element" />
               </div>
             </template>
           </draggable>
@@ -167,13 +153,20 @@ function cloneItem(index: number) {
 
     <!-- Right -->
     <div class="w-1/6 max-h-full flex flex-col justify-center items-start overflow-hidden bg-white">
-      <p class="text-text_b font-bold text-base md:text-xl">Customize Your Form</p>
+      <div class="flex w-full">
+        <button class="w-1/2 text-center text-text text-base px-4 py-2 bg-primary/70">
+          Setting
+        </button>
+        <button class="w-1/2 text-center text-text bg-primary text-base px-4 py-2">Preview</button>
+      </div>
+
+      <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll"></div>
     </div>
 
     <!-- Slider -->
     <div
       ref="sliderRef"
-      class="absolute w-[17%] h-full flex flex-col justify-start items-start overflow-hidden bg-white transition-all duration-300"
+      class="absolute w-1/6 h-full flex flex-col justify-start items-start overflow-hidden bg-white transition-all duration-300"
       :class="selectedItem ? 'right-0' : '-right-96'"
     >
       <div class="flex justify-center px-2 py-4 gap-1 items-center w-full bg-primary/10">

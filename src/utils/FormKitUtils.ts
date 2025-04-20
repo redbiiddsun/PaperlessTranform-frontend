@@ -3,6 +3,8 @@
 //     $formkit: json.type ,
 //     name: 'json.field',
 //     label: 'json.originalfield',
+
+
 // },
 type jsonForm = {
   original_field: string
