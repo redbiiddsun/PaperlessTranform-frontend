@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="">
+    <div class="w-full flex flex-col justify-center items-start">
         <FormKitSchema :schema="schema" />
     </div>
 </template>
