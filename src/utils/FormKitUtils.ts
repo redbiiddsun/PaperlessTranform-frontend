@@ -10,6 +10,7 @@ type jsonForm = {
   original_field: string
   field: string
   type: string
+  help?: string
 }
 
 export const jsonToSchema = (json: jsonForm[]) => {
@@ -18,6 +19,7 @@ export const jsonToSchema = (json: jsonForm[]) => {
     $formkit: item.type,
     name: item.field.toLowerCase().replace(/\s+/g, '_'),
     label: item.original_field,
+    ...(item.help ? { help: item.help } : {}),
   }))
 }
 

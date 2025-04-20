@@ -1,9 +1,14 @@
 export const json = [
-  { original_field: 'เลือกสีโปรด', field: 'Favorite Color', type: 'text' },
+  {
+    original_field: 'ชื่อ',
+    field: 'Name',
+    type: 'text',
+    help: 'Enter your full name as it appears on official documents.',
+  },
   { original_field: 'วันเกิด', field: 'Birth Date', type: 'date' },
   { original_field: 'เวลานัดหมาย', field: 'Appointment DateTime', type: 'datetime-local' },
   { original_field: 'อีเมลล์', field: 'Email', type: 'email' },
-  { original_field: 'แนบไฟล์', field: 'Upload File', type: 'file' },
+  // { original_field: 'แนบไฟล์', field: 'Upload File', type: 'file' },
   { original_field: 'อายุ', field: 'Age', type: 'number' },
   // { original_field: 'เพศ', field: 'Gender', type: 'radio' },
   { original_field: 'ระดับความพอใจ', field: 'Satisfaction Level', type: 'range' },

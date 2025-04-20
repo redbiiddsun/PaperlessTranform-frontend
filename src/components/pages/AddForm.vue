@@ -7,8 +7,10 @@ import draggable from 'vuedraggable'
 import { json } from '@/data/json'
 import { jsonToSchema } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
-import ElementBuilder from '../common/menuFormBuilder/ElementBuilder.vue'
-import PreviewBuilder from '../common/menuFormBuilder/PreviewBuilder.vue'
+import ElementBuilder from '../common/FormBuilder/ElementBuilder.vue'
+import PreviewBuilder from '../common/FormBuilder/PreviewBuilder.vue'
+// import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
+import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
 
 const schema = ref(jsonToSchema(json))
 const data = ref({})
@@ -116,6 +118,10 @@ function cloneItem(index: number) {
                   @click="selectItem(element)"
                 >
                   <div
+                    v-if="selectedItem?.name === element.name"
+                    class="absolute right-0 top-0 bg-primary bg-opacity-15 w-full h-full"
+                  ></div>
+                  <div
                     class="absolute -top-6 left-0 pt-1 w-full justify-end gap-1"
                     :class="{
                       flex: selectedItem?.name === element.name,
@@ -172,9 +178,8 @@ function cloneItem(index: number) {
         </button>
       </div>
       <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
-        
+        <!-- <SettingBuilder /> -->
         <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
-
       </div>
     </div>
 
@@ -186,9 +191,9 @@ function cloneItem(index: number) {
     >
       <div class="flex justify-center px-2 py-4 gap-1 items-center w-full bg-primary/10">
         <Icon
-          icon="material-symbols-light:transit-enterexit"
-          width="24"
-          class="mt-1 text-text_b w-fit cursor-pointer"
+          icon="material-symbols-light:close"
+          width="22"
+          class="mt-2 text-text_b w-fit cursor-pointer"
           @click="selectedItem = null"
         />
         <p
@@ -211,6 +216,22 @@ function cloneItem(index: number) {
           />
         </div>
       </div>
+      <ItemSettingBuilder
+        :selectedItem="selectedItem"
+        :schema="schema"
+        @update:selectedItem="
+          (updatedItem) => {
+            selectedItem = updatedItem
+            const index = schema.findIndex((item) => item.name === updatedItem.name)
+            if (index !== -1) {
+              schema[index] = { 
+                ...schema[index], 
+                ...updatedItem 
+              }
+            }
+          }
+        "
+      />
     </div>
   </div>
 </template>
