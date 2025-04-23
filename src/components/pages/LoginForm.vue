@@ -3,19 +3,29 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import AuthError from '@/components/pages/AuthError.vue'
 import { useRouter } from 'vue-router'
-
-const router = useRouter();
+import { useAuthStore } from '@/store/authentication'
+import { getAuthErrorMessage } from '@/utils/ErrorMessage'
+const router = useRouter()
 const user = ref({
   email: '',
   password: '',
 })
 
-const err = ref('Incorrect username or password')
-const showError = ref(true) //init as false
+const authStore = useAuthStore()
+const err = ref('')
+const showError = ref(false)
 
-const login = () => {
-  console.log('User:', user.value)
-  router.push('/')
+const login = async () => {
+  const { success, status } = await authStore.LoginUser({
+    email: user.value.email,
+    password: user.value.password,
+  })
+  if (success) {
+    router.push('/form')
+  } else {
+    err.value = getAuthErrorMessage(status as number);
+    showError.value = true;
+  }
 }
 </script>
 
@@ -41,7 +51,7 @@ const login = () => {
       <!-- Email Input -->
       <div class="flex flex-col gap-2">
         <p class="font-Poppins font-bold text-xl text-text_b">Email Address</p>
-        <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
+        <div class="flex flex-col gap-0 px-2 py-3 border-b-4 border-secondary w-full">
           <input
             v-model="user.email"
             type="email"
@@ -53,7 +63,7 @@ const login = () => {
       <!-- Password Input -->
       <div class="flex flex-col gap-2">
         <p class="font-Poppins font-bold text-xl text-text_b">Password</p>
-        <div class="flex flex-col gap-0 px-2 py-3 w-80 md:w-full border-b-4 border-secondary">
+        <div class="flex flex-col gap-0 px-2 py-3 w-full border-b-4 border-secondary">
           <input
             v-model="user.password"
             type="password"
@@ -86,7 +96,7 @@ const login = () => {
     <!-- Submit Button -->
     <div class="flex flex-row w-full gap-4 px-0 py-4 justify-center items-center">
       <button
-        @click="login"
+        @click="login()"
         :disabled="!user.email || !user.password"
         class="flex flex-col justifyitems-center items-center gap-0 py-2 px-12 bg-gradient-to-tr from-primary to-hightlight rounded-2xl font-bold text-text cursor-pointer disabled:border disabled:border-subtext/70 disabled:bg-none disabled:font-normal disabled:text-subtext/70 disabled:cursor-not-allowed w-full lg:w-3/4"
       >

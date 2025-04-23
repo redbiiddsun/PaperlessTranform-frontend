@@ -1,0 +1,26 @@
+export const json = [
+  {
+    original_field: 'ชื่อ',
+    field: 'Name',
+    type: 'text',
+    help: 'Enter your full name as it appears on official documents.',
+  },
+  {
+    original_field: 'นามสกุล',
+    field: 'Last Name',
+    type: 'text',
+    help: 'Enter your last name as it appears on official documents.',
+  },
+  { original_field: 'วันเกิด', field: 'Birth Date', type: 'date' },
+  { original_field: 'เวลานัดหมาย', field: 'Appointment DateTime', type: 'datetime-local' },
+  { original_field: 'อีเมลล์', field: 'Email', type: 'email' },
+  // { original_field: 'แนบไฟล์', field: 'Upload File', type: 'file' },
+  { original_field: 'อายุ', field: 'Age', type: 'number' },
+  // { original_field: 'เพศ', field: 'Gender', type: 'radio' },
+  { original_field: 'ระดับความพอใจ', field: 'Satisfaction Level', type: 'range' },
+  // { original_field: 'ประเทศ', field: 'Country', type: 'select' },
+  // { original_field: 'เบอร์โทรศัพท์', field: 'Phone Number', type: 'tel' },
+  // { original_field: 'ชื่อ', field: 'First Name', type: 'text' },
+  // { original_field: 'ที่อยู่', field: 'Address', type: 'textarea' },
+  // { original_field: 'เวลาปัจจุบัน', field: 'Current Time', type: 'time' },
+]

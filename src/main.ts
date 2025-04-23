@@ -1,16 +1,21 @@
 import App from './App.vue'
 import { createApp } from 'vue'
 import router from './router'
+
 // Tailwind CSS
 import './assets/main.css'
-// SurveyJS
-import "survey-core/survey-core.css";
-import "survey-creator-core/survey-creator-core.css";
-import { surveyCreatorPlugin } from "survey-creator-vue";
-import { surveyPlugin } from 'survey-vue3-ui';
+
+// Pinia
+import { createPinia } from "pinia";
+
+// Formkit
+import { plugin, defaultConfig } from '@formkit/vue'
+import config from '../formkit.config.ts'
 
 const app = createApp(App)
-app.use(surveyPlugin)
-app.use(surveyCreatorPlugin).use(router);
+const pinia = createPinia();
+app.use(router)  
+app.use(pinia)
+app.use(plugin, defaultConfig(config))
 
 app.mount('#app')

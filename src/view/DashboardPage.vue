@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import MenuItems from '@/components/common/MenuItems.vue'
 import { useSlideDirection } from '@/utils/transition'
 
@@ -8,14 +9,21 @@ import 'primeicons/primeicons.css'
 
 import { user } from '@/data/user'
 
-const order = ['EditForm', 'Dashboard', 'AddForm']
+const router = useRouter()
+const order = ['FormView', 'Dashboard', 'AddForm']
 const slideDirection = useSlideDirection(order, 'slideRight', 'slideLeft')
 
 const IsMenuShow = ref(false)
+
+const handleSignOut = () => {
+  document.cookie = 'auth=; Max-Age=0; path=/;' // example: clear "auth" cookie
+  localStorage.removeItem('user')
+  router.push('/auth/login')
+}
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-screen">
     <!-- NavBar -->
     <div class="flex flex-row gap-2 py-2 px-0 justify-center w-full h-[72px] bg-primary">
       <div class="flex flex-row gap-3 px-4 py-1 w-full h-fit items-center">
@@ -35,8 +43,12 @@ const IsMenuShow = ref(false)
             <!-- Profile Image -->
             <img src="#" alt="" class="bg-white rounded-full w-12 h-12" />
             <div class="w-fit h-fit flex flex-col gap-[2px]">
-              <p class="font-Poppins font-medium text-sm text-text">{{ user.fname.toLocaleUpperCase() }}</p>
-              <p class="font-Poppins font-medium text-sm text-text">{{ user.lname.toLocaleUpperCase() }}</p>
+              <p class="font-Poppins font-medium text-sm text-text">
+                {{ user.fname.toLocaleUpperCase() }}
+              </p>
+              <p class="font-Poppins font-medium text-sm text-text">
+                {{ user.lname.toLocaleUpperCase() }}
+              </p>
             </div>
             <!-- Icon Dropdown -->
             <button
@@ -77,13 +89,15 @@ const IsMenuShow = ref(false)
       <MenuItems name="About Us" link="aboutus" />
       <MenuItems name="Give Feedback" link="feedback" />
       <MenuItems name="Setting" link="setting" />
-      <MenuItems name="Sign Out" link="signout" />
+      <MenuItems name="Sign Out" link="" @click="handleSignOut" />
     </div>
     <!-- Body -->
-    <router-view v-slot="{ Component }">
-      <transition :name="slideDirection" mode="out-in">
-        <component :is="Component" v-if="Component" />
-      </transition>
-    </router-view>
+    <div class="flex justify-center items-start h-full">
+      <router-view v-slot="{ Component }">
+        <transition :name="slideDirection" mode="out-in">
+          <component :is="Component" v-if="Component" />
+        </transition>
+      </router-view>
+    </div>
   </div>
 </template>

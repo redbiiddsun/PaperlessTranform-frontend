@@ -108,8 +108,7 @@ const filteredForms = computed(() => {
           v-for="(form, index) in filteredForms"
           :key="index"
           class="w-44 h-52 overflow-hidden md:w-60 md:h-[272px] xl: xl:"
-          :name="form.name"
-          :date="form.date"
+          :form="form"
         />
       </div>
     </div>
