@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-const props = defineProps({
-  name: String,
-  date: Date,
-})
+const props = defineProps<{ form: { id: string; name: string; date: Date } }>()
 
 // Function to calculate the time difference
 const timeEdited = computed(() => {
-  if (!props.date) return 'Unknown time'
+  if (!props.form.date) return 'Unknown time'
 
   const now = new Date()
-  const inputDate = new Date(props.date)
+  const inputDate = new Date(props.form.date)
   const diffInSeconds = Math.floor((now.getTime() - inputDate.getTime()) / 1000)
 
   if (diffInSeconds < 60) return 'just now'
@@ -28,7 +25,10 @@ const isHovered = ref(false)
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 p-2 rounded-xl border border-opacity-25 bg-white">
+  <RouterLink
+    :to="`/form/${props.form.id}`"
+    class="flex flex-col gap-3 p-2 rounded-xl border border-opacity-25 bg-white group cursor-pointer"
+  >
     <!-- Form Image -->
     <div
       class="relative w-full h-full"
@@ -42,16 +42,20 @@ const isHovered = ref(false)
       >
         <span class="pi pi-ellipsis-h"></span>
       </button>
-      <img src="" alt="" class="bg-gray-500 w-full h-full rounded-xl object-cover" />
+      <img
+        src=""
+        alt=""
+        class="bg-gray-500 w-full h-full rounded-xl object-cover group-hover:scale-95 transition-all duration-300"
+      />
     </div>
 
     <div class="flex flex-col w-full h-fit gap-1">
       <p
         class="font-Inter font-medium text-base md:text-xl text-text_b text-nowrap overflow-hidden text-ellipsis"
       >
-        {{ props.name }}
+        {{ props.form.name }}
       </p>
       <p class="font-Poppins font-light text-xs text-subtext">Edited {{ timeEdited }}</p>
     </div>
-  </div>
+  </RouterLink>
 </template>

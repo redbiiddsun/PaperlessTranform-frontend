@@ -61,6 +61,11 @@ const router = createRouter({
           component: () => import('@/components/pages/FormDashboard.vue'),
         },
         {
+          path: 'form/:id',
+          name: 'FormView',
+          component: () => import('@/components/pages/DisplayForm.vue'),
+        },
+        {
           path: 'add',
           name: 'AddForm',
           component: () => import('@/components/pages/AddForm.vue'),
