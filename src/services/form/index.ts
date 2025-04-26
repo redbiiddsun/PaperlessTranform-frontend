@@ -1,9 +1,12 @@
 import http from '../api'
 import type { APIResponse } from '../types'
+import type { FormKitSchemaDefinition } from '@formkit/core';
+
 // import type { Users, InputSignUp, InputSignIn } from './types'
 
 async function GetOneForm() {
-    return await http.post<APIResponse<null>>("/test-schema")
+    const result = await http.get<APIResponse<FormKitSchemaDefinition>>("/test-schema")
+    return result
 }
 
 // async function SignIn(input: InputSignIn) {

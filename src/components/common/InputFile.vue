@@ -55,7 +55,7 @@ const handleDrop = (event: DragEvent) => {
       'w-[400px] h-[400px] xl:w-[488px] xl:h-[488px]': isDragging,
     }"
   >
-    <input ref="fileInput" type="file" multiple class="hidden" @change="handleFileChange" />
+    <input ref="fileInput" type="file"  class="hidden" @change="handleFileChange" />
 
     <!-- Drag-and-drop area -->
     <div

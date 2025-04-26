@@ -16,8 +16,8 @@ export const useFormStore = defineStore('formStore', () => {
     try {
       const { status, data } = await API.form.GetOneForm()
       if (status === 200) {
-        if (data.content) {
-          initForm([data.content])
+        if (data && Array.isArray(data)) {
+          initForm(data)
         } else {
           console.error('Received null content from API');
         }
