@@ -12,7 +12,7 @@ const emit = defineEmits<{
   (e: 'update:selectedItem', item: Record<string, unknown>): void
 }>()
 
-const showProperties = ref(false)
+const showProperties = ref(true)
 const showValidation = ref(false)
 const showData = ref(false)
 </script>
@@ -31,7 +31,11 @@ const showData = ref(false)
     </div>
     <Transition name="slide">
       <div v-if="showProperties" class="p-4 space-y-4 text-sm text-text_b">
-        <div>
+        <div
+          v-if="
+            FormType.text.some((item) => item.type === (props.selectedItem?.$formkit as string))
+          "
+        >
           <label class="block mb-1">Type</label>
           <select
             :value="props.selectedItem?.$formkit"
@@ -47,22 +51,6 @@ const showData = ref(false)
               {{ item.type }}
             </option>
           </select>
-        </div>
-
-        <div>
-          <label class="block mb-1">Label</label>
-          <input
-            :value="props.selectedItem?.label"
-            @input="
-              emit('update:selectedItem', {
-                ...props.selectedItem,
-                label: ($event.target as HTMLInputElement).value,
-              })
-            "
-            type="text"
-            class="w-full p-2 border rounded"
-            placeholder="Enter label"
-          />
         </div>
 
         <div>
@@ -82,6 +70,26 @@ const showData = ref(false)
         </div>
 
         <div>
+          <label class="block mb-1">Label</label>
+          <input
+            :value="props.selectedItem?.label"
+            @input="
+              emit('update:selectedItem', {
+                ...props.selectedItem,
+                label: ($event.target as HTMLInputElement).value,
+              })
+            "
+            type="text"
+            class="w-full p-2 border rounded"
+            placeholder="Enter label"
+          />
+        </div>
+
+        <div
+          v-if="
+            !['date', 'datetime-local', 'time'].includes(props.selectedItem?.$formkit as string)
+          "
+        >
           <label class="block mb-1">Placeholder</label>
           <input
             type="text"
@@ -140,7 +148,23 @@ const showData = ref(false)
       />
     </div>
     <Transition name="slide">
-      <div v-if="showData" class="p-2 text-sm text-text_b">Data content</div>
+      <div v-if="showData" class="p-2 text-sm text-text_b">
+        <div>
+          <label class="block mb-1">Default Value</label>
+          <input
+            type="text" 
+            :value="props.selectedItem?.value"
+            @input="
+              emit('update:selectedItem', {
+                ...props.selectedItem,
+                value: ($event.target as HTMLInputElement)?.value,
+              })
+            "
+            rows="2"
+            class="w-full p-2 border rounded"
+          >
+        </div>
+      </div>
     </Transition>
   </div>
 </template>

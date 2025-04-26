@@ -4,13 +4,16 @@
 //     name: 'json.field',
 //     label: 'json.originalfield',
 
-
 // },
+
 type jsonForm = {
   original_field: string
   field: string
   type: string
   help?: string
+  outerClass?: string
+  placeholder?: string 
+  validation?: string
 }
 
 export const jsonToSchema = (json: jsonForm[]) => {
@@ -19,7 +22,11 @@ export const jsonToSchema = (json: jsonForm[]) => {
     $formkit: item.type,
     name: item.field.toLowerCase().replace(/\s+/g, '_'),
     label: item.original_field,
+    value: "",
+    ...(item.validation ? { validation: item.validation } : {}),
     ...(item.help ? { help: item.help } : {}),
+    ...(item.placeholder ? { placeholder: item.placeholder } : {}),
+    ...(item.outerClass ? { outerClass: item.outerClass } : {outerClass: "col-span-2"}),
   }))
 }
 

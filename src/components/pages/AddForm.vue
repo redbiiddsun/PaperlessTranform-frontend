@@ -47,9 +47,52 @@ function deleteItem(index: number) {
 }
 
 function cloneItem(index: number) {
+  const maxId = Math.max(0, ...schema.value.map((i) => i.id || 0))
+
   if (index !== -1) {
-    const clonedItem = { ...schema.value[index], name: `${schema.value[index].name} (copy)` }
+    const clonedItem = {
+      ...schema.value[index],
+      label: `${schema.value[index].label} (copy)`,
+      name: `${schema.value[index].name} (copy)`,
+      id: maxId + 1,
+    }
     schema.value.splice(index + 1, 0, clonedItem)
+  }
+}
+
+function expandItem(index: number) {
+  if (index !== -1) {
+    const outerClass = schema.value[index].outerClass || ''
+
+    if (outerClass) {
+      const updatedClass = outerClass
+        .split(' ')
+        .filter((cls) => cls !== 'col-span-1') // remove col-span-1
+        .concat('col-span-2') // add col-span-2
+        .join(' ')
+
+      schema.value[index].outerClass = updatedClass
+    } else {
+      schema.value[index].outerClass = 'col-span-2'
+    }
+  }
+}
+
+function collapseItem(index: number) {
+  if (index !== -1) {
+    const outerClass = schema.value[index].outerClass || ''
+
+    if (outerClass) {
+      const updatedClass = outerClass
+        .split(' ')
+        .filter((cls) => cls !== 'col-span-2') // remove col-span-1
+        .concat('col-span-1') // add col-span-2
+        .join(' ')
+
+      schema.value[index].outerClass = updatedClass
+    } else {
+      schema.value[index].outerClass = 'col-span-1'
+    }
   }
 }
 </script>
@@ -87,7 +130,7 @@ function cloneItem(index: number) {
     <!-- Middle -->
     <div class="flex w-4/6 py-4 max-h-full overflow-y-scroll justify-center">
       <div
-        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-8k0 shadow-lg"
+        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-8k0 shadow-lg col-s"
         :style="{ width: widthForm }"
       >
         <!-- <FormKit type="form" v-model="data">
@@ -106,26 +149,27 @@ function cloneItem(index: number) {
             <draggable
               v-model="schema"
               item-key="name"
-              class="flex flex-col gap-6"
+              class="grid grid-cols-2 gap-2"
               ghost-class="bg-blue-100"
               handle=".drag-handle"
               group="form"
             >
               <template #item="{ element, index }">
                 <div
-                  class="relative hover:border border-primary p-2 flex items-center gap-2 drag-handle cursor-pointer group"
-                  :class="{ border: selectedItem?.name === element.name }"
+                  class="relative p-2 drag-handle cursor-pointer group hover:border border-primary"
+                  :class="[element.outerClass, { border: selectedItem?.id === element.id }]"
                   @click="selectItem(element)"
                 >
                   <div
-                    v-if="selectedItem?.name === element.name"
+                    v-if="selectedItem?.id === element.id"
                     class="absolute right-0 top-0 bg-primary bg-opacity-15 w-full h-full"
-                  ></div>
+                    style="pointer-events: none;"
+                    ></div>
                   <div
                     class="absolute -top-6 left-0 pt-1 w-full justify-end gap-1"
                     :class="{
-                      flex: selectedItem?.name === element.name,
-                      'hidden group-hover:flex': selectedItem?.name !== element.name,
+                      flex: selectedItem?.id === element.id,
+                      'hidden group-hover:flex': selectedItem?.id !== element.id,
                     }"
                   >
                     <div class="w-full">
@@ -133,6 +177,20 @@ function cloneItem(index: number) {
                         {{ element.name }}
                       </p>
                     </div>
+                    <Icon
+                      v-if="element.outerClass?.includes('col-span-1') || !element.outerClass "
+                      icon="material-symbols-light:expand-content-rounded"
+                      class="bg-primary text-text shadow cursor-pointer"
+                      width="18"
+                      @click="expandItem(index)"
+                    />
+                    <Icon
+                      v-if="element.outerClass?.includes('col-span-2')"
+                      icon="material-symbols-light:collapse-content-rounded"
+                      class="bg-primary text-text shadow cursor-pointer"
+                      width="18"
+                      @click="collapseItem(index)"
+                    />
                     <Icon
                       icon="material-symbols-light:content-copy-outline"
                       class="bg-primary text-text shadow cursor-pointer"
@@ -216,17 +274,18 @@ function cloneItem(index: number) {
           />
         </div>
       </div>
+
       <ItemSettingBuilder
         :selectedItem="selectedItem"
         :schema="schema"
         @update:selectedItem="
           (updatedItem) => {
             selectedItem = updatedItem
-            const index = schema.findIndex((item) => item.name === updatedItem.name)
+            const index = schema.findIndex((item) => item.id === updatedItem.id)
             if (index !== -1) {
-              schema[index] = { 
-                ...schema[index], 
-                ...updatedItem 
+              schema[index] = {
+                ...schema[index],
+                ...updatedItem,
               }
             }
           }
