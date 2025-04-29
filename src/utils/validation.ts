@@ -6,14 +6,15 @@ export interface User {
 
 export const validatePasswords = (user: User): string | null => {
   const passwordLengthRegex = /^.{8,}$/ // At least 8 characters
-  const passwordFormatRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/ // Uppercase, lowercase, and number
+  const passwordFormatRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?`~;,'./\\[\]\\/])[\w!@#$%^&*()_+{}|:"<>?`~;,'./\\[\]\\/]+$/ // Uppercase, lowercase, number, and special character
 
   if (user.password !== user.confirmPassword) {
     return 'Passwords do not match'
   } else if (!passwordLengthRegex.test(user.password)) {
     return 'Password must be at least 8 characters'
   } else if (!passwordFormatRegex.test(user.password)) {
-    return 'Password must include uppercase, lowercase, and numbers'
+    return 'Password must include uppercase, lowercase, numbers, and at least one special character'
   }
   return null
 }

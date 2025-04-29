@@ -1,18 +1,28 @@
 import http from '../api'
 import type { APIResponse } from '../types'
-import type { FormKitSchemaDefinition } from '@formkit/core';
+import type { Form } from './types'
 
-// import type { Users, InputSignUp, InputSignIn } from './types'
-
-async function GetOneForm() {
-    const result = await http.get<APIResponse<FormKitSchemaDefinition>>("/test-schema")
-    return result
+async function GetForms() {
+  const response = await http.get('/form', { withCredentials: true })
+  const formsResponse: APIResponse<Form[]> = {
+    success: response.data.status === 'success',
+    content: response.data.form,
+    status: response.status,
+  }
+  return formsResponse
 }
 
-// async function SignIn(input: InputSignIn) {
-//     return await http.post<APIResponse<Users>>("/auth/signin", input)
-// }
+async function GetOneForm(formId: string) {
+  const response = await http.get(`/form/${formId}`, { withCredentials: true })
+  const formResponse: APIResponse<Form[]> = {
+    success: response.data.status === 'success',
+    content: response.data.form,
+    status: response.status,
+  }
+  return formResponse
+}
 
 export default {
-    GetOneForm,
+  GetOneForm,
+  GetForms,
 }

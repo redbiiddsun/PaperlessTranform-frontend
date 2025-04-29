@@ -9,7 +9,7 @@ import { jsonToSchema } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
 import ElementBuilder from '../common/FormBuilder/ElementBuilder.vue'
 import PreviewBuilder from '../common/FormBuilder/PreviewBuilder.vue'
-// import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
+import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
 import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
 
 const schema = ref(jsonToSchema(json))
@@ -18,9 +18,29 @@ const data = ref({})
 const selectedItem = ref<Record<string, unknown> | null>(null)
 const builderRef = ref<HTMLElement | null>(null)
 const sliderRef = ref<HTMLElement | null>(null)
-const widthForm = ref('560px')
+const widthForm = ref('560')
 const currentMenu = ref('element')
 const currentView = ref('setting')
+
+const formName = ref('Test')
+const formDescription= ref('Test Desctiption of form Test')
+
+const header =  [
+  {
+    $el: 'h1',
+    children: () => formName.value,
+    attrs: {
+      class: 'text-2xl font-bold mb-4',
+    },
+  },
+  {
+    $el: 'p',
+    children: () => formDescription.value,
+    attrs: {
+      class: 'text-base text-gray-600 mb-4',
+    },
+  },
+]
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -130,20 +150,9 @@ function collapseItem(index: number) {
     <!-- Middle -->
     <div class="flex w-4/6 py-4 max-h-full overflow-y-scroll justify-center">
       <div
-        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-8k0 shadow-lg col-s"
-        :style="{ width: widthForm }"
+        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-8k0 shadow-lg col-s min-w-fit transition-[width] duration-300"
+        :style="{ width: widthForm + 'px' }"
       >
-        <!-- <FormKit type="form" v-model="data">
-          <div class="flex flex-col gap-6">
-            <div
-              v-for="(item, index) in schema"
-              :key="index"
-              class="border border-black p-2 rounded-lg"
-            >
-              <FormKitSchema :schema="item" />
-            </div>
-          </div>
-        </FormKit> -->
         <FormKit type="form" v-model="data" :actions="false">
           <div ref="builderRef">
             <draggable
@@ -163,8 +172,8 @@ function collapseItem(index: number) {
                   <div
                     v-if="selectedItem?.id === element.id"
                     class="absolute right-0 top-0 bg-primary bg-opacity-15 w-full h-full"
-                    style="pointer-events: none;"
-                    ></div>
+                    style="pointer-events: none"
+                  ></div>
                   <div
                     class="absolute -top-6 left-0 pt-1 w-full justify-end gap-1"
                     :class="{
@@ -178,7 +187,7 @@ function collapseItem(index: number) {
                       </p>
                     </div>
                     <Icon
-                      v-if="element.outerClass?.includes('col-span-1') || !element.outerClass "
+                      v-if="element.outerClass?.includes('col-span-1') || !element.outerClass"
                       icon="material-symbols-light:expand-content-rounded"
                       class="bg-primary text-text shadow cursor-pointer"
                       width="18"
@@ -236,7 +245,12 @@ function collapseItem(index: number) {
         </button>
       </div>
       <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
-        <!-- <SettingBuilder /> -->
+        <SettingBuilder
+          v-if="currentView === 'setting'"
+          v-model:widthForm="widthForm"
+          :data="data"
+          @update:data="(newData) => (data = newData)"
+        />
         <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
       </div>
     </div>

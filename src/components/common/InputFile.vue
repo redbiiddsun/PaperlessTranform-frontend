@@ -14,7 +14,7 @@ const browseFile = () => {
 
 const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement
-  if (target.files) {
+  if (target.files) { 
     const files = Array.from(target.files)
     emit('fileSelected', files)
     if (fileInput.value) {

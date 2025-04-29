@@ -1,27 +1,32 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { FormKitSchema } from '@formkit/vue';
-import { useFormStore } from '@/store/form';
 import type { FormKitSchemaDefinition } from '@formkit/core';
+import { useFormStore } from '@/store/form';
 
 const formStore = useFormStore()
 const loading = ref(true)
 
-const schema = ref<FormKitSchemaDefinition>([])
+const route = useRoute();
+const formId = route.params.id as string;
+
+const schema = ref<FormKitSchemaDefinition>()
 const data = ref('')
 
 const fetchForm = async () => {
   try {
-    const { success, status } = await formStore.GetForm()
+    const { success, status } = await formStore.GetForm(formId)
     if (!success) {
       console.error('Error fetching data', status)
     }
   } catch (error) {
     console.error('Unexpected error fetching data', error)
   } finally {
-    schema.value = formStore.forms as FormKitSchemaDefinition
+    if (formStore.forms){
+      // schema.value = formStore.forms
+    }    
     loading.value = false
-    console.log(schema)
   }
 }
 
@@ -43,6 +48,7 @@ onMounted(() => {
       <!-- Form content -->
       <div v-else class="space-y-8">
         <FormKit 
+        v-if="schema"
           type="form" 
           :data="data" 
           :submit-label="'Submit'" 

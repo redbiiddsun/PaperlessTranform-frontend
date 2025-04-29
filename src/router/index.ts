@@ -80,16 +80,16 @@ const router = createRouter({
   ],
 })
 
-// router.beforeEach((to, from, next) => {
-//   const loggedIn = document.cookie.includes('session');
+router.beforeEach((to, from, next) => {
+  const loggedIn = document.cookie.includes('session');
 
-//   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
-//     next('/auth/login')
-//   } else if (to.matched.some(record => record.meta.guestOnly) && loggedIn) {
-//     next('/')
-//   } else {
-//     next()
-//   }
-// })
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    next('/auth/login')
+  } else if (to.matched.some(record => record.meta.guestOnly) && loggedIn) {
+    next('/')
+  } else {
+    next()
+  }
+})
 
 export default router

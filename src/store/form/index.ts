@@ -4,22 +4,21 @@ import type { APIResponse } from '../../services/types'
 import type { FormKitSchemaDefinition } from '@formkit/core';
 import { API } from '../../services'
 import { AxiosError } from 'axios'
+import type { Form } from '@/services/form/types';
 
 export const useFormStore = defineStore('formStore', () => {
-  const forms = ref<FormKitSchemaDefinition[]>([])
+  const forms = ref<Form[]>([])
 
-  function initForm(data: FormKitSchemaDefinition[]) {
+  function initForm(data: Form[]) {
     forms.value = data
   }
 
-  async function GetForm(): Promise<APIResponse<null>> {
+  async function GetManyForm(): Promise<APIResponse<null>> {
     try {
-      const { status, data } = await API.form.GetOneForm()
+      const { status, content  } = await API.form.GetForms()
       if (status === 200) {
-        if (data && Array.isArray(data)) {
-          initForm(data)
-        } else {
-          console.error('Received null content from API');
+        if (content) { 
+          initForm(content) 
         }
         return {
           success: true,
@@ -28,7 +27,33 @@ export const useFormStore = defineStore('formStore', () => {
       }
     } catch (error) {
       const _error = error as AxiosError<string>
-      console.log(_error.response?.data)
+      return {
+        success: false,
+        status: _error.response?.status,
+        content: null,
+      }
+    }
+    return {
+      success: false,
+      content: null,
+      status: 400,
+    }
+  }
+
+  async function GetForm(formId: string): Promise<APIResponse<null>> {
+    try {
+      const { status, content } = await API.form.GetOneForm(formId)
+      if (status === 200) {
+        if (content) { 
+          initForm(content) 
+        }
+        return {
+          success: true,
+          content: null,
+        }
+      }
+    } catch (error) {
+      const _error = error as AxiosError<string>
       return {
         success: false,
         status: _error.response?.status,
@@ -45,5 +70,6 @@ export const useFormStore = defineStore('formStore', () => {
   return {
     forms,
     GetForm,
+    GetManyForm
   }
 })

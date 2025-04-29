@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Users, InputSignIn, InputSignUp } from '@/services/authentication/types'
+import type { InputSignIn, InputSignUp } from '@/services/authentication/types'
 import type { APIResponse } from '../../services/types'
 import { API } from '../../services'
 import { AxiosError } from 'axios'

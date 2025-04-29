@@ -1,18 +1,11 @@
-// export type Users = {
-//     id: string;
-//     firstname: string;
-//     lastname: string;
-//     email: string;
-// };
+import type { FormKitSchemaDefinition } from '@formkit/core';
 
-// export type InputSignUp = {
-//     firstname: string;
-//     lastname : string;
-//     email: string;
-//     password: string;
-// };
-
-// export type InputSignIn = {
-//     email: string;
-//     password: string;
-// }
+export type Form = {
+  id: string
+  name: string
+  createdAt: Date
+  userId: string
+  schemas: FormKitSchemaDefinition[]
+  requiredLogin: boolean
+  updatedAt: Date
+}

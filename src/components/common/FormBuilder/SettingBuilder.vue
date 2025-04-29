@@ -40,11 +40,13 @@ watch(() => props.widthForm, (val) => {
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-2">
-      <label for="formWidth" class="text-sm text-text">Form Width</label>
+      <label for="formWidth" class="text-sm text-text_b">Form Width</label>
       <input
         id="formWidth"
-        type="text"
+        type="number"
         :value="widthForm"
+        min="480"
+        max="1080"
         @input="$emit('update:widthForm', ($event.target as HTMLInputElement).value)"
         class="border border-border rounded px-2 py-1 text-sm"
         placeholder="e.g., 560px"
@@ -52,7 +54,7 @@ watch(() => props.widthForm, (val) => {
     </div>
 
     <div class="flex flex-col gap-2">
-      <label for="formTitle" class="text-sm text-text">Form Title</label>
+      <label for="formTitle" class="text-sm text-text_b">Form Title</label>
       <input
         id="formTitle"
         type="text"
@@ -63,7 +65,7 @@ watch(() => props.widthForm, (val) => {
     </div>
 
     <div class="flex flex-col gap-2">
-      <label for="formDescription" class="text-sm text-text">Form Description</label>
+      <label for="formDescription" class="text-sm text-text_b">Form Description</label>
       <textarea
         id="formDescription"
         v-model="localData.description"

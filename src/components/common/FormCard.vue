@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import type { Form } from '@/services/form/types'
 
-const props = defineProps<{ form: { id: string; name: string; date: Date } }>()
+const props = defineProps<{ form: Form }>()
 
 // Function to calculate the time difference
 const timeEdited = computed(() => {
-  if (!props.form.date) return 'Unknown time'
+  if (!props.form.updatedAt) return 'Unknown time'
 
   const now = new Date()
-  const inputDate = new Date(props.form.date)
+  const inputDate = new Date(props.form.updatedAt)
   const diffInSeconds = Math.floor((now.getTime() - inputDate.getTime()) / 1000)
 
   if (diffInSeconds < 60) return 'just now'
@@ -37,7 +38,7 @@ const isHovered = ref(false)
     >
       <!-- Icon (Shown on Hover) -->
       <button
-        class="bg-white absolute top-2 right-2 px-2 py-1 rounded-lg transition-opacity duration-300"
+        class="bg-white absolute top-4 right-4 px-2 py-1 rounded-lg transition-opacity duration-300 z-10"
         :class="isHovered ? 'opacity-100' : 'opacity-0'"
       >
         <span class="pi pi-ellipsis-h"></span>

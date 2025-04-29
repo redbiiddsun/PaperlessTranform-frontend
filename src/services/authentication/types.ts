@@ -1,8 +1,6 @@
-export type Users = {
-    id: string;
-    firstname: string;
-    lastname: string;
-    email: string;
+export type authMessage = {
+    status: string;
+    message: string;
 };
 
 export type InputSignUp = {
