@@ -95,7 +95,7 @@ const filteredForms = computed(() => {
         </RouterLink>
       </div>
       <div
-        class="flex flex-col items-center justify-center w-full h-fit px-4 gap-4 md:flex-row xl:flex-col"
+        class="flex flex-col items-start justify-center w-full h-fit px-4 gap-4 md:flex-row xl:flex-col"
       >
         <InputFile @fileSelected="handleFiles" class="z-40" />
         <transition :name="transitionName">

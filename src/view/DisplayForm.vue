@@ -23,8 +23,9 @@ const fetchForm = async () => {
   } catch (error) {
     console.error('Unexpected error fetching data', error)
   } finally {
-    if (formStore.forms){
-      // schema.value = formStore.forms
+    if (formStore.schema){
+      console.log(formStore.schema)
+      schema.value = formStore.schema as FormKitSchemaDefinition
     }    
     loading.value = false
   }

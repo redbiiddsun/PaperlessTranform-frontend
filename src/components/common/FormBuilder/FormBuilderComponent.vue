@@ -17,7 +17,7 @@ defineProps({
     <div class="border bg-presurface p-2 rounded-md">
       <Icon :icon="icon" width="16" class="text-gray-600"/>
     </div>
-    <div class="flex flex-col">
+    <div class="hidden md:flex flex-col ">
       <p class="font-Noto font-bold text-text_b text-sm">{{ name }}</p>
       <p class="font-Noto font-light text-subtext text-xs">{{ description }}</p>
     </div>
