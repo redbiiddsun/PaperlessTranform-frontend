@@ -29,7 +29,7 @@ const fetchForm = async () => {
   }
 }
 
-const selectedFiles = ref<File[]>([])
+const selectedFiles = ref<File | undefined>(undefined)
 
 const screenWidth = ref(window.innerWidth)
 
@@ -49,19 +49,15 @@ const transitionName = computed(() => {
   return screenWidth.value >= 768 && screenWidth.value <= 1024 ? 'slideRight' : 'slideDown'
 })
 
-const handleFiles = (files: File[]) => {
-  const newFiles = files.filter(
-    (newFile) => !selectedFiles.value.some((existFile) => existFile.name === newFile.name),
-  )
-
-  selectedFiles.value = [...selectedFiles.value, ...newFiles]
+const handleFiles = (files: File) => {
+  selectedFiles.value = files
 }
 
-const updateFileList = (updatedFiles: File[]) => {
+const updateFileList = (updatedFiles: File) => {
   selectedFiles.value = updatedFiles
   console.log(
     'Updated files:',
-    selectedFiles.value.map((file) => file.name),
+    selectedFiles.value,
   )
 }
 
@@ -100,7 +96,7 @@ const filteredForms = computed(() => {
         <InputFile @fileSelected="handleFiles" class="z-40" />
         <transition :name="transitionName">
           <StatusUpload
-            v-show="selectedFiles.length > 0"
+            v-if="selectedFiles !== undefined"
             :fileUpload="selectedFiles"
             @updateFiles="updateFileList"
           />

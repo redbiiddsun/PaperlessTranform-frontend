@@ -17,7 +17,7 @@ const showError = ref(false)
 
 const login = async () => {
   const { success, status } = await authStore.LoginUser({
-    email: user.value.email,
+    email: user.value.email.toLocaleLowerCase(),
     password: user.value.password,
   })
   if (success) {

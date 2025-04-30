@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { FormKitSchema } from '@formkit/vue';
-import type { FormKitSchemaDefinition } from '@formkit/core';
-import { useFormStore } from '@/store/form';
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { FormKitSchema } from '@formkit/vue'
+import type { FormKitSchemaDefinition } from '@formkit/core'
+import { useFormStore } from '@/store/form'
 
 const formStore = useFormStore()
-const loading = ref(true)
+const loading = ref(false)
 
-const route = useRoute();
-const formId = route.params.id as string;
+const route = useRoute()
+const formId = route.params.id as string
 
 const schema = ref<FormKitSchemaDefinition>()
-const data = ref('')
+const data = ref({})
 
 const fetchForm = async () => {
   try {
@@ -24,9 +24,10 @@ const fetchForm = async () => {
     console.error('Unexpected error fetching data', error)
   } finally {
     if (formStore.schema){
-      console.log(formStore.schema)
       schema.value = formStore.schema as FormKitSchemaDefinition
-    }    
+      console.log(schema.value)
+
+    }
     loading.value = false
   }
 }
@@ -37,9 +38,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full flex flex-col justify-center  items-center min-h-screen bg-gradient-to-br from-primary via-white to-primary p-6">
-    <div class="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-10 transition-all duration-700" :class="{ 'opacity-0': loading, 'opacity-100': !loading }">
-      
+  <div
+    class="w-full flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-primary via-white to-primary p-6"
+  >
+    <div
+      class="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-10 transition-all duration-700"
+      :class="{ 'opacity-0': loading, 'opacity-100': !loading }"
+    >
       <!-- Loading state -->
       <div v-if="loading" class="flex flex-col items-center justify-center py-24 animate-pulse">
         <div class="loader mb-6"></div>
@@ -48,17 +53,18 @@ onMounted(() => {
 
       <!-- Form content -->
       <div v-else class="space-y-8">
-        <FormKit 
-        v-if="schema"
-          type="form" 
-          :data="data" 
-          :submit-label="'Submit'" 
-          class="space-y-6"
+        <FormKit
+          v-if="schema"
+          v-model="data"
+          type="form"
+          :data="data"
+          :submit-label="'Submit'"
+          class="grid grid-cols-2 space-y-6"
         >
-          <FormKitSchema :schema="schema" />
+          <FormKitSchema v-for="(element, index) in schema" :key="index" :schema="element" />
         </FormKit>
+        <pre wrap>{{ data }}</pre>
       </div>
-      
     </div>
   </div>
 </template>
@@ -75,8 +81,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Smooth fade-in for the form */

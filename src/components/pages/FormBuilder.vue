@@ -18,29 +18,12 @@ const data = ref({})
 const selectedItem = ref<Record<string, unknown> | null>(null)
 const builderRef = ref<HTMLElement | null>(null)
 const sliderRef = ref<HTMLElement | null>(null)
-const widthForm = ref('560')
 const currentMenu = ref('element')
 const currentView = ref('setting')
 
 const formName = ref('Test')
-const formDescription= ref('Test Desctiption of form Test')
-
-const header =  [
-  {
-    $el: 'h1',
-    children: () => formName.value,
-    attrs: {
-      class: 'text-2xl font-bold mb-4',
-    },
-  },
-  {
-    $el: 'p',
-    children: () => formDescription.value,
-    attrs: {
-      class: 'text-base text-gray-600 mb-4',
-    },
-  },
-]
+const formDescription = ref('Test Desctiption of form Test')
+const widthForm = ref('560')
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -148,10 +131,18 @@ function collapseItem(index: number) {
     </div>
 
     <!-- Middle -->
-    <div class="flex w-4/6 py-4 max-h-full overflow-y-scroll justify-center">
+    <div
+      class="flex flex-col gap-2 w-4/6 py-4 max-h-full overflow-y-scroll justify-start items-center min-w-fit transition-[width] duration-300"
+      :style="{ width: widthForm + 'px' }"
+    >
       <div
-        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-8k0 shadow-lg col-s min-w-fit transition-[width] duration-300"
-        :style="{ width: widthForm + 'px' }"
+        class="flex flex-col h-fit w-full rounded-lg p-4 border border-border bg-white bg-opacity-80 shadow-lg"
+      >
+        <h2 class="text-2xl font-semibold text-primary text-start">{{ formName }}</h2>
+        <p class="text-base text-text_b mt-2 text-start">{{ formDescription }}</p>
+      </div>
+      <div
+        class="flex flex-col w-full h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-80 shadow-lg"
       >
         <FormKit type="form" v-model="data" :actions="false">
           <div ref="builderRef">

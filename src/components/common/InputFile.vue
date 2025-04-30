@@ -16,7 +16,7 @@ const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement
   if (target.files) { 
     const files = Array.from(target.files)
-    emit('fileSelected', files)
+    emit('fileSelected', files[0])
     if (fileInput.value) {
       fileInput.value.value = ''
     }
@@ -41,7 +41,7 @@ const handleDrop = (event: DragEvent) => {
 
   const files = event.dataTransfer?.files
   if (files) {
-    emit('fileSelected', Array.from(files))
+    emit('fileSelected', files)
     isDragging.value = false
   }
 }

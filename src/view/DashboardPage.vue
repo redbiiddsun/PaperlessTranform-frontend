@@ -134,7 +134,7 @@ onMounted(() => {
               {{ user?.firstname || 'UNKNOW' }} {{ user?.lastname || 'UNKNOW' }}
             </p>
             <p
-              class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis xl:text-base"
+              class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis  "
             >
               {{ user?.email || 'UNKNOW' }}
             </p>

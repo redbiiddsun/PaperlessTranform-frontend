@@ -63,12 +63,7 @@ const router = createRouter({
         {
           path: 'add',
           name: 'AddForm',
-          component: () => import('@/components/pages/AddForm.vue'),
-        },
-        {
-          path: 'edit',
-          name: 'EditForm',
-          component: () => import('@/components/pages/EditForm.vue'),
+          component: () => import('@/components/pages/FormBuilder.vue'),
         },
       ],
     },

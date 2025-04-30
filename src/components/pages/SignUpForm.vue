@@ -39,7 +39,7 @@ const signup = async () => {
   const { success } = await authStore.SignUpUser({
     firstname: user.value.fname,
     lastname: user.value.lname,
-    email: user.value.email,
+    email: user.value.email.toLocaleLowerCase(),
     password: user.value.password,
   })
 
