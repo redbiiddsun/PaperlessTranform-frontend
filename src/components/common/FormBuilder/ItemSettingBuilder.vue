@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { FormType } from '@/utils/FormKitUtils'
-// import Switch from '@/components/common/FormBuilder/SwitchBuilder.vue'
+import Switch from './SwitchBuilder.vue'
 const switchValue = ref(false)
 
 const props = defineProps<{
@@ -137,7 +137,7 @@ const showData = ref(false)
     </div>
     <Transition name="slide">
       <div v-if="showValidation" class="p-2 text-sm text-text_b">
-        <Switch v-model="switchValue" />
+        <Switch v-for="(item, index) in FormType.text.map(({ type, description }) => ({ name: type, desc: description }))" :key="index" :model-value="switchValue" :validation="item"/>
       </div>
     </Transition>
 

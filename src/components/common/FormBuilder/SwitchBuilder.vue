@@ -1,13 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { ref, defineEmits } from 'vue'
 
 const emits = defineEmits(['update:modelValue'])
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    default: false,
-  },
-})
+const props = defineProps<{
+  modelValue: boolean,
+  validation: {
+    name: string,
+    desc: string,
+  }
+}>()
 
 const isOn = ref(props.modelValue)
 
@@ -28,6 +29,8 @@ function toggle() {
         class="bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300"
         :class="{ 'translate-x-6  ': isOn, 'translate-x-0': !isOn }"
       ></div>
+      {{ validation.name }}
+      {{ validation.desc }}
     </div>
   </div>
 </template>

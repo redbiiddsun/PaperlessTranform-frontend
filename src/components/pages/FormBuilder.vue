@@ -25,7 +25,7 @@ const currentView = ref('setting')
 
 const formName = ref('Form Name')
 const formDescription = ref('From Description')
-const widthForm = ref('560')
+const widthForm = ref('720')
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -134,7 +134,7 @@ function collapseItem(index: number) {
 
     <!-- Middle -->
     <div
-      class="flex flex-col gap-2 w-4/6 py-4 max-h-full overflow-y-scroll justify-start items-center min-w-fit transition-[width] duration-300"
+      class="flex flex-col gap-2 w-4/6 py-4 max-h-full overflow-y-scroll justify-start items-center min-w-fit transition-[width] duration-300 max-w-[1080px]"
       :style="{ width: widthForm + 'px' }"
     >
       <div
