@@ -14,7 +14,7 @@ async function GetForms() {
 
 async function GetOneForm(formId: string) {
   const response = await http.get(`/form/${formId}`, { withCredentials: true })
-  const formResponse: APIResponse<Form[]> = {
+  const formResponse: APIResponse<Form> = {
     success: response.data.status === 'success',
     content: response.data.form,
     status: response.status,

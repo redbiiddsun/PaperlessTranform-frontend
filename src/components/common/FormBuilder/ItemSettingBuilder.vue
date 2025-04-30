@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { FormType } from '@/utils/FormKitUtils'
+// import Switch from '@/components/common/FormBuilder/SwitchBuilder.vue'
+const switchValue = ref(false)
 
 const props = defineProps<{
   selectedItem: Record<string, unknown> | null
@@ -134,7 +136,9 @@ const showData = ref(false)
       />
     </div>
     <Transition name="slide">
-      <div v-if="showValidation" class="p-2 text-sm text-text_b">Validation content</div>
+      <div v-if="showValidation" class="p-2 text-sm text-text_b">
+        <Switch v-model="switchValue" />
+      </div>
     </Transition>
 
     <!-- Data -->
@@ -152,7 +156,7 @@ const showData = ref(false)
         <div>
           <label class="block mb-1">Default Value</label>
           <input
-            type="text" 
+            type="text"
             :value="props.selectedItem?.value"
             @input="
               emit('update:selectedItem', {
@@ -162,7 +166,7 @@ const showData = ref(false)
             "
             rows="2"
             class="w-full p-2 border rounded"
-          >
+          />
         </div>
       </div>
     </Transition>

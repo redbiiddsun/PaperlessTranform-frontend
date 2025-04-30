@@ -8,10 +8,13 @@ import type { Form } from '@/services/form/types'
 
 export const useFormStore = defineStore('formStore', () => {
   const forms = ref<Form[]>([])
-  const schema = ref<FormKitSchemaDefinition[]>([])
+  const schema = ref<string>()
   function initForm(data: Form[]) {
     forms.value = data
-    schema.value = (Array.isArray(data) ? data : [data]).map((form) => form.schemas).flat()
+  }
+
+  function initSchema(data: Form) {
+    schema.value = data.schemas
   }
 
   async function GetManyForm(): Promise<APIResponse<null>> {
@@ -46,7 +49,7 @@ export const useFormStore = defineStore('formStore', () => {
       const { status, content } = await API.form.GetOneForm(formId)
       if (status === 200) {
         if (content) {
-          initForm(content)
+          initSchema(content)
         }
         return {
           success: true,
@@ -71,6 +74,7 @@ export const useFormStore = defineStore('formStore', () => {
   return {
     forms,
     schema,
+    initSchema,
     GetForm,
     GetManyForm,
   }

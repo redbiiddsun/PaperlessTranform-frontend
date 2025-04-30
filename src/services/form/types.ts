@@ -1,11 +1,9 @@
-import type { FormKitSchemaDefinition } from '@formkit/core';
-
 export type Form = {
   id: string
   name: string
   createdAt: Date
   userId: string
-  schemas: FormKitSchemaDefinition[]
+  schemas: string
   requiredLogin: boolean
   updatedAt: Date
 }

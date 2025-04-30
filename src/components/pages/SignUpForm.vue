@@ -22,14 +22,14 @@ const signup = async () => {
   err.value = ''
   showError.value = false
 
-  const emailError = validateEmail(user.value)
+  const emailError = validateEmail(user.value.email)
   if (emailError) {
     err.value = emailError
     showError.value = true
     return
   }
 
-  const passwordError = validatePasswords(user.value)
+  const passwordError = validatePasswords(user.value.password, user.value.confirmPassword)
   if (passwordError) {
     err.value = passwordError
     showError.value = true

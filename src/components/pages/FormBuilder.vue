@@ -11,7 +11,9 @@ import ElementBuilder from '../common/FormBuilder/ElementBuilder.vue'
 import PreviewBuilder from '../common/FormBuilder/PreviewBuilder.vue'
 import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
 import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
+import { useBeforeUnload } from '@/utils/common'
 
+useBeforeUnload(true)
 const schema = ref(jsonToSchema(json))
 const data = ref({})
 
@@ -21,8 +23,8 @@ const sliderRef = ref<HTMLElement | null>(null)
 const currentMenu = ref('element')
 const currentView = ref('setting')
 
-const formName = ref('Test')
-const formDescription = ref('Test Desctiption of form Test')
+const formName = ref('Form Name')
+const formDescription = ref('From Description')
 const widthForm = ref('560')
 
 useClickOutside([builderRef, sliderRef], () => {
@@ -239,8 +241,8 @@ function collapseItem(index: number) {
         <SettingBuilder
           v-if="currentView === 'setting'"
           v-model:widthForm="widthForm"
-          :data="data"
-          @update:data="(newData) => (data = newData)"
+          v-model:formName="formName"
+          v-model:formDescription="formDescription"
         />
         <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
       </div>

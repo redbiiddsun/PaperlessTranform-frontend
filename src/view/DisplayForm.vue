@@ -4,7 +4,9 @@ import { useRoute } from 'vue-router'
 import { FormKitSchema } from '@formkit/vue'
 import type { FormKitSchemaDefinition } from '@formkit/core'
 import { useFormStore } from '@/store/form'
+import { useBeforeUnload } from '@/utils/common'
 
+useBeforeUnload(true)
 const formStore = useFormStore()
 const loading = ref(false)
 
@@ -23,10 +25,8 @@ const fetchForm = async () => {
   } catch (error) {
     console.error('Unexpected error fetching data', error)
   } finally {
-    if (formStore.schema){
-      schema.value = formStore.schema as FormKitSchemaDefinition
-      console.log(schema.value)
-
+    if (formStore.schema) {
+      schema.value = JSON.parse(formStore.schema)
     }
     loading.value = false
   }
@@ -53,17 +53,11 @@ onMounted(() => {
 
       <!-- Form content -->
       <div v-else class="space-y-8">
-        <FormKit
-          v-if="schema"
-          v-model="data"
-          type="form"
-          :data="data"
-          :submit-label="'Submit'"
-          class="grid grid-cols-2 space-y-6"
-        >
-          <FormKitSchema v-for="(element, index) in schema" :key="index" :schema="element" />
+        <FormKit v-if="schema" v-model="data" type="form" :data="data" :submit-label="'Submit'">
+          <div class="grid grid-cols-2 gap-2">
+            <FormKitSchema v-for="(element, index) in schema" :key="index" :schema="element" />
+          </div>
         </FormKit>
-        <pre wrap>{{ data }}</pre>
       </div>
     </div>
   </div>

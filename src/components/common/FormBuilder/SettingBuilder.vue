@@ -3,38 +3,15 @@ import { watch, reactive } from 'vue'
 
 const props = defineProps<{
   widthForm: string
-  data: {
-    title?: string
-    description?: string
-    [key: string]: unknown
-  }
+  formName: string
+  formDescription: string
 }>()
 
 const emit = defineEmits<{
   (e: 'update:widthForm', value: string): void
-  (e: 'update:data', value: typeof props.data): void
+  (e: 'update:formName', value: string): void
+  (e: 'update:formDescription', value: string): void
 }>()
-
-// Create local reactive copy
-const localData = reactive({ ...props.data })
-
-// Emit changes upward if needed
-watch(localData, (newVal) => {
-  emit('update:data', { ...newVal })
-})
-
-// Sync with updated props (optional if props.data can change externally)
-watch(
-  () => props.data,
-  (newData) => {
-    Object.assign(localData, newData)
-  },
-  { deep: true }
-)
-
-watch(() => props.widthForm, (val) => {
-  emit('update:widthForm', val)
-})
 </script>
 
 <template>
@@ -58,7 +35,8 @@ watch(() => props.widthForm, (val) => {
       <input
         id="formTitle"
         type="text"
-        v-model="localData.title"
+        v-model="props.formName"
+        @input="$emit('update:formName', ($event.target as HTMLInputElement).value)"
         class="border border-border rounded px-2 py-1 text-sm"
         placeholder="Enter form title"
       />
@@ -68,7 +46,8 @@ watch(() => props.widthForm, (val) => {
       <label for="formDescription" class="text-sm text-text_b">Form Description</label>
       <textarea
         id="formDescription"
-        v-model="localData.description"
+        v-model="props.formDescription"
+        @input="$emit('update:formDescription', ($event.target as HTMLInputElement).value)"
         class="border border-border rounded px-2 py-1 text-sm"
         placeholder="Enter form description"
         rows="3"
