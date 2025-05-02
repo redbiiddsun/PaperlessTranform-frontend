@@ -4,7 +4,7 @@ import type { APIResponse } from '../../services/types'
 import type { FormKitSchemaDefinition } from '@formkit/core'
 import { API } from '../../services'
 import { AxiosError } from 'axios'
-import type { Form } from '@/services/form/types'
+import type { Form, InputCreateForm } from '@/services/form/types'
 
 export const useFormStore = defineStore('formStore', () => {
   const forms = ref<Form[]>([])
@@ -71,11 +71,62 @@ export const useFormStore = defineStore('formStore', () => {
     }
   }
 
+  async function CreateForm(input: InputCreateForm): Promise<APIResponse<null>> {
+    try {
+      const { status } = await API.form.AddForm(input)
+      if (status === 200) {
+        return {
+          success: true,
+          content: null,
+        }
+      }
+    } catch (error) {
+      const _error = error as AxiosError<string>
+      console.log(_error.response?.data)
+      return {
+        success: false,
+        status: _error.response?.status,
+        content: null,
+      }
+    }
+    return {
+      success: false,
+      content: null,
+      status: 400,
+    }
+  }
+  async function DeleteForm (formId: string): Promise<APIResponse<null>> {
+    try {
+      const { status } = await API.form.deleteForm(formId)
+      if (status === 200) {
+        return {
+          success: true,
+          content: null,
+        }
+      }
+    } catch (error) {
+      const _error = error as AxiosError<string>
+      console.log(_error.response?.data)
+      return {
+        success: false,
+        status: _error.response?.status,
+        content: null,
+      }
+    }
+    return {
+      success: false,
+      content: null,
+      status: 400,
+    }
+  }
+
   return {
     forms,
     schema,
     initSchema,
     GetForm,
     GetManyForm,
+    CreateForm,
+    DeleteForm
   }
 })

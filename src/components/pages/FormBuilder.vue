@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { FormKitSchema } from '@formkit/vue'
 import { Icon } from '@iconify/vue'
 import draggable from 'vuedraggable'
+import { useRouter } from 'vue-router'
 
 import { json } from '@/data/json'
 import { jsonToSchema } from '@/utils/FormKitUtils'
@@ -12,6 +13,9 @@ import PreviewBuilder from '../common/FormBuilder/PreviewBuilder.vue'
 import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
 import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
 import { useBeforeUnload } from '@/utils/common'
+import { useFormStore } from '@/store/form'
+
+const router = useRouter()
 
 useBeforeUnload(true)
 const schema = ref(jsonToSchema(json))
@@ -25,7 +29,8 @@ const currentView = ref('setting')
 
 const formName = ref('Form Name')
 const formDescription = ref('From Description')
-const widthForm = ref('720')
+const widthForm = ref<string>('720')
+const formStore = useFormStore()
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -98,6 +103,24 @@ function collapseItem(index: number) {
     } else {
       schema.value[index].outerClass = 'col-span-1'
     }
+  }
+}
+
+const CreateForm = async () => {
+  const { success, status } = await formStore.CreateForm({
+    name: formName.value,
+    description: formDescription.value,
+    width: widthForm.value,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    schemas: JSON.stringify(schema.value),
+    requiredLogin: false,
+  })
+  if (success) {
+    router.push('/form')
+  } else {
+    // err.value = getAuthErrorMessage(status as number);
+    // showError.value = true;
   }
 }
 </script>

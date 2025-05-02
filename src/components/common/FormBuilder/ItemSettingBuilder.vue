@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { FormType } from '@/utils/FormKitUtils'
 import Switch from './SwitchBuilder.vue'
-const switchValue = ref(false)
+
+const currentValidation = computed(() => {
+  const type = props.selectedItem?.$formkit as string
+  const allItems = [...FormType.text, ...FormType.other]
+  const matched = allItems.find((item) => item.type === type)
+  return matched?.validation || []
+})
 
 const props = defineProps<{
   selectedItem: Record<string, unknown> | null
@@ -20,7 +26,7 @@ const showData = ref(false)
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full overflow-y-scroll">
     <!-- Properties -->
     <div class="flex p-2 w-full justify-center items-center bg-primary/10">
       <p class="font-Noto w-full text-text_b">Properties</p>
@@ -137,7 +143,15 @@ const showData = ref(false)
     </div>
     <Transition name="slide">
       <div v-if="showValidation" class="p-2 text-sm text-text_b">
-        <Switch v-for="(item, index) in FormType.text.map(({ type, description }) => ({ name: type, desc: description }))" :key="index" :model-value="switchValue" :validation="item"/>
+        <div v-if="currentValidation.length">
+          <div v-for="(rule, index) in currentValidation" :key="index">
+            <Switch
+              :validation="rule"
+              :selectedItem="props.selectedItem"
+              @update:selectedItem="emit('update:selectedItem', $event)"
+            />
+          </div>
+        </div>
       </div>
     </Transition>
 
