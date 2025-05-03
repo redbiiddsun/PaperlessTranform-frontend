@@ -31,6 +31,7 @@ const formName = ref('Form Name')
 const formDescription = ref('From Description')
 const widthForm = ref<string>('720')
 const formStore = useFormStore()
+const requireLogin = ref(false)
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -112,7 +113,7 @@ const CreateForm = async () => {
     description: formDescription.value,
     width: widthForm.value,
     schemas: schema.value,
-    requiredLogin: false,
+    requiredLogin: requireLogin.value,
   })
   if (success) {
     router.push('/form')
@@ -128,6 +129,10 @@ const CreateForm = async () => {
     class="relative font-Noto w-full flex justify-between items-start bg-primary/10 overflow-x-hidden"
     style="height: calc(100vh - 72px)"
   >
+    <button @click="CreateForm()" class="absolute flex w-13 items-center gap-2 right-[18%] top-10 z-20 bg-primary rounded-full p-4 group cursor-pointer text-text hover:bg-transparent hover:text-primary hover:border border-primary transition-all duration-300">
+      <span class="hidden font-Poppins text-nowrap group-hover:block">Create and Export Form</span>
+      <i class="pi pi-check "></i>
+    </button>
     <!-- left -->
     <div
       class="w-1/6 max-h-full h-full flex flex-col justify-start items-start overflow-hidden bg-white"
@@ -235,7 +240,6 @@ const CreateForm = async () => {
             </draggable>
           </div>
         </FormKit>
-        <div><button @click="CreateForm()">ok</button></div>
       </div>
     </div>
 
@@ -265,6 +269,7 @@ const CreateForm = async () => {
           v-model:widthForm="widthForm"
           v-model:formName="formName"
           v-model:formDescription="formDescription"
+          v-model:requireLogin="requireLogin"
         />
         <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
       </div>

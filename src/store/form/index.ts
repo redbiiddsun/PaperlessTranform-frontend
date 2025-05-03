@@ -4,11 +4,12 @@ import type { APIResponse } from '../../services/types'
 import type { FormKitSchemaDefinition } from '@formkit/core'
 import { API } from '../../services'
 import { AxiosError } from 'axios'
-import type { Form, InputCreateForm } from '@/services/form/types'
+import type { Form, FormSchema, InputCreateForm } from '@/services/form/types'
 
 export const useFormStore = defineStore('formStore', () => {
   const forms = ref<Form[]>([])
-  const schema = ref<string>()
+  const schema = ref<FormSchema[]>()
+
   function initForm(data: Form[]) {
     forms.value = data
   }

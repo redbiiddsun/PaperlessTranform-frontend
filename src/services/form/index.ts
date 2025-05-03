@@ -36,9 +36,17 @@ async function deleteForm(formId: string) {
   return response
 }
 
+async function SubmitForm(formId: string) {
+  const response = await http.post<APIResponse<Form>>(`/form/${formId}/submit`, {
+    withCredentials: true,
+  })
+  return response
+}
+
 export default {
   GetOneForm,
   GetForms,
   AddForm,
-  deleteForm
+  deleteForm,
+  SubmitForm
 }

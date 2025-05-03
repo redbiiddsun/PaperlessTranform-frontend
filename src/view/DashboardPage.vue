@@ -67,11 +67,11 @@ onMounted(() => {
   <div class="flex flex-col h-screen">
     <!-- NavBar -->
     <div class="flex flex-row gap-2 py-2 px-0 justify-center w-full h-[72px] bg-primary">
-      <div class="flex flex-row gap-3 px-4 py-1 w-full h-fit items-center">
+      <RouterLink :to="`/`" class="flex flex-row gap-3 px-4 py-1 w-full h-fit items-center">
         <!-- logo -->
         <img src="#" alt="" class="w-12 h-12 rounded-lg bg-white" />
         <p class="font-Poppins font-bold text-2xl hidden md:block text-text">Paperless Transform</p>
-      </div>
+      </RouterLink>
       <div class="w-fit h-fit flex flex-row gap-4 px-2 py-0 items-center justify-center md:r-2">
         <!-- Icon Setting-->
         <!-- <div class="w-fit h-fit pt-2">
@@ -144,7 +144,7 @@ onMounted(() => {
       <MenuItems name="Profile" link="profile" />
       <MenuItems name="About Us" link="aboutus" />
       <MenuItems name="Give Feedback" link="feedback" />
-      <MenuItems name="Setting" link="setting" />
+      <!-- <MenuItems name="Setting" link="setting" />   -->
       <MenuItems name="Sign Out" link="" @click="handleSignOut" />
     </div>
     <!-- Body -->

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineEmits, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const emits = defineEmits(['update:selectedItem'])
 const props = defineProps<{

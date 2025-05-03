@@ -8,14 +8,11 @@ const props = defineProps<{ form: Form }>()
 const router = useRouter()
 const formStore = useFormStore()
 
-// Function to calculate the time difference
 const timeEdited = computed(() => {
   if (!props.form.updatedAt) return 'Unknown time'
-
   const now = new Date()
   const inputDate = new Date(props.form.updatedAt)
   const diffInSeconds = Math.floor((now.getTime() - inputDate.getTime()) / 1000)
-
   if (diffInSeconds < 60) return 'just now'
   const diffInMinutes = Math.floor(diffInSeconds / 60)
   if (diffInMinutes < 60) return `${diffInMinutes} min ago`
@@ -27,26 +24,14 @@ const timeEdited = computed(() => {
 })
 
 const isHovered = ref(false)
-const showMenu = ref(false)
-
-function toggleMenu(event: MouseEvent) {
-  event.stopPropagation()
-  event.preventDefault()
-  showMenu.value = !showMenu.value
-}
-
-function handleEdit(event: MouseEvent) {
-  event.stopPropagation()
-  showMenu.value = false
-}
 
 const DeleteForm = async () => {
-  const { success, status } = await formStore.DeleteForm(props.form.id)
+  const confirmed = window.confirm('Are you sure you want to delete this form?')
+  if (!confirmed) return
+
+  const { success } = await formStore.DeleteForm(props.form.id)
   if (success) {
-    // router.push('/form')
-  } else {
-    // err.value = getAuthErrorMessage(status as number);
-    // showError.value = true;
+    router.push('/form')
   }
 }
 </script>
@@ -61,34 +46,15 @@ const DeleteForm = async () => {
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     >
-      <!-- Action Button -->
+      <!-- Trash Icon -->
       <button
-        class="bg-white absolute top-4 right-4 px-2 py-1 rounded-lg transition-opacity duration-300 z-10"
+        class="bg-white absolute top-4 right-4 px-2 py-1 rounded-lg transition-opacity duration-300 z-10 text-red-600"
         :class="isHovered ? 'opacity-100' : 'opacity-0'"
-        @click="toggleMenu"
+        @click.stop.prevent="DeleteForm"
+        title="Delete"
       >
-        <span class="pi pi-ellipsis-h"></span>
+        <span class="pi pi-trash"></span>
       </button>
-
-      <!-- Dropdown Menu -->
-      <div
-        v-if="showMenu && isHovered"
-        class="absolute top-14 right-4 bg-white shadow-lg rounded-md z-20 overflow-hidden"
-        @click.stop
-      >
-        <button
-          class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-          @click="handleEdit"
-        >
-          Edit
-        </button>
-        <button
-          class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-          @click="DeleteForm"
-        >
-          Delete
-        </button>
-      </div>
 
       <!-- Image -->
       <RouterLink :to="`/form/${props.form.id}`">

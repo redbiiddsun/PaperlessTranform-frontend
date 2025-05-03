@@ -65,6 +65,21 @@ const router = createRouter({
           name: 'AddForm',
           component: () => import('@/components/pages/FormBuilder.vue'),
         },
+        {
+          path: 'profile',
+          name: 'ProfileSetting',
+          component: () => import('@/components/pages/other/ProfileSetting.vue'),
+        },
+        {
+          path: 'feedback',
+          name: 'Feedback',
+          component: () => import('@/components/pages/other/GiveFeedBack.vue'),
+        },
+        {
+          path: 'aboutus',
+          name: 'Aboutus',
+          component: () => import('@/components/pages/other/AboutUs.vue'),
+        },
       ],
     },
     {
