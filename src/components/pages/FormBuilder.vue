@@ -111,9 +111,7 @@ const CreateForm = async () => {
     name: formName.value,
     description: formDescription.value,
     width: widthForm.value,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    schemas: JSON.stringify(schema.value),
+    schemas: schema.value,
     requiredLogin: false,
   })
   if (success) {
@@ -237,6 +235,7 @@ const CreateForm = async () => {
             </draggable>
           </div>
         </FormKit>
+        <div><button @click="CreateForm()">ok</button></div>
       </div>
     </div>
 
