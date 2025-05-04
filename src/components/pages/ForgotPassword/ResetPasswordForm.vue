@@ -1,13 +1,39 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/store/authentication'
+import { validatePasswords } from '@/utils/validation'
+import AuthError from '@/components/pages/AuthError.vue'
 
 const password = ref('')
 const confirmPass = ref('')
 const router = useRouter()
+const authStore = useAuthStore()
+const err = ref('')
+const showError = ref(false)
 
-const submitNewPassword = () => {
-  router.push('/recovery/email')
+const submitNewPassword = async () => {
+  err.value = ''
+  showError.value = false
+
+  const passError = validatePasswords(password.value, confirmPass.value)
+  if (passError) {
+    err.value = passError
+    showError.value = true
+    return
+  }
+
+  const { success } = await authStore.ResetPassword({
+    token: authStore.token || '',
+    password: password.value,
+  })
+
+  if (success) {
+    router.push('/recovery/email')
+  } else {
+    err.value = 'An unknown error occurred'
+    showError.value = true
+  }
 }
 </script>
 
@@ -54,5 +80,7 @@ const submitNewPassword = () => {
         <p class="font-Poppins text-2xl tracking-[0.1em]">Submit</p>
       </button>
     </div>
+
+    <AuthError v-if="showError" :msgErr="err" @close="showError = false" />
   </div>
 </template>

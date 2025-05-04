@@ -2,10 +2,13 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import AuthError from '@/components/pages/AuthError.vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/store/authentication'
 import { getAuthErrorMessage } from '@/utils/ErrorMessage'
+
 const router = useRouter()
+const route = useRoute()
+
 const user = ref({
   email: '',
   password: '',
@@ -17,14 +20,22 @@ const showError = ref(false)
 
 const login = async () => {
   const { success, status } = await authStore.LoginUser({
-    email: user.value.email,
+    email: user.value.email.toLocaleLowerCase(),
     password: user.value.password,
   })
   if (success) {
-    router.push('/form')
+    const allowedPaths = ['/form']
+    const redirectPath = (route.query.redirect as string) || '/'
+
+    if (allowedPaths.some((path) => redirectPath.startsWith(path))) {
+      router.push(redirectPath)
+    } else {
+      router.push('/form')
+    }
+    router.push(redirectPath)
   } else {
-    err.value = getAuthErrorMessage(status as number);
-    showError.value = true;
+    err.value = getAuthErrorMessage(status as number)
+    showError.value = true
   }
 }
 </script>

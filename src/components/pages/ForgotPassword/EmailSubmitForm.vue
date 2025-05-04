@@ -1,12 +1,37 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/store/authentication'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { validateEmail } from '@/utils/validation'
+import AuthError from '@/components/pages/AuthError.vue'
 
 const email = ref('')
 const router = useRouter()
+const authStore = useAuthStore()
+const err = ref('')
+const showError = ref(false)
 
-const submitEmail = () => {
-  router.push('/recovery/otp')
+const submitEmail = async () => {
+  err.value = ''
+  showError.value = false 
+
+  const emailError = validateEmail(email.value)
+  if (emailError) {
+    err.value = emailError
+    showError.value = true
+    return
+  }
+
+  const { success } = await authStore.RequestReset({
+    email: email.value.toLocaleLowerCase(),
+  })
+
+  if (success) {
+    router.push('/recovery/otp')
+  } else {
+    err.value = 'An unknown error occurred'
+    showError.value = true
+  }
 }
 </script>
 <template>
@@ -44,5 +69,7 @@ const submitEmail = () => {
       class="font-Poppins font-bold text-base text-secondary tracking-[0.1em]"
       >Back to login</RouterLink
     >
+
+    <AuthError v-if="showError" :msgErr="err" @close="showError = false" />
   </div>
 </template>

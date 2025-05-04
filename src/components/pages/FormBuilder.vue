@@ -3,24 +3,38 @@ import { ref } from 'vue'
 import { FormKitSchema } from '@formkit/vue'
 import { Icon } from '@iconify/vue'
 import draggable from 'vuedraggable'
+import { useRouter } from 'vue-router'
 
 import { json } from '@/data/json'
 import { jsonToSchema } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
 import ElementBuilder from '../common/FormBuilder/ElementBuilder.vue'
 import PreviewBuilder from '../common/FormBuilder/PreviewBuilder.vue'
-// import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
+import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
 import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
+import { useBeforeUnload } from '@/utils/common'
+import { useFormStore } from '@/store/form'
+import { getBuilderErrorMessage } from '@/utils/ErrorMessage'
 
+const router = useRouter()
+
+useBeforeUnload(true)
 const schema = ref(jsonToSchema(json))
 const data = ref({})
 
 const selectedItem = ref<Record<string, unknown> | null>(null)
 const builderRef = ref<HTMLElement | null>(null)
 const sliderRef = ref<HTMLElement | null>(null)
-const widthForm = ref('560px')
 const currentMenu = ref('element')
 const currentView = ref('setting')
+
+const formName = ref('Form Name')
+const formDescription = ref('From Description')
+const widthForm = ref<string>('720')
+const formStore = useFormStore()
+const requireLogin = ref(false)
+const showError = ref(false)
+const errorMessage = ref('')
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -95,6 +109,22 @@ function collapseItem(index: number) {
     }
   }
 }
+
+const CreateForm = async () => {
+  const { success, status } = await formStore.CreateForm({
+    name: formName.value,
+    description: formDescription.value,
+    width: widthForm.value,
+    schemas: schema.value,
+    requiredLogin: requireLogin.value,
+  })
+  if (success) {
+    router.push('/form')
+  } else {
+    showError.value = true
+    errorMessage.value = getBuilderErrorMessage(status ?? 400)
+  }
+}
 </script>
 
 <template>
@@ -102,6 +132,15 @@ function collapseItem(index: number) {
     class="relative font-Noto w-full flex justify-between items-start bg-primary/10 overflow-x-hidden"
     style="height: calc(100vh - 72px)"
   >
+    <div v-if="showError" class="absolute w-full top-10 bg-red-500 text-white p-4 text-center">
+      <p>{{ errorMessage }}</p>
+    </div>
+    <button
+      @click="CreateForm()"
+      class="absolute flex w-13 items-center gap-2 right-[18%] top-10 z-20 bg-primary rounded-full p-4 group cursor-pointer text-text hover:bg-transparent hover:text-primary hover:border border-primary transition-all duration-300"
+    >
+      <i class="pi pi-check"></i>
+    </button>
     <!-- left -->
     <div
       class="w-1/6 max-h-full h-full flex flex-col justify-start items-start overflow-hidden bg-white"
@@ -128,22 +167,19 @@ function collapseItem(index: number) {
     </div>
 
     <!-- Middle -->
-    <div class="flex w-4/6 py-4 max-h-full overflow-y-scroll justify-center">
+    <div
+      class="flex flex-col gap-2 w-4/6 py-4 max-h-full overflow-y-scroll justify-start items-center min-w-fit transition-[width] duration-300 max-w-[1080px]"
+      :style="{ width: widthForm + 'px' }"
+    >
       <div
-        class="flex flex-col h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-8k0 shadow-lg col-s"
-        :style="{ width: widthForm }"
+        class="flex flex-col h-fit w-full rounded-lg p-4 border border-border bg-white bg-opacity-80 shadow-lg"
       >
-        <!-- <FormKit type="form" v-model="data">
-          <div class="flex flex-col gap-6">
-            <div
-              v-for="(item, index) in schema"
-              :key="index"
-              class="border border-black p-2 rounded-lg"
-            >
-              <FormKitSchema :schema="item" />
-            </div>
-          </div>
-        </FormKit> -->
+        <h2 class="text-2xl font-semibold text-primary text-start">{{ formName }}</h2>
+        <p class="text-base text-text_b mt-2 text-start">{{ formDescription }}</p>
+      </div>
+      <div
+        class="flex flex-col w-full h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-80 shadow-lg"
+      >
         <FormKit type="form" v-model="data" :actions="false">
           <div ref="builderRef">
             <draggable
@@ -163,8 +199,8 @@ function collapseItem(index: number) {
                   <div
                     v-if="selectedItem?.id === element.id"
                     class="absolute right-0 top-0 bg-primary bg-opacity-15 w-full h-full"
-                    style="pointer-events: none;"
-                    ></div>
+                    style="pointer-events: none"
+                  ></div>
                   <div
                     class="absolute -top-6 left-0 pt-1 w-full justify-end gap-1"
                     :class="{
@@ -178,7 +214,7 @@ function collapseItem(index: number) {
                       </p>
                     </div>
                     <Icon
-                      v-if="element.outerClass?.includes('col-span-1') || !element.outerClass "
+                      v-if="element.outerClass?.includes('col-span-1') || !element.outerClass"
                       icon="material-symbols-light:expand-content-rounded"
                       class="bg-primary text-text shadow cursor-pointer"
                       width="18"
@@ -236,7 +272,13 @@ function collapseItem(index: number) {
         </button>
       </div>
       <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
-        <!-- <SettingBuilder /> -->
+        <SettingBuilder
+          v-if="currentView === 'setting'"
+          v-model:widthForm="widthForm"
+          v-model:formName="formName"
+          v-model:formDescription="formDescription"
+          v-model:requireLogin="requireLogin"
+        />
         <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
       </div>
     </div>

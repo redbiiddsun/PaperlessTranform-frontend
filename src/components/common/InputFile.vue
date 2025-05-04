@@ -14,9 +14,9 @@ const browseFile = () => {
 
 const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement
-  if (target.files) {
+  if (target.files) { 
     const files = Array.from(target.files)
-    emit('fileSelected', files)
+    emit('fileSelected', files[0])
     if (fileInput.value) {
       fileInput.value.value = ''
     }
@@ -41,7 +41,7 @@ const handleDrop = (event: DragEvent) => {
 
   const files = event.dataTransfer?.files
   if (files) {
-    emit('fileSelected', Array.from(files))
+    emit('fileSelected', files)
     isDragging.value = false
   }
 }
@@ -55,7 +55,7 @@ const handleDrop = (event: DragEvent) => {
       'w-[400px] h-[400px] xl:w-[488px] xl:h-[488px]': isDragging,
     }"
   >
-    <input ref="fileInput" type="file" multiple class="hidden" @change="handleFileChange" />
+    <input ref="fileInput" type="file"  class="hidden" @change="handleFileChange" />
 
     <!-- Drag-and-drop area -->
     <div

@@ -1,18 +1,40 @@
-// export type Users = {
-//     id: string;
-//     firstname: string;
-//     lastname: string;
-//     email: string;
-// };
+export type FormSchema = {
+  id: number
+  $formkit: string
+  name: string
+  label: string
+  value: string
+  validation?: string
+  help?: string
+  placeholder?: string
+  outerClass: string
+}
 
-// export type InputSignUp = {
-//     firstname: string;
-//     lastname : string;
-//     email: string;
-//     password: string;
-// };
+export type Form = {
+  id: string
+  name: string
+  description: string
+  width: string
+  createdAt: Date
+  userId: string
+  schemas: FormSchema[]
+  requiredLogin: boolean
+  updatedAt: Date
+}
 
-// export type InputSignIn = {
-//     email: string;
-//     password: string;
-// }
+export type InputCreateForm = {
+  name: string
+  description: string
+  width: string
+  schemas: FormSchema[]
+  requiredLogin: boolean
+}
+
+export type InputFormData = {
+  data: {
+    [key: string]: Record<string, unknown>
+  }
+}
+
+export type OutputFormData = Array<Record<string, unknown>>;
+

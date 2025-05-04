@@ -61,36 +61,50 @@ const router = createRouter({
           component: () => import('@/components/pages/FormDashboard.vue'),
         },
         {
-          path: 'form/:id',
-          name: 'FormView',
-          component: () => import('@/components/pages/DisplayForm.vue'),
+          path: 'form/result/:id',
+          name: 'FormResult',
+          component: () => import('@/components/pages/FormResult.vue'),
         },
         {
           path: 'add',
           name: 'AddForm',
-          component: () => import('@/components/pages/AddForm.vue'),
+          component: () => import('@/components/pages/FormBuilder.vue'),
         },
         {
-          path: 'edit',
-          name: 'EditForm',
-          component: () => import('@/components/pages/EditForm.vue'),
+          path: 'profile',
+          name: 'ProfileSetting',
+          component: () => import('@/components/pages/other/ProfileSetting.vue'),
+        },
+        {
+          path: 'feedback',
+          name: 'Feedback',
+          component: () => import('@/components/pages/other/GiveFeedBack.vue'),
+        },
+        {
+          path: 'aboutus',
+          name: 'Aboutus',
+          component: () => import('@/components/pages/other/AboutUs.vue'),
         },
       ],
     },
-  ]
+    {
+      path: '/form/:id',
+      name: 'FormView',
+      component: () => import('@/view/DisplayForm.vue'),
+    },
+  ],
 })
 
-// router.beforeEach((to, from, next) => {
-//   const loggedIn = document.cookie.includes('session');
+router.beforeEach((to, from, next) => {
+  const loggedIn = document.cookie.includes('session');
 
-//   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
-//     next('/auth/login')
-//   } else if (to.matched.some(record => record.meta.guestOnly) && loggedIn) {
-//     next('/')
-//   } else {
-//     next()
-//   }
-// })
-
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    next('/auth/login')
+  } else if (to.matched.some(record => record.meta.guestOnly) && loggedIn) {
+    next('/')
+  } else {
+    next()
+  }
+})
 
 export default router
