@@ -95,7 +95,7 @@ const showData = ref(false)
 
         <div
           v-if="
-            !['date', 'datetime-local', 'time'].includes(props.selectedItem?.$formkit as string)
+            !['date', 'datetime-local', 'time', 'color'].includes(props.selectedItem?.$formkit as string)
           "
         >
           <label class="block mb-1">Placeholder</label>
@@ -156,7 +156,7 @@ const showData = ref(false)
     </Transition>
 
     <!-- Data -->
-    <div class="flex p-2 w-full justify-center items-center bg-primary/10">
+    <!-- <div class="flex p-2 w-full justify-center items-center bg-primary/10">
       <p class="font-Noto w-full text-text_b">Data</p>
       <Icon
         :icon="showData ? 'material-symbols-light:remove' : 'material-symbols-light:add'"
@@ -183,7 +183,7 @@ const showData = ref(false)
           />
         </div>
       </div>
-    </Transition>
+    </Transition> -->
   </div>
 </template>
 

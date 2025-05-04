@@ -8,14 +8,26 @@ import type { Form, FormSchema, InputCreateForm } from '@/services/form/types'
 
 export const useFormStore = defineStore('formStore', () => {
   const forms = ref<Form[]>([])
+  const Singleform = ref<Form>()
   const schema = ref<FormSchema[]>()
 
   function initForm(data: Form[]) {
     forms.value = data
   }
 
+  function initSingleForm(data: Form) {
+    Singleform.value = data
+  }
+
   function initSchema(data: Form) {
     schema.value = data.schemas
+  }
+
+  function removeForm(id: string) {
+    const idx = forms.value.findIndex((s) => s.id === id);
+    if (idx === -1) return;
+    forms.value.splice(idx, 1);
+    console.log(forms.value)
   }
 
   async function GetManyForm(): Promise<APIResponse<null>> {
@@ -51,6 +63,7 @@ export const useFormStore = defineStore('formStore', () => {
       if (status === 200) {
         if (content) {
           initSchema(content)
+          initSingleForm(content)
         }
         return {
           success: true,
@@ -100,6 +113,7 @@ export const useFormStore = defineStore('formStore', () => {
     try {
       const { status } = await API.form.deleteForm(formId)
       if (status === 200) {
+        removeForm(formId)
         return {
           success: true,
           content: null,
@@ -123,6 +137,7 @@ export const useFormStore = defineStore('formStore', () => {
 
   return {
     forms,
+    Singleform,
     schema,
     initSchema,
     GetForm,

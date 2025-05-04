@@ -12,7 +12,10 @@ const timeEdited = computed(() => {
   if (!props.form.updatedAt) return 'Unknown time'
   const now = new Date()
   const inputDate = new Date(props.form.updatedAt)
-  const diffInSeconds = Math.floor((now.getTime() - inputDate.getTime()) / 1000)
+
+  const adjustedInputDate = new Date(inputDate.getTime() + 7 * 60 * 60 * 1000)
+
+  const diffInSeconds = Math.floor((now.getTime() - adjustedInputDate.getTime()) / 1000)
   if (diffInSeconds < 60) return 'just now'
   const diffInMinutes = Math.floor(diffInSeconds / 60)
   if (diffInMinutes < 60) return `${diffInMinutes} min ago`

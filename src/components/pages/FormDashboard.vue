@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch  } from 'vue'
 import ListForm from '@/components/common/FormCard.vue'
 import InputFile from '../common/InputFile.vue'
 import StatusUpload from '../common/StatusUpload.vue'

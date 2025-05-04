@@ -9,10 +9,10 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
+  (e: 'update:requireLogin', value: boolean): void
   (e: 'update:widthForm', value: string): void
   (e: 'update:formName', value: string): void
   (e: 'update:formDescription', value: string): void
-  (e: 'update:formRequiredLogin', value: boolean): void
 }>()
 </script>
 
@@ -61,7 +61,7 @@ const emit = defineEmits<{
         id="formRequiredLogin"
         type="checkbox"
         :checked="requireLogin"
-        @input="$emit('update:formRequiredLogin', ($event.target as HTMLInputElement).checked)"
+        @input="$emit('update:requireLogin', ($event.target as HTMLInputElement).checked)"
         class="border border-border rounded px-2 py-1 text-sm w-fit"
       />
       <label for="formDescription" class="text-sm text-text_b">Required Login</label>

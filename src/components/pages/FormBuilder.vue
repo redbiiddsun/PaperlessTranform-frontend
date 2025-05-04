@@ -129,9 +129,12 @@ const CreateForm = async () => {
     class="relative font-Noto w-full flex justify-between items-start bg-primary/10 overflow-x-hidden"
     style="height: calc(100vh - 72px)"
   >
-    <button @click="CreateForm()" class="absolute flex w-13 items-center gap-2 right-[18%] top-10 z-20 bg-primary rounded-full p-4 group cursor-pointer text-text hover:bg-transparent hover:text-primary hover:border border-primary transition-all duration-300">
+    <button
+      @click="CreateForm()"
+      class="absolute flex w-13 items-center gap-2 right-[18%] top-10 z-20 bg-primary rounded-full p-4 group cursor-pointer text-text hover:bg-transparent hover:text-primary hover:border border-primary transition-all duration-300"
+    >
       <span class="hidden font-Poppins text-nowrap group-hover:block">Create and Export Form</span>
-      <i class="pi pi-check "></i>
+      <i class="pi pi-check"></i>
     </button>
     <!-- left -->
     <div
