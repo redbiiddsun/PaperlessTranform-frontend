@@ -37,6 +37,17 @@ const DeleteForm = async () => {
     router.push('/form')
   }
 }
+
+const copyShareLink = async () => {
+  try {
+    const url = `${window.location.origin}/form/${props.form.id}`
+    await navigator.clipboard.writeText(url)
+    alert('Link copied to clipboard!')
+  } catch (err) {
+    alert('Failed to copy the link.')
+    console.error(err)
+  }
+}
 </script>
 
 <template>
@@ -51,7 +62,16 @@ const DeleteForm = async () => {
     >
       <!-- Trash Icon -->
       <button
-        class="bg-white absolute top-4 right-4 px-2 py-1 rounded-lg transition-opacity duration-300 z-10 text-red-600"
+        class="bg-white absolute top-4 right-4 px-2 py-1 rounded-lg transition-opacity duration-300 z-10 text-text_b"
+        :class="isHovered ? 'opacity-100' : 'opacity-0'"
+        @click.stop.prevent="copyShareLink"
+        title="export"
+      >
+        <span class="pi pi-share-alt"></span>
+      </button>
+
+      <button
+        class="bg-white absolute top-4 right-14 px-2 py-1 rounded-lg transition-opacity duration-300 z-10 text-red-600"
         :class="isHovered ? 'opacity-100' : 'opacity-0'"
         @click.stop.prevent="DeleteForm"
         title="Delete"
@@ -60,7 +80,7 @@ const DeleteForm = async () => {
       </button>
 
       <!-- Image -->
-      <RouterLink :to="`/form/${props.form.id}`">
+      <RouterLink :to="`/form/result/${props.form.id}`">
         <img
           src=""
           alt=""

@@ -14,6 +14,7 @@ import SettingBuilder from '../common/FormBuilder/SettingBuilder.vue'
 import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
 import { useBeforeUnload } from '@/utils/common'
 import { useFormStore } from '@/store/form'
+import { getBuilderErrorMessage } from '@/utils/ErrorMessage'
 
 const router = useRouter()
 
@@ -32,6 +33,8 @@ const formDescription = ref('From Description')
 const widthForm = ref<string>('720')
 const formStore = useFormStore()
 const requireLogin = ref(false)
+const showError = ref(false)
+const errorMessage = ref('')
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -118,8 +121,8 @@ const CreateForm = async () => {
   if (success) {
     router.push('/form')
   } else {
-    // err.value = getAuthErrorMessage(status as number);
-    // showError.value = true;
+    showError.value = true
+    errorMessage.value = getBuilderErrorMessage(status ?? 400)
   }
 }
 </script>
@@ -129,11 +132,13 @@ const CreateForm = async () => {
     class="relative font-Noto w-full flex justify-between items-start bg-primary/10 overflow-x-hidden"
     style="height: calc(100vh - 72px)"
   >
+    <div v-if="showError" class="absolute w-full top-10 bg-red-500 text-white p-4 text-center">
+      <p>{{ errorMessage }}</p>
+    </div>
     <button
       @click="CreateForm()"
       class="absolute flex w-13 items-center gap-2 right-[18%] top-10 z-20 bg-primary rounded-full p-4 group cursor-pointer text-text hover:bg-transparent hover:text-primary hover:border border-primary transition-all duration-300"
     >
-      <span class="hidden font-Poppins text-nowrap group-hover:block">Create and Export Form</span>
       <i class="pi pi-check"></i>
     </button>
     <!-- left -->

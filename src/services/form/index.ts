@@ -1,6 +1,6 @@
 import http from '../api'
 import type { APIResponse } from '../types'
-import type { Form, InputCreateForm } from './types'
+import type { Form, InputCreateForm, InputFormData, OutputFormData } from './types'
 
 async function GetForms() {
   const response = await http.get('/form', { withCredentials: true })
@@ -36,11 +36,21 @@ async function deleteForm(formId: string) {
   return response
 }
 
-async function SubmitForm(formId: string) {
-  const response = await http.post<APIResponse<Form>>(`/form/${formId}/submit`, {
+async function SubmitForm(formId: string, input: InputFormData) {
+  const response = await http.post<APIResponse<Form>>(`/form/${formId}/submit`, input, {
     withCredentials: true,
   })
   return response
+}
+
+async function GetResultForm(formId: string) {
+  const response = await http.get(`/form/${formId}/result`, { withCredentials: true })
+  const formsResponse: APIResponse<OutputFormData> = {
+    success: response.data.status === 'success',
+    content: response.data.form_result,
+    status: response.status,
+  }
+  return formsResponse
 }
 
 export default {
@@ -48,5 +58,6 @@ export default {
   GetForms,
   AddForm,
   deleteForm,
-  SubmitForm
+  SubmitForm,
+  GetResultForm
 }

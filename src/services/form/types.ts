@@ -29,3 +29,12 @@ export type InputCreateForm = {
   schemas: FormSchema[]
   requiredLogin: boolean
 }
+
+export type InputFormData = {
+  data: {
+    [key: string]: Record<string, unknown>
+  }
+}
+
+export type OutputFormData = Array<Record<string, unknown>>;
+
