@@ -23,9 +23,9 @@ const fetchUser = async () => {
   try {
     const { success, status } = await userStore.GetUser()
     if (!success) {
-      if (status === 401) {
+      if(status === 401){
         handleSignOut()
-      }
+      } 
       console.error('Error fetching data', status)
     }
   } catch (error) {
@@ -36,11 +36,8 @@ const fetchUser = async () => {
 }
 
 const handleSignOut = () => {
-  let cookies = document.cookie.split(';')
-
-  for (let i = 0; i < cookies.length; i++)
-    document.cookie = cookies[i] + '=;expires=' + new Date(0).toUTCString()
-
+  document.cookie = 'session=; Max-Age=0; path=/;'
+  router.push('/auth/login')
 }
 
 const randomGradient = ref('')
@@ -135,7 +132,9 @@ onMounted(() => {
             >
               {{ user?.firstname || 'UNKNOW' }} {{ user?.lastname || 'UNKNOW' }}
             </p>
-            <p class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis">
+            <p
+              class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis  "
+            >
               {{ user?.email || 'UNKNOW' }}
             </p>
           </div>
@@ -145,7 +144,7 @@ onMounted(() => {
       <MenuItems name="About Us" link="aboutus" />
       <MenuItems name="Give Feedback" link="feedback" />
       <!-- <MenuItems name="Setting" link="setting" />   -->
-      <MenuItems name="Sign Out" link="auth/login" @click="handleSignOut" />
+      <MenuItems name="Sign Out" link="" @click="handleSignOut" />
     </div>
     <!-- Body -->
     <div class="flex justify-center items-start h-full">
