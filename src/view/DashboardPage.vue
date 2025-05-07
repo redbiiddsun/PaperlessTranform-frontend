@@ -36,7 +36,7 @@ const fetchUser = async () => {
 }
 
 const handleSignOut = () => {
-  document.cookie = 'session=; Max-Age=0; path=/;'
+  document.cookie = 'session=; Max-Age=0; path=/; domain=.paperlesstransform.online; Secure;';
   router.push('/auth/login')
 }
 
