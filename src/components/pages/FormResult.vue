@@ -126,7 +126,6 @@ const copyShareLink = async () => {
         <table class="min-w-full table-auto text-sm">
           <thead class="bg-gray-100 text-left">
             <tr>
-              <th class="px-4 py-2 font-medium text-gray-700 whitespace-nowrap">No.</th>
               <th
                 v-for="col in visibleColumns"
                 :key="col"
@@ -142,7 +141,6 @@ const copyShareLink = async () => {
               :key="index"
               class="even:bg-gray-50 hover:bg-gray-100"
             >
-              <td class="px-4 py-2 border-t text-center">{{ index + 1 }}</td>
               <td
                 v-for="col in visibleColumns"
                 :key="col"
