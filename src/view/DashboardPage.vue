@@ -145,7 +145,7 @@ onMounted(() => {
       <MenuItems name="About Us" link="aboutus" />
       <MenuItems name="Give Feedback" link="feedback" />
       <!-- <MenuItems name="Setting" link="setting" />   -->
-      <MenuItems name="Sign Out" link="/auth/login" @click="handleSignOut" />
+      <MenuItems name="Sign Out" link="auth/login" @click="handleSignOut" />
     </div>
     <!-- Body -->
     <div class="flex justify-center items-start h-full">
