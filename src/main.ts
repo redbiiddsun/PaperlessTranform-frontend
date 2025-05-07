@@ -12,7 +12,6 @@ import { createPinia } from "pinia";
 import { plugin, defaultConfig } from '@formkit/vue'
 import config from '../formkit.config.ts'
 
-
 const app = createApp(App)
 const pinia = createPinia();
 app.use(router)
