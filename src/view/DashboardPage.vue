@@ -23,9 +23,9 @@ const fetchUser = async () => {
   try {
     const { success, status } = await userStore.GetUser()
     if (!success) {
-      if(status === 401){
+      if (status === 401) {
         handleSignOut()
-      } 
+      }
       console.error('Error fetching data', status)
     }
   } catch (error) {
@@ -36,8 +36,11 @@ const fetchUser = async () => {
 }
 
 const handleSignOut = () => {
-  document.cookie = 'session=; Max-Age=0; path=/;'
-  router.push('/auth/login')
+  let cookies = document.cookie.split(';')
+
+  for (let i = 0; i < cookies.length; i++)
+    document.cookie = cookies[i] + '=;expires=' + new Date(0).toUTCString()
+
 }
 
 const randomGradient = ref('')
@@ -132,9 +135,7 @@ onMounted(() => {
             >
               {{ user?.firstname || 'UNKNOW' }} {{ user?.lastname || 'UNKNOW' }}
             </p>
-            <p
-              class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis  "
-            >
+            <p class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis">
               {{ user?.email || 'UNKNOW' }}
             </p>
           </div>
