@@ -6,29 +6,34 @@
 
 // },
 
-type jsonForm = {
-  original_field: string
-  field: string
-  type: string
-  help?: string
-  outerClass?: string
-  placeholder?: string
-  validation?: string
-}
+export type jsonForm = {
+  form_name: string;          
+  fields: Array<{
+    original_field?: string;  
+    field: string;      
+    type: string;
+    help?: string;
+    outerClass?: string;
+    placeholder?: string;
+    validation?: string;
+  }>
+};
 
 export const jsonToSchema = (json: jsonForm[]) => {
-  return json.map((item, index) => ({
-    id: index,
-    $formkit: item.type,
-    name: item.field.toLowerCase().replace(/\s+/g, '_'),
-    label: item.original_field,
-    value: '',
-    ...(item.validation ? { validation: item.validation } : {validation:''}),
-    ...(item.help ? { help: item.help } : {}),
-    ...(item.placeholder ? { placeholder: item.placeholder } : {}),
-    ...(item.outerClass ? { outerClass: item.outerClass } : { outerClass: 'col-span-2' }),
-  }))
-}
+  return json.flatMap((form) => {
+    return form.fields.map((item, index) => ({
+      id: index,
+      $formkit: item.type,
+      name: item.field.toLowerCase().replace(/\s+/g, '_'),
+      label: item.original_field || item.field,
+      value: '',
+      validation: '',
+      help: item.help || '',
+      placeholder: item.placeholder || '',
+      outerClass: item.outerClass || 'col-span-2',
+    }));
+  });
+};
 
 export const FormType = {
   text: [

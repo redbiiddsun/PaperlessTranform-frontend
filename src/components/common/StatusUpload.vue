@@ -19,7 +19,7 @@ const removeFile = () => {
   >
     <div class="w-full h-[50px] flex items-center justify-between xl:mb-4">
       <p class="font-Poppins font-semibold text-text_b text-xl">Status Uploaded</p>
-      <ConfirmButton :disableMode="props.fileUpload === undefined"/>
+      <ConfirmButton :disableMode="props.fileUpload === undefined" :fileUpload="fileUpload"/>
     </div>
 
     <div

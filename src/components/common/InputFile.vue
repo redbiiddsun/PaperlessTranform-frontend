@@ -12,10 +12,15 @@ const browseFile = () => {
   fileInput.value?.click()
 }
 
+
 const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement
   if (target.files) { 
     const files = Array.from(target.files)
+    if (files[0].type !== 'application/pdf') {
+      alert('Only PDF files are allowed.')
+      return
+    }
     emit('fileSelected', files[0])
     if (fileInput.value) {
       fileInput.value.value = ''
@@ -41,6 +46,11 @@ const handleDrop = (event: DragEvent) => {
 
   const files = event.dataTransfer?.files
   if (files) {
+    if (files[0].type !== 'application/pdf') {
+      alert('Only PDF files are allowed.')
+      isDragging.value = false
+      return
+    }
     emit('fileSelected', files)
     isDragging.value = false
   }

@@ -147,7 +147,7 @@ onMounted(() => {
       <MenuItems name="Sign Out" link="" @click="handleSignOut" />
     </div>
     <!-- Body -->
-    <div class="flex justify-center items-start h-full">
+    <div class="flex justify-center items-start w-full h-full">
       <router-view v-slot="{ Component }">
         <transition :name="slideDirection" mode="out-in">
           <component :is="Component" v-if="Component" />

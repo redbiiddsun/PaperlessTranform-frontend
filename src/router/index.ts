@@ -69,6 +69,7 @@ const router = createRouter({
           path: 'add',
           name: 'AddForm',
           component: () => import('@/components/pages/FormBuilder.vue'),
+          props: true
         },
         {
           path: 'profile',

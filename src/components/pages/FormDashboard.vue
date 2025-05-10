@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch  } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import ListForm from '@/components/common/FormCard.vue'
 import InputFile from '../common/InputFile.vue'
 import StatusUpload from '../common/StatusUpload.vue'
@@ -55,10 +55,6 @@ const handleFiles = (files: File) => {
 
 const updateFileList = (updatedFiles: File) => {
   selectedFiles.value = updatedFiles
-  console.log(
-    'Updated files:',
-    selectedFiles.value,
-  )
 }
 
 const searchKeyword = ref('')
@@ -83,7 +79,7 @@ const filteredForms = computed(() => {
           Add New Form
         </p>
         <RouterLink
-        to="/add"
+          :to="{ name: 'AddForm', query: { schema: JSON.stringify([]) } }"
           class="flex items-center w-11 hover:w-72 gap-2 font-Poppins font-semibold text-base md:text-2xl text-white bg-primary border mr-2 p-2 hover:border-primary hover:text-primary rounded-full hover:bg-white cursor-pointer transition-all duration-300 group"
         >
           <i class="pi pi-plus"></i>

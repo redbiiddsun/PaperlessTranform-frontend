@@ -3,10 +3,10 @@ import { ref } from 'vue'
 import { FormKitSchema } from '@formkit/vue'
 import { Icon } from '@iconify/vue'
 import draggable from 'vuedraggable'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
-import { json } from '@/data/json'
-import { jsonToSchema } from '@/utils/FormKitUtils'
+import { defaultJson, jsonTemp } from '@/data/json'
+import { jsonToSchema, type jsonForm } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
 import ElementBuilder from '../common/FormBuilder/ElementBuilder.vue'
 import PreviewBuilder from '../common/FormBuilder/PreviewBuilder.vue'
@@ -17,9 +17,27 @@ import { useFormStore } from '@/store/form'
 import { getBuilderErrorMessage } from '@/utils/ErrorMessage'
 
 const router = useRouter()
+const route = useRoute()
+
+
+const schema = ref(jsonToSchema(jsonTemp));
+
+const IsManual = ref([]);
+
+if (route.query.schema) {
+  try {
+    IsManual.value = typeof route.query.schema === 'string' 
+      ? JSON.parse(route.query.schema) 
+      : [];
+    schema.value = IsManual.value;
+  } catch (error) {
+    console.error("Invalid schema format:", error);
+    IsManual.value = [];
+  }
+}
+
 
 useBeforeUnload(true)
-const schema = ref(jsonToSchema(json))
 const data = ref({})
 
 const selectedItem = ref<Record<string, unknown> | null>(null)

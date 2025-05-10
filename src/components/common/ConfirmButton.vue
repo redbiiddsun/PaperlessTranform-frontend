@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 
 const props = defineProps({
   disableMode: Boolean,
+  fileUpload: File,
 })
 const router = useRouter()
 
