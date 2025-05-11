@@ -87,6 +87,7 @@ function AddFormItem(item: { type: string }) {
     $formkit: item.type,
     name: `${item.type}`,
     label: `New ${item.type.charAt(0).toUpperCase() + item.type.slice(1)}`,
+    outerClass: 'col-span-2',
   }
 }
 
@@ -343,7 +344,7 @@ const CreateForm = async () => {
           v-model:formDescription="formDescription"
           v-model:requireLogin="requireLogin"
         />
-        <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
+        <PreviewBuilder v-if="currentView === 'preview'" :data="schema" />
       </div>
     </div>
 
