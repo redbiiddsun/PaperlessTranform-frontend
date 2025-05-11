@@ -32,7 +32,6 @@ const fetchFile = async () => {
       const blob = await response.blob()
       file.value = new File([blob], "uploaded-file")
 
-      // Upload file to backend (commented for now)
       const formData = new FormData()
       console.log(formData)
 
