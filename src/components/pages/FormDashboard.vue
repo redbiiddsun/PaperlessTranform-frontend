@@ -79,7 +79,7 @@ const filteredForms = computed(() => {
           Add New Form
         </p>
         <RouterLink
-          :to="{ name: 'AddForm', query: { schema: JSON.stringify([]) } }"
+          :to="{ name: 'AddForm' }"
           class="flex items-center w-11 hover:w-72 gap-2 font-Poppins font-semibold text-base md:text-2xl text-white bg-primary border mr-2 p-2 hover:border-primary hover:text-primary rounded-full hover:bg-white cursor-pointer transition-all duration-300 group"
         >
           <i class="pi pi-plus"></i>

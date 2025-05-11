@@ -69,7 +69,7 @@ const router = createRouter({
           path: 'add',
           name: 'AddForm',
           component: () => import('@/components/pages/FormBuilder.vue'),
-          props: true
+          props: true,
         },
         {
           path: 'profile',
@@ -97,11 +97,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = document.cookie.includes('session');
+  const loggedIn = document.cookie.includes('session')
 
-  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
     next('/auth/login')
-  } else if (to.matched.some(record => record.meta.guestOnly) && loggedIn) {
+  } else if (to.matched.some((record) => record.meta.guestOnly) && loggedIn) {
     next('/')
   } else {
     next()

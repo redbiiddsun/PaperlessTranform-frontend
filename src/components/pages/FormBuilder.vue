@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { FormKitSchema } from '@formkit/vue'
 import { Icon } from '@iconify/vue'
 import draggable from 'vuedraggable'
 import { useRoute, useRouter } from 'vue-router'
 
-import { defaultJson, jsonTemp } from '@/data/json'
-import { jsonToSchema, type jsonForm } from '@/utils/FormKitUtils'
+import { jsonTemp } from '@/data/json'
+import { jsonToSchema } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
 import ElementBuilder from '../common/FormBuilder/ElementBuilder.vue'
 import PreviewBuilder from '../common/FormBuilder/PreviewBuilder.vue'
@@ -15,26 +15,48 @@ import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
 import { useBeforeUnload } from '@/utils/common'
 import { useFormStore } from '@/store/form'
 import { getBuilderErrorMessage } from '@/utils/ErrorMessage'
-
 const router = useRouter()
+const loading = ref(true)
+
 const route = useRoute()
+const file = ref<File | null>(null)
+const schema = ref(jsonToSchema(jsonTemp))
 
+const fetchFile = async () => {
+  const fileUrl = route.query.fileUrl as string
 
-const schema = ref(jsonToSchema(jsonTemp));
+  if (fileUrl) {
+    try {
+      // Fetch file blob from the URL
+      const response = await fetch(fileUrl)
+      const blob = await response.blob()
+      file.value = new File([blob], "uploaded-file")
 
-const IsManual = ref([]);
+      // Upload file to backend (commented for now)
+      const formData = new FormData()
+      console.log(formData)
 
-if (route.query.schema) {
-  try {
-    IsManual.value = typeof route.query.schema === 'string' 
-      ? JSON.parse(route.query.schema) 
-      : [];
-    schema.value = IsManual.value;
-  } catch (error) {
-    console.error("Invalid schema format:", error);
-    IsManual.value = [];
+      // await axios.post('/api/upload', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // })
+      // console.log('File uploaded successfully')
+
+      schema.value = []
+      loading.value = false
+    } catch (error) {
+      console.error('Error fetching or uploading file:', error)
+    }
+  } else {
+    console.warn('No file URL received')
+    loading.value = false
   }
 }
+
+onMounted(() => {
+  fetchFile()
+})
 
 
 useBeforeUnload(true)
@@ -190,12 +212,36 @@ const CreateForm = async () => {
       :style="{ width: widthForm + 'px' }"
     >
       <div
+        v-if="loading"
+        class="flex flex-col h-fit w-full rounded-lg p-4 border border-border bg-white bg-opacity-80 shadow-lg animate-pulse"
+      >
+        <div class="h-6 w-1/3 bg-gray-300 rounded mb-2"></div>
+        <div class="h-4 w-2/3 bg-gray-300 rounded"></div>
+      </div>
+      <div
+        v-else
         class="flex flex-col h-fit w-full rounded-lg p-4 border border-border bg-white bg-opacity-80 shadow-lg"
       >
         <h2 class="text-2xl font-semibold text-primary text-start">{{ formName }}</h2>
         <p class="text-base text-text_b mt-2 text-start">{{ formDescription }}</p>
       </div>
       <div
+        v-if="loading"
+        class="grid grid-cols-2 gap-x-2 w-full h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-80 shadow-lg animate-pulse"
+      >
+        <div class="h-6 w-1/4 col-span-2 bg-gray-300 rounded mb-4"></div>
+        <div class="h-8 w-full col-span-2 bg-gray-300 rounded mb-4"></div>
+        <div class="h-6 w-2/4 col-span-1 bg-gray-300 rounded mb-4"></div>
+        <div class="h-6 w-2/4 col-span-1 bg-gray-300 rounded mb-4"></div>
+        <div class="h-8 w-full col-span-1 bg-gray-300 rounded mb-4"></div>
+        <div class="h-8 w-full col-span-1 bg-gray-300 rounded mb-4"></div>
+        <div class="h-6 w-1/4 col-span-2 bg-gray-300 rounded mb-4"></div>
+        <div class="h-8 w-full col-span-2 bg-gray-300 rounded mb-4"></div>
+        <div class="h-6 w-1/4 col-span-2 bg-gray-300 rounded mb-4"></div>
+        <div class="h-8 w-full col-span-2 bg-gray-300 rounded mb-4"></div>
+      </div>
+      <div
+        v-else
         class="flex flex-col w-full h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-80 shadow-lg"
       >
         <FormKit type="form" v-model="data" :actions="false">
