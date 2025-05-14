@@ -27,16 +27,22 @@ const errorMessage = ref('')
 onMounted(async () => {
   if (formStore.formfile) {
     loading.value = true
-    const { success, status } = await formStore.UploadForm(formStore.formfile)
-    if (success) {
+    try {
+      const { success, status } = await formStore.UploadForm(formStore.formfile)
+      if (!success) {
+        schema.value = []
+        errorMessage.value = getBuilderErrorMessage(status ?? 400)
+      }
+    } catch (error) {
       schema.value = []
-    } else {
-      schema.value = []
-      errorMessage.value = getBuilderErrorMessage(status ?? 400)
+      console.error('Unexpected error uploading file', error)
+    } finally {
+      schema.value = jsonToSchema(formStore.formbuilder ?? [])
+      loading.value = false
+      formStore.formfile = null
     }
-    loading.value = false
   } else {
-    loading.value = true
+    loading.value = false
     schema.value = []
   }
 })
@@ -60,10 +66,22 @@ useClickOutside([builderRef, sliderRef], () => {
 function AddFormItem(item: { type: string }) {
   const maxId = Math.max(0, ...schema.value.map((i) => i.id || 0))
 
+  // Base name without suffix
+  const baseName = item.type.toLowerCase()
+  let name = baseName
+  let suffix = 1
+
+  const existingNames = new Set(schema.value.map((i) => i.name))
+
+  // Increment suffix until unique name is found
+  while (existingNames.has(name)) {
+    name = `${baseName} ${suffix++}`
+  }
+
   const base = {
     id: maxId + 1,
     $formkit: item.type,
-    name: `${item.type}`,
+    name,
     label: `New ${item.type.charAt(0).toUpperCase() + item.type.slice(1)}`,
     outerClass: 'col-span-1',
   }
@@ -92,10 +110,27 @@ function cloneItem(index: number) {
   const maxId = Math.max(0, ...schema.value.map((i) => i.id || 0))
 
   if (index !== -1) {
+    const originalItem = schema.value[index]
+    const baseName = originalItem.name?.split(' (copy)')[0] || originalItem.name
+    const existingNames = new Set(schema.value.map((i) => i.name))
+    let suffix = 1
+    let newName = `${baseName} (copy)`
+
+    while (existingNames.has(newName)) {
+      suffix++
+      newName = `${baseName} (copy ${suffix})`
+    }
+
+    if (existingNames.has(newName)) {
+      showError.value = true
+      errorMessage.value = 'Duplicate name detected. Cannot clone item.'
+      return
+    }
+
     const clonedItem = {
-      ...schema.value[index],
-      label: `${schema.value[index].label} (copy)`,
-      name: `${schema.value[index].name} (copy)`,
+      ...originalItem,
+      label: `${originalItem.label} (copy)`,
+      name: newName,
       id: maxId + 1,
     }
     schema.value.splice(index + 1, 0, clonedItem)
@@ -139,6 +174,23 @@ function collapseItem(index: number) {
 }
 
 const CreateForm = async () => {
+  // Check for duplicate 'name' fields in schema
+  const nameSet = new Set()
+  for (const field of schema.value) {
+    if (nameSet.has(field.name)) {
+      showError.value = true
+      errorMessage.value = `Duplicate field name detected: "${field.name}"`
+
+      setTimeout(() => {
+        showError.value = false
+      }, 3000)
+
+      return
+    }
+    nameSet.add(field.name)
+  }
+
+  // Proceed with form creation if no duplicates
   const { success, status } = await formStore.CreateForm({
     name: formName.value,
     description: formDescription.value,
@@ -146,6 +198,7 @@ const CreateForm = async () => {
     schemas: schema.value,
     requiredLogin: requireLogin.value,
   })
+
   if (success) {
     router.push('/form')
   } else {
@@ -331,7 +384,7 @@ const CreateForm = async () => {
           v-model:formDescription="formDescription"
           v-model:requireLogin="requireLogin"
         />
-        <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
+        <PreviewBuilder v-if="currentView === 'preview'" :data="schema" />
       </div>
     </div>
 

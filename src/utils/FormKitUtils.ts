@@ -6,36 +6,34 @@
 
 // },
 
+// Correct type definition: an array of field definition objects
 export type jsonForm = {
-  form_name: string;          
-  fields: Array<{
-    original_field?: string;  
-    field: string;      
-    type: string;
-    help?: string;
-    outerClass?: string;
-    placeholder?: string;
-    validation?: string;
-    options?: string[];
-  }>
+  original_field?: string;
+  field: string;
+  type: string;
+  help?: string;
+  outerClass?: string;
+  placeholder?: string;
+  validation?: string;
+  options?: string[];
+}[];
+
+// Converts jsonForm to a form schema
+export const jsonToSchema = (json: jsonForm) => {
+  return json.map((item, index) => ({
+    id: index,
+    $formkit: item.type,
+    name: item.field.toLowerCase().replace(/\s+/g, '_'),
+    label: item.original_field || item.field,
+    value: '',
+    validation: item.validation || '',
+    help: item.help || '',
+    placeholder: item.placeholder || '',
+    outerClass: item.outerClass || 'col-span-2',
+    ...(item.options ? { options: item.options } : {}),
+  }));
 };
 
-export const jsonToSchema = (json: jsonForm[]) => {
-  return json.flatMap((form) => {
-    return form.fields.map((item, index) => ({
-      id: index,
-      $formkit: item.type,
-      name: item.field.toLowerCase().replace(/\s+/g, '_'),
-      label: item.original_field || item.field,
-      value: '',
-      validation: '',
-      help: item.help || '',
-      placeholder: item.placeholder || '',
-      outerClass: item.outerClass || 'col-span-2',
-      ...(item.options ? { options: item.options } : {}),
-    }));
-  });
-};
 
 
 export const FormType = {

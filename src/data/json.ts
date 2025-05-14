@@ -40,9 +40,6 @@ export const defaultJson = [
 ];
 
 export const jsonTemp = [
-  {
-      "form_name": "Complaint Form",
-      "fields": [
           {
               "field": "Day of Complaint",
               "type": "date",
@@ -96,5 +93,3 @@ export const jsonTemp = [
               "validation": "length:0,20"
           }
       ]
-  }
-]

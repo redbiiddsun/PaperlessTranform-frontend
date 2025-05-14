@@ -1,3 +1,4 @@
+import type { jsonForm } from '@/utils/FormKitUtils'
 import http from '../api'
 import type { APIResponse } from '../types'
 import type { Form, InputCreateForm, InputFormData, OutputFormData } from './types'
@@ -62,8 +63,9 @@ async function UploadfileForm(file: File) {
         'Content-Type': 'multipart/form-data',
       },
       withCredentials: true,
+      timeout: 300000,
     });
-  const formsResponse: APIResponse<Form> = {
+  const formsResponse: APIResponse<[]> = {
     success: response.data.status === 'success',
     content: response.data.result,
     status: response.status,

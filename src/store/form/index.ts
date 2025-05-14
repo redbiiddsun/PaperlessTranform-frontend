@@ -5,13 +5,15 @@ import type { FormKitSchemaDefinition } from '@formkit/core'
 import { API } from '../../services'
 import { AxiosError } from 'axios'
 import type { Form, FormSchema, InputCreateForm, InputFormData, OutputFormData } from '@/services/form/types'
+import type { jsonForm } from '@/utils/FormKitUtils'
 
 export const useFormStore = defineStore('formStore', () => {
   const forms = ref<Form[]>([])
   const Singleform = ref<Form>()
   const schema = ref<FormSchema[]>()
   const formResult = ref<OutputFormData>()
-  const formfile = ref<File>()
+  const formfile = ref<File | null>()
+  const formbuilder = ref<jsonForm>()
 
   function initForm(data: Form[]) {
     forms.value = data
@@ -27,6 +29,10 @@ export const useFormStore = defineStore('formStore', () => {
 
   function initResult(data: OutputFormData) {
     formResult.value = data
+  }
+
+  function initFormBuilder(data: jsonForm) {
+    formbuilder.value = data
   }
 
   function removeForm(id: string) {
@@ -199,7 +205,7 @@ export const useFormStore = defineStore('formStore', () => {
       const { status, content } = await API.form.UploadfileForm(file)
       if (status === 200) {
         if (content) {
-          initForm([content])
+          initFormBuilder(content)
         }
         return {
           success: true,
@@ -227,6 +233,7 @@ export const useFormStore = defineStore('formStore', () => {
     schema,
     formResult,
     formfile,
+    formbuilder,
     initSchema,
     GetForm,
     GetManyForm,

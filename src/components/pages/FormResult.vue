@@ -34,7 +34,12 @@ const toggleColumn = (col: string) => {
   if (visibleColumns.value.includes(col)) {
     visibleColumns.value = visibleColumns.value.filter((c) => c !== col)
   } else {
-    visibleColumns.value.push(col)
+    // Ensure the column is added back to its original position in the array
+    const allColumns = Object.keys(data.value?.[0] || {});
+    const index = allColumns.indexOf(col);
+    
+    // Insert the column at the correct position
+    visibleColumns.value.splice(index, 0, col);
   }
 }
 
@@ -105,6 +110,7 @@ const copyShareLink = async () => {
             {{ col }}
           </button>
           <i
+            @click="toggleColumn(col)"
             :class="visibleColumns.includes(col) ? 'pi pi-eye' : 'pi pi-eye-slash'"
             class="text-primary text-sm cursor-pointer"
           ></i>
