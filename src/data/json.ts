@@ -64,14 +64,16 @@ export const jsonTemp = [
               "validation": "length:0,255"
           },
           {
-              "field": "Family 4",
-              "type": "text",
-              "validation": "length:0,255"
+              "field": "Check",
+              "type": "checkbox",
+              "validation": "length:0,255",
+              "options": ['Option 1', 'Option 2', 'Option 3']
           },
           {
               "field": "Agency",
-              "type": "text",
-              "validation": "length:0,255"
+              "type": "select",
+              "validation": "length:0,255",
+              "options": ['Option 1', 'Option 2', 'Option 3']
           },
           {
               "field": "Intersection of Agency",

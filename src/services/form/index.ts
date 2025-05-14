@@ -53,11 +53,30 @@ async function GetResultForm(formId: string) {
   return formsResponse
 }
 
+async function UploadfileForm(file: File) {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const response = await http.post('/form/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      withCredentials: true,
+    });
+  const formsResponse: APIResponse<Form> = {
+    success: response.data.status === 'success',
+    content: response.data.result,
+    status: response.status,
+  }
+  return formsResponse
+}
+
 export default {
   GetOneForm,
   GetForms,
   AddForm,
   deleteForm,
   SubmitForm,
-  GetResultForm
+  GetResultForm,
+  UploadfileForm
 }

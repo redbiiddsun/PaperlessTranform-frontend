@@ -15,51 +15,31 @@ import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
 import { useBeforeUnload } from '@/utils/common'
 import { useFormStore } from '@/store/form'
 import { getBuilderErrorMessage } from '@/utils/ErrorMessage'
+useBeforeUnload(true)
 const router = useRouter()
 const loading = ref(true)
-
-const route = useRoute()
-const file = ref<File | null>(null)
 const schema = ref(jsonToSchema(jsonTemp))
-
-const fetchFile = async () => {
-  const fileUrl = route.query.fileUrl as string
-
-  if (fileUrl) {
-    try {
-      // Fetch file blob from the URL
-      const response = await fetch(fileUrl)
-      const blob = await response.blob()
-      file.value = new File([blob], "uploaded-file")
-
-      const formData = new FormData()
-      console.log(formData)
-
-      // await axios.post('/api/upload', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // })
-      // console.log('File uploaded successfully')
-
-      schema.value = []
-      loading.value = false
-    } catch (error) {
-      console.error('Error fetching or uploading file:', error)
-    }
-  } else {
-    console.warn('No file URL received')
-    loading.value = false
-  }
-}
-
-onMounted(() => {
-  fetchFile()
-})
-
-
-useBeforeUnload(true)
 const data = ref({})
+const formStore = useFormStore()
+
+const errorMessage = ref('')
+
+onMounted(async () => {
+  if (formStore.formfile) {
+    loading.value = true
+    const { success, status } = await formStore.UploadForm(formStore.formfile)
+    if (success) {
+      schema.value = []
+    } else {
+      schema.value = []
+      errorMessage.value = getBuilderErrorMessage(status ?? 400)
+    }
+    loading.value = false
+  } else {
+    loading.value = true
+    schema.value = []
+  }
+})
 
 const selectedItem = ref<Record<string, unknown> | null>(null)
 const builderRef = ref<HTMLElement | null>(null)
@@ -70,10 +50,8 @@ const currentView = ref('setting')
 const formName = ref('Form Name')
 const formDescription = ref('From Description')
 const widthForm = ref<string>('720')
-const formStore = useFormStore()
 const requireLogin = ref(false)
 const showError = ref(false)
-const errorMessage = ref('')
 
 useClickOutside([builderRef, sliderRef], () => {
   selectedItem.value = null
@@ -81,13 +59,23 @@ useClickOutside([builderRef, sliderRef], () => {
 
 function AddFormItem(item: { type: string }) {
   const maxId = Math.max(0, ...schema.value.map((i) => i.id || 0))
-  return {
+
+  const base = {
     id: maxId + 1,
     $formkit: item.type,
     name: `${item.type}`,
     label: `New ${item.type.charAt(0).toUpperCase() + item.type.slice(1)}`,
-    outerClass: 'col-span-2',
+    outerClass: 'col-span-1',
   }
+
+  if (['checkbox', 'radio', 'select'].includes(item.type)) {
+    return {
+      ...base,
+      options: ['Option 1', 'Option 2', 'Option 3'],
+    }
+  }
+
+  return base
 }
 
 function selectItem(item: Record<string, unknown>) {
@@ -343,7 +331,7 @@ const CreateForm = async () => {
           v-model:formDescription="formDescription"
           v-model:requireLogin="requireLogin"
         />
-        <PreviewBuilder v-if="currentView === 'preview'" :data="schema" />
+        <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
       </div>
     </div>
 

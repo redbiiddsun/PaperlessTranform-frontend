@@ -23,6 +23,25 @@ const emit = defineEmits<{
 const showProperties = ref(true)
 const showValidation = ref(false)
 const showData = ref(false)
+
+// Handle options for checkbox type
+const addOption = () => {
+  const options = Array.isArray(props.selectedItem?.options) ? [...props.selectedItem.options] : []
+  options.push('')
+  emit('update:selectedItem', { ...props.selectedItem, options })
+}
+
+const removeOption = (index: number) => {
+  const options = Array.isArray(props.selectedItem?.options) ? [...props.selectedItem.options] : []
+  options.splice(index, 1)
+  emit('update:selectedItem', { ...props.selectedItem, options })
+}
+
+const updateOption = (index: number, value: string) => {
+  const options = Array.isArray(props.selectedItem?.options) ? [...props.selectedItem.options] : []
+  options[index] = value
+  emit('update:selectedItem', { ...props.selectedItem, options })
+}
 </script>
 
 <template>
@@ -40,9 +59,7 @@ const showData = ref(false)
     <Transition name="slide">
       <div v-if="showProperties" class="p-4 space-y-4 text-sm text-text_b">
         <div
-          v-if="
-            FormType.text.some((item) => item.type === (props.selectedItem?.$formkit as string))
-          "
+          v-if="FormType.text.some((item) => item.type === (props.selectedItem?.$formkit as string))"
         >
           <label class="block mb-1">Type</label>
           <select
@@ -59,6 +76,32 @@ const showData = ref(false)
               {{ item.type }}
             </option>
           </select>
+        </div>
+
+        <!-- Checkbox Options -->
+        <div v-if="['checkbox', 'radio', 'select'].includes(props.selectedItem?.$formkit as string)">
+          <label class="block mb-1">Options</label>
+          <div v-for="(option, index) in props.selectedItem?.options || []" :key="index" class="flex items-center space-x-2 mb-1">
+            <input
+              type="text"
+              :value="option"
+              @input="updateOption(index, ($event.target as HTMLInputElement).value)"
+              class="w-full p-2 border rounded"
+              placeholder="Enter option"
+            />
+            <Icon
+              icon="material-symbols:delete"
+              @click="removeOption(index)"
+              class="cursor-pointer text-red-500"
+              width="18"
+            />
+          </div>
+          <button
+            @click="addOption"
+            class="w-full text-primary p-2 border rounded mt-2"
+          >
+            Add Option
+          </button>
         </div>
 
         <div>
@@ -154,36 +197,6 @@ const showData = ref(false)
         </div>
       </div>
     </Transition>
-
-    <!-- Data -->
-    <!-- <div class="flex p-2 w-full justify-center items-center bg-primary/10">
-      <p class="font-Noto w-full text-text_b">Data</p>
-      <Icon
-        :icon="showData ? 'material-symbols-light:remove' : 'material-symbols-light:add'"
-        class="text-text_b cursor-pointer"
-        width="18"
-        @click="showData = !showData"
-      />
-    </div>
-    <Transition name="slide">
-      <div v-if="showData" class="p-2 text-sm text-text_b">
-        <div>
-          <label class="block mb-1">Default Value</label>
-          <input
-            type="text"
-            :value="props.selectedItem?.value"
-            @input="
-              emit('update:selectedItem', {
-                ...props.selectedItem,
-                value: ($event.target as HTMLInputElement)?.value,
-              })
-            "
-            rows="2"
-            class="w-full p-2 border rounded"
-          />
-        </div>
-      </div>
-    </Transition> -->
   </div>
 </template>
 

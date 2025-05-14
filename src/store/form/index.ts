@@ -11,6 +11,7 @@ export const useFormStore = defineStore('formStore', () => {
   const Singleform = ref<Form>()
   const schema = ref<FormSchema[]>()
   const formResult = ref<OutputFormData>()
+  const formfile = ref<File>()
 
   function initForm(data: Form[]) {
     forms.value = data
@@ -193,17 +194,46 @@ export const useFormStore = defineStore('formStore', () => {
     }
   }
 
+  async function UploadForm(file: File): Promise<APIResponse<null>> {
+    try {
+      const { status, content } = await API.form.UploadfileForm(file)
+      if (status === 200) {
+        if (content) {
+          initForm([content])
+        }
+        return {
+          success: true,
+          content: null,
+        }
+      }
+    } catch (error) {
+      const _error = error as AxiosError<string>
+      return {
+        success: false,
+        status: _error.response?.status,
+        content: null,
+      }
+    }
+    return {
+      success: false,
+      content: null,
+      status: 400,
+    }
+  }
+
   return {
     forms,
     Singleform,
     schema,
     formResult,
+    formfile,
     initSchema,
     GetForm,
     GetManyForm,
     CreateForm,
     DeleteForm,
     SendForm,
-    RecieveFormResult
+    RecieveFormResult,
+    UploadForm
   }
 })

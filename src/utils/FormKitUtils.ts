@@ -16,6 +16,7 @@ export type jsonForm = {
     outerClass?: string;
     placeholder?: string;
     validation?: string;
+    options?: string[];
   }>
 };
 
@@ -31,9 +32,11 @@ export const jsonToSchema = (json: jsonForm[]) => {
       help: item.help || '',
       placeholder: item.placeholder || '',
       outerClass: item.outerClass || 'col-span-2',
+      ...(item.options ? { options: item.options } : {}),
     }));
   });
 };
+
 
 export const FormType = {
   text: [
