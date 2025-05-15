@@ -6,6 +6,7 @@ import { API } from '../../services'
 import { AxiosError } from 'axios'
 import type { Form, FormSchema, InputCreateForm, InputFormData, OutputFormData } from '@/services/form/types'
 import type { jsonForm } from '@/utils/FormKitUtils'
+import form from '@/services/form'
 
 export const useFormStore = defineStore('formStore', () => {
   const forms = ref<Form[]>([])
@@ -203,9 +204,11 @@ export const useFormStore = defineStore('formStore', () => {
   async function UploadForm(file: File): Promise<APIResponse<null>> {
     try {
       const { status, content } = await API.form.UploadfileForm(file)
+      formbuilder.value = []
       if (status === 200) {
         if (content) {
           initFormBuilder(content)
+          formfile.value = null
         }
         return {
           success: true,

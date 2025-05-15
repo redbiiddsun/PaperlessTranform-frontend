@@ -36,6 +36,10 @@ const login = async () => {
   } else {
     err.value = getAuthErrorMessage(status as number)
     showError.value = true
+
+    setTimeout(() => {
+      showError.value = false
+    }, 3000)
   }
 }
 </script>
@@ -45,7 +49,7 @@ const login = async () => {
     class="flex flex-col justify-center items-center w-screen h-fit min-h-screen md:min-h-0 xl:h-screen gap-1 md:gap-2 p-8 md:px-28 md:py-16 xl:py-2 md:rounded-2xl xl:rounded-none md:bg-text md:border-4 md:border-hightlight xl:border-none xl:p-28 xl:absolute xl:left-0 xl:w-[45%]"
   >
     <!-- Logo -->
-    <div alt="" class="w-52 h-52 bg-[#EAEAEA] rounded-lg"></div>
+    <img src="../../assets/logo.png" class="w-52 h-52 bg-[#EAEAEA] rounded-2xl">
 
     <!-- Main Message -->
     <div class="flex flex-col p-4 w-fit h-fit items-center gap-1">

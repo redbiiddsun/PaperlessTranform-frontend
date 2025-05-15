@@ -82,9 +82,9 @@ const copyShareLink = async () => {
       <!-- Image -->
       <RouterLink :to="`/form/result/${props.form.id}`">
         <img
-          src=""
+          src="../../assets/invert_logo.png"
           alt=""
-          class="bg-gray-500 w-full h-full rounded-xl object-cover group-hover:scale-95 transition-all duration-300"
+          class="bg-gray-500 w-full h-44 rounded-xl object-cover group-hover:scale-95 transition-all duration-300"
         />
       </RouterLink>
     </div>

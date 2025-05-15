@@ -38,6 +38,7 @@ const fullName = computed(() => {
 })
 
 useBeforeUnload(true)
+
 const formStore = useFormStore()
 const loading = ref(false)
 

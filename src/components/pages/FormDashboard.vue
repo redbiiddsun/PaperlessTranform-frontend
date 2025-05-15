@@ -60,12 +60,21 @@ const updateFileList = (updatedFiles: File) => {
 const searchKeyword = ref('')
 
 const filteredForms = computed(() => {
-  return forms.value.filter((form) => {
-    if (typeof form === 'object' && form !== null && 'name' in form) {
-      return form.name.toLowerCase().includes(searchKeyword.value.toLowerCase())
-    }
-    return false
-  })
+  const filter = forms.value
+    .filter((form) => {
+      if (typeof form === 'object' && form !== null && 'name' in form) {
+        return form.name.toLowerCase().includes(searchKeyword.value.toLowerCase())
+      }
+      return false
+    })
+    .sort((a, b) => {
+      const dateA = new Date((a as any).createdAt).getTime()
+      const dateB = new Date((b as any).createdAt).getTime()
+      return dateB - dateA // descending order: latest first
+    })
+
+  console.log(filter)
+  return filter
 })
 </script>
 

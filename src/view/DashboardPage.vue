@@ -23,9 +23,9 @@ const fetchUser = async () => {
   try {
     const { success, status } = await userStore.GetUser()
     if (!success) {
-      if(status === 401){
+      if (status === 401) {
         handleSignOut()
-      } 
+      }
       console.error('Error fetching data', status)
     }
   } catch (error) {
@@ -36,8 +36,8 @@ const fetchUser = async () => {
 }
 
 const handleSignOut = () => {
-  document.cookie = 'session=; Max-Age=0; path=/; domain=.paperlesstransform.online; Secure;';
-  document.cookie = 'session=; Max-Age=0; path=/;';
+  document.cookie = 'session=; Max-Age=0; path=/; domain=.paperlesstransform.online; Secure;'
+  document.cookie = 'session=; Max-Age=0; path=/;'
   router.push('/auth/login')
 }
 
@@ -67,11 +67,17 @@ onMounted(() => {
   <div class="flex flex-col h-screen">
     <!-- NavBar -->
     <div class="flex flex-row gap-2 py-2 px-0 justify-center w-full h-[72px] bg-primary">
-      <RouterLink :to="`/`" class="flex flex-row gap-3 px-4 py-1 w-full h-fit items-center">
+      <div class="flex flex-row gap-3 px-4 py-1 w-full h-fit items-center">
         <!-- logo -->
-        <img src="#" alt="" class="w-12 h-12 rounded-lg bg-white" />
-        <p class="font-Poppins font-bold text-2xl hidden md:block text-text">Paperless Transform</p>
-      </RouterLink>
+        <RouterLink :to="`/`">
+          <img src="../assets/logo.png" alt="" class="w-12 h-12 rounded-lg bg-white" />
+        </RouterLink>
+        <RouterLink :to="`/`">
+          <p class="font-Poppins font-bold text-2xl hidden md:block text-text">
+            Paperless Transform
+          </p>
+        </RouterLink>
+      </div>
       <div class="w-fit h-fit flex flex-row gap-4 px-2 py-0 items-center justify-center md:r-2">
         <!-- Icon Setting-->
         <!-- <div class="w-fit h-fit pt-2">
@@ -133,9 +139,7 @@ onMounted(() => {
             >
               {{ user?.firstname || 'UNKNOW' }} {{ user?.lastname || 'UNKNOW' }}
             </p>
-            <p
-              class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis  "
-            >
+            <p class="font-Poppins font-normal text-sm text-subtext overflow-hidden text-ellipsis">
               {{ user?.email || 'UNKNOW' }}
             </p>
           </div>

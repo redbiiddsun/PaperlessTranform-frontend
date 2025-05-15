@@ -22,7 +22,6 @@ const emit = defineEmits<{
 
 const showProperties = ref(true)
 const showValidation = ref(false)
-const showData = ref(false)
 
 // Handle options for checkbox type
 const addOption = () => {
@@ -59,7 +58,9 @@ const updateOption = (index: number, value: string) => {
     <Transition name="slide">
       <div v-if="showProperties" class="p-4 space-y-4 text-sm text-text_b">
         <div
-          v-if="FormType.text.some((item) => item.type === (props.selectedItem?.$formkit as string))"
+          v-if="
+            FormType.text.some((item) => item.type === (props.selectedItem?.$formkit as string))
+          "
         >
           <label class="block mb-1">Type</label>
           <select
@@ -79,9 +80,15 @@ const updateOption = (index: number, value: string) => {
         </div>
 
         <!-- Checkbox Options -->
-        <div v-if="['checkbox', 'radio', 'select'].includes(props.selectedItem?.$formkit as string)">
+        <div
+          v-if="['checkbox', 'radio', 'select'].includes(props.selectedItem?.$formkit as string)"
+        >
           <label class="block mb-1">Options</label>
-          <div v-for="(option, index) in props.selectedItem?.options || []" :key="index" class="flex items-center space-x-2 mb-1">
+          <div
+            v-for="(option, index) in props.selectedItem?.options || []"
+            :key="index"
+            class="flex items-center space-x-2 mb-1"
+          >
             <input
               type="text"
               :value="option"
@@ -96,10 +103,7 @@ const updateOption = (index: number, value: string) => {
               width="18"
             />
           </div>
-          <button
-            @click="addOption"
-            class="w-full text-primary p-2 border rounded mt-2"
-          >
+          <button @click="addOption" class="w-full text-primary p-2 border rounded mt-2">
             Add Option
           </button>
         </div>
@@ -138,7 +142,9 @@ const updateOption = (index: number, value: string) => {
 
         <div
           v-if="
-            !['date', 'datetime-local', 'time', 'color'].includes(props.selectedItem?.$formkit as string)
+            !['date', 'datetime-local', 'time', 'color'].includes(
+              props.selectedItem?.$formkit as string,
+            )
           "
         >
           <label class="block mb-1">Placeholder</label>

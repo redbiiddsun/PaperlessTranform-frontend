@@ -5,7 +5,14 @@ import { Icon } from '@iconify/vue'
 import draggable from 'vuedraggable'
 import { useRoute, useRouter } from 'vue-router'
 
-import { jsonTemp } from '@/data/json'
+import {
+  courseSignupForm,
+  defaultForm,
+  eventRegistrationForm,
+  feedbackForm,
+  jobApplicationForm,
+  medicalIntakeForm,
+} from '@/data/json'
 import { jsonToSchema } from '@/utils/FormKitUtils'
 import { useClickOutside } from '@/utils/builder'
 import ElementBuilder from '../common/FormBuilder/ElementBuilder.vue'
@@ -15,14 +22,38 @@ import ItemSettingBuilder from '../common/FormBuilder/ItemSettingBuilder.vue'
 import { useBeforeUnload } from '@/utils/common'
 import { useFormStore } from '@/store/form'
 import { getBuilderErrorMessage } from '@/utils/ErrorMessage'
+
 useBeforeUnload(true)
 const router = useRouter()
 const loading = ref(true)
-const schema = ref(jsonToSchema(jsonTemp))
+const schema = ref(jsonToSchema(defaultForm))
 const data = ref({})
 const formStore = useFormStore()
 
 const errorMessage = ref('')
+
+const defaultListForm = [
+  {
+    name: 'Job Application Form',
+    form: jsonToSchema(jobApplicationForm),
+  },
+  {
+    name: 'Medical Intake Form',
+    form: jsonToSchema(medicalIntakeForm),
+  },
+  {
+    name: 'Event Registration Form',
+    form: jsonToSchema(eventRegistrationForm),
+  },
+  {
+    name: 'Course Signup Form',
+    form: jsonToSchema(courseSignupForm),
+  },
+  {
+    name: 'Feedback Form',
+    form: jsonToSchema(feedbackForm),
+  },
+]
 
 onMounted(async () => {
   if (formStore.formfile) {
@@ -43,7 +74,6 @@ onMounted(async () => {
     }
   } else {
     loading.value = false
-    schema.value = []
   }
 })
 
@@ -175,35 +205,44 @@ function collapseItem(index: number) {
 
 const CreateForm = async () => {
   // Check for duplicate 'name' fields in schema
-  const nameSet = new Set()
-  for (const field of schema.value) {
-    if (nameSet.has(field.name)) {
-      showError.value = true
-      errorMessage.value = `Duplicate field name detected: "${field.name}"`
+  if (formName.value.length > 0 && formDescription.value.length > 0 && widthForm.value.length > 0) {
+    const nameSet = new Set()
+    for (const field of schema.value) {
+      if (nameSet.has(field.name)) {
+        showError.value = true
+        errorMessage.value = `Duplicate field name detected: "${field.name}"`
 
-      setTimeout(() => {
-        showError.value = false
-      }, 3000)
+        setTimeout(() => {
+          showError.value = false
+        }, 3000)
 
-      return
+        return
+      }
+      nameSet.add(field.name)
     }
-    nameSet.add(field.name)
-  }
 
-  // Proceed with form creation if no duplicates
-  const { success, status } = await formStore.CreateForm({
-    name: formName.value,
-    description: formDescription.value,
-    width: widthForm.value,
-    schemas: schema.value,
-    requiredLogin: requireLogin.value,
-  })
+    // Proceed with form creation if no duplicates
+    const { success, status } = await formStore.CreateForm({
+      name: formName.value,
+      description: formDescription.value,
+      width: widthForm.value,
+      schemas: schema.value,
+      requiredLogin: requireLogin.value,
+    })
 
-  if (success) {
-    router.push('/form')
+    if (success) {
+      router.push('/form')
+    } else {
+      showError.value = true
+      errorMessage.value = getBuilderErrorMessage(status ?? 400)
+    }
   } else {
     showError.value = true
-    errorMessage.value = getBuilderErrorMessage(status ?? 400)
+    errorMessage.value = 'Please fill in all required fields. (Form Name, Form Description, Width)'
+
+    setTimeout(() => {
+      showError.value = false
+    }, 3000)
   }
 }
 </script>
@@ -228,18 +267,11 @@ const CreateForm = async () => {
     >
       <div class="flex w-full">
         <button
-          class="w-1/2 text-center text-text text-base px-4 py-2"
-          :class="currentMenu === 'element' ? 'bg-primary/70' : 'bg-primary'"
+          class="w-full text-center text-text text-base px-4 py-2"
+          :class="currentMenu === 'element' ? 'bg-primary' : 'bg-primary'"
           @click="currentMenu = 'element'"
         >
           Element
-        </button>
-        <button
-          class="w-1/2 text-center text-text = text-base px-4 py-2"
-          :class="currentMenu === 'component' ? 'bg-primary/70' : 'bg-primary'"
-          @click="currentMenu = 'component'"
-        >
-          Components
         </button>
       </div>
       <div class="flex flex-col w-full gap-1 p-2 max-h-full overflow-y-scroll">
@@ -384,7 +416,7 @@ const CreateForm = async () => {
           v-model:formDescription="formDescription"
           v-model:requireLogin="requireLogin"
         />
-        <PreviewBuilder v-if="currentView === 'preview'" :data="schema" />
+        <PreviewBuilder v-if="currentView === 'preview'" :data="data" />
       </div>
     </div>
 

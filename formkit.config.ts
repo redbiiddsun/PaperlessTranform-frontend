@@ -7,5 +7,5 @@ export default defaultConfig({
     rootClasses,
   },
   locales: { th, en },
-  locale: 'th',
+  locale: 'en',
 })
