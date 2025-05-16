@@ -27,7 +27,7 @@ watch(route, (newRoute) => {
     class="flex flex-col justify-center items-center w-fit h-screen overflow-hidden md:h-fit xl:h-fit gap-1 md:gap-2 xl:gap-2 p-8 md:px-28 md:py-16 xl:py-16 xl:px-28 md:rounded-2xl xl:rounded-2xl md:bg-text xl:bg-text md:border-4 xl:border-4 md:border-hightlight xl:border-hightlight xl:absolute xl:left-1/2 xl:top-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2"
   >
     <!-- Logo -->
-    <div alt="" class="w-[200px] h-[200px] bg-[#EAEAEA] rounded-lg"></div>
+    <img src="../../../assets/logo.png" class="w-[200px] h-[200px] bg-[#EAEAEA] rounded-lg"/>
 
     <!-- Main Message -->
     <div class="flex flex-col p-4 w-auto h-fit items-center gap-1">
