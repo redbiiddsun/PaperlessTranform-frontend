@@ -281,7 +281,7 @@ const CreateForm = async () => {
 
     <!-- Middle -->
     <div
-      class="flex flex-col gap-2 w-4/6 py-4 max-h-full overflow-y-scroll justify-start items-center min-w-fit transition-[width] duration-300 max-w-[1080px]"
+      class="flex flex-col gap-2 w-5/6 py-4 max-h-full overflow-y-scroll justify-start items-center min-w-fit transition-[width] duration-300 max-w-[1080px]"
       :style="{ width: widthForm + 'px' }"
     >
       <div
@@ -317,19 +317,19 @@ const CreateForm = async () => {
         v-else
         class="flex flex-col w-full h-fit rounded-lg px-16 py-12 border border-border bg-white bg-opacity-80 shadow-lg"
       >
-        <FormKit type="form" v-model="data" :actions="false">
+        <FormKit type="form" v-model="data" :actions="false" class="p-2">
           <div ref="builderRef">
             <draggable
               v-model="schema"
               item-key="name"
-              class="grid grid-cols-2 gap-2"
+              class="grid grid-cols-2 gap-2 w-full"
               ghost-class="bg-blue-100"
               handle=".drag-handle"
               group="form"
             >
               <template #item="{ element, index }">
                 <div
-                  class="relative p-2 drag-handle cursor-pointer group hover:border border-primary"
+                  class="relative m-6 drag-handle cursor-pointer group hover:border border-primary"
                   :class="[element.outerClass, { border: selectedItem?.id === element.id }]"
                   @click="selectItem(element)"
                 >
